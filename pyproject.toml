@@ -41,7 +41,7 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry]
-version = "0.2.0-beta.1"
+version = "0.3.0"
 exclude = [
     "tests",
     "docs",
