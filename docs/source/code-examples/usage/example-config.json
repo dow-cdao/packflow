@@ -1,0 +1,14 @@
+{
+    "configs": {
+        "flatten_nested_inputs": true,
+        "nested_field_delimiter": ":",
+        "rename_fields": {
+            "foo:bar": "feature_1",
+            "fizz:buzz": "feature_2"
+        },
+        "feature_names": [
+            "feature_1",
+            "feature_2"
+        ]
+    }
+}

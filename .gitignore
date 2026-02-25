@@ -1,0 +1,16 @@
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+
+docs/dev-build/
+
+# Ignore Jupyter Notebook artifacts/things that are generated when running the notebooks
+.ipynb_checkpoints/
+docs/source/user-guides/examples/*/
+examples/*/*/
+examples/*/*.zip
+
+# pytest coverage reports
+.coverage
+tests/calc_cov/

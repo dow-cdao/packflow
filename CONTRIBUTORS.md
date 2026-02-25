@@ -1,0 +1,11 @@
+# Contributors
+
+**By adding your name, email address, and copyright date below, you understand and agree to the terms of the [Developer's Certificate of Origin](https://developercertificate.org/) (DCO) version 1.1, and you are submitting all contributions you make to this Project pursuant to the terms described in [LICENSE](LICENSE).**
+
+## Signed-off-by
+
+- Copyright (c) 2026 U.S. Federal Government (in countries where recognized) osd.pentagon.cdao.mbx.perceptor-program-members@mail.mil
+
+## Note for U.S. Federal Employees
+
+If you are a U.S. Federal Government employee and use a `*.mil` or `*.gov` email address to agree to the DCO, we will interpret your signed DCO to mean that the contribution was created in whole or in part by you as part of your job with the U.S. Federal Government and that your contribution is not subject to copyright protections.

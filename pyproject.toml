@@ -1,0 +1,72 @@
+[project]
+name = "packflow"
+dynamic = [ "version" ]
+description = "AI/ML inference SDK for streaming data"
+authors = [
+    {name = "CDAO Models as a Service",email = "osd.pentagon.cdao.mbx.perceptor-program-members@mail.mil"}
+]
+maintainers = [
+    {name = "CDAO Models as a Service",email = "osd.pentagon.cdao.mbx.perceptor-program-members@mail.mil"}
+]
+keywords = [
+    "AI",
+    "artificial intelligence",
+    "ML",
+    "machine learning",
+    "streaming",
+    "inference"
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "deepmerge (>=2.0,<3.0)",
+    "flatten-dict (>=0.4.2,<1.0.0)",
+    "loguru (>=0.7.3,<0.8.0)",
+    "numpy (<2.3)",
+    "pydantic (>=2.11.0,<3.0.0)",
+    "click (>=8.0.0)",
+    "PyYaml"
+]
+
+[project.urls]
+homepage = "https://github.com/Code-dot-mil/code.mil"
+repository = "https://github.com/Code-dot-mil/code.mil"
+documentation = "https://github.com/Code-dot-mil/code.mil"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+version = "0.2.0-beta.1"
+exclude = [
+    "tests",
+    "docs",
+    "examples",
+    "assets"
+]
+
+
+[tool.poetry.dependencies]
+python = '>=3.10,<4.0'
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.2.0"
+black = {version = "^25.1.0", extras = ["jupyter"]}
+pytest = "^8.4.1"
+pytest-cov = "^6.2.1"
+pandas = "^2.3.0"
+torch = "^2.7.1"
+tensorflow = "^2.19.0"
+pillow = "^11.3.0"
+
+
+[tool.poetry.scripts]
+packflow = "packflow.cli:cli"
+[tool.coverage.run]
+omit = ["tests/*"]
+

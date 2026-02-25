@@ -1,0 +1,11 @@
+# === METADATA ===
+name: my-analytic
+version: 0.1.0
+description: A brief summary of the analytic capability.
+maintainers:
+ - alice@example.com
+
+# === RUNTIME ===
+inference_backend: inference:Backend
+loader: local
+python_version: 3.10.0
