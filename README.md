@@ -1,11 +1,15 @@
-<h1 style="text-align: center; border-bottom: none !important;">
+<h1 align="center" style="text-align: center; border-bottom: none !important;">
   <img src="assets/packflow-logo-white-text.png" width="500" alt="Packflow logo">
 </h1>
 
 <p align="center">
-  <a href="https://pypi.org/project/packflow/"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/packflow.svg"></a>
-  <a href="https://pypi.org/project/packflow/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/packflow.svg"></a>
-  <a href="https://github.com/dow-cdao/packflow/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
+  <a href="https://pypi.org/project/packflow/"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/packflow">
+</a>
+  <a href="https://pypi.org/project/packflow/"><img alt="Packflow PyPI - Python Versions" src="https://img.shields.io/pypi/pyversions/packflow">
+</a>
+<a href="https://github.com/dow-cdao/packflow/blob/master/LICENSE">
+  <img alt="GitHub License" src="https://img.shields.io/github/license/dow-cdao/packflow">
+</a>
 </p>
 
 # Introduction
