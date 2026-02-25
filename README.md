@@ -2,6 +2,11 @@
   <img src="assets/packflow-logo-white-text.png" width="500" alt="Packflow logo">
 </h1>
 
+<p align="center">
+  <a href="https://pypi.org/project/packflow/"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/packflow.svg"></a>
+  <a href="https://pypi.org/project/packflow/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/packflow.svg"></a>
+  <a href="https://github.com/dow-cdao/packflow/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
+</p>
 
 # Introduction
 
@@ -22,18 +27,18 @@ The following instructions quickly walk through how to install Packflow and serv
 
 - **Python** (version 3.10+)
 
-#### Steps
+#### Installation from PyPI
 
-1. Packflow can be installed from source with `pip`. To begin, run:
+1. Packflow can be installed directly from PyPI:
 
 ```bash
-pip install .
+pip install packflow
 ```
 
 from the root of the Packflow repo.
 
 > [!NOTE]
-> If contributing to Packflow, it is recommend to install `packflow` in editable mode, i.e. `pip install -e .`
+> If contributing to Packflow, it is recommended to install `packflow` from source in editable mode: `pip install -e .`
 
 ## Packflow Documentation
 
@@ -47,7 +52,7 @@ The simplest way to view the Packflow documentation is to serve the pre-built HT
 2. Start a local web server: `python -m http.server 8000`
 3. Access the documentation in a web browser by navigating to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-> [!IMPORTANT]
+> [!WARNING]
 > If a "Not Found" error page is received when first accessing the documentation, wait a moment for the server to fully start and refresh the page.
 
 ### Building Documentation from Source

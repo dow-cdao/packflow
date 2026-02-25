@@ -30,9 +30,9 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/Code-dot-mil/code.mil"
-repository = "https://github.com/Code-dot-mil/code.mil"
-documentation = "https://github.com/Code-dot-mil/code.mil"
+homepage = "https://github.com/dow-cdao/packflow"
+repository = "https://github.com/dow-cdao/packflow"
+documentation = "https://github.com/dow-cdao/packflow"
 
 
 [build-system]
@@ -69,4 +69,3 @@ pillow = "^11.3.0"
 packflow = "packflow.cli:cli"
 [tool.coverage.run]
 omit = ["tests/*"]
-
