@@ -9,26 +9,83 @@ This guide covers Packflow installation and basic usage of the CLI to create a s
 Installing Packflow
 ===================
 
-.. warning::
-    This package is currently not available on PyPI. Packflow will be available on PyPI upon its first official release. In the meantime, Packflow must be installed from source.
-
 **Prerequisites**
 
 - **Python** (version 3.10+)
 
 
-**Install from Source (with documentation serving)**
+**Install from PyPI**
+
+Packflow can be installed directly from PyPI:
 
 .. code-block:: bash
 
-    # install package with all dependencies
-    cd packflow
-    pip install .
+   pip install packflow
 
-    # run the docs site - it will run on localhost, with the url output as part of the command
-    cd docs
-    pip install -r requirements.txt
-    make prod-build
+
+**Install from Source**
+
+For development or to install from source:
+
+.. code-block:: bash
+
+   # Clone repository and navigate to the root directory
+   git clone https://github.com/dow-cdao/packflow.git
+   cd packflow
+
+   # Install package
+   pip install .
+
+   # For contributors: install in editable mode
+   pip install -e .
+
+
+**Viewing Pre-built Documentation**
+
+The simplest way to view the Packflow documentation is to serve the pre-build HTML files included in the repository:
+
+.. code-block:: bash
+
+   # Navigate to the pre-built docs folder
+   cd docs/built/html
+
+   # Start a local web server
+   python -m http.server 8000
+
+   # Access the documentation in a web browser at http://127.0.0.1:8000/
+
+
+.. important::
+   If a "Not Found" error page is received when first accessing the documentation, wait a moment for the server to fully start and refresh the page.
+
+
+**Building Documentation from Source**
+
+The following are required to build documentation from source:
+
+- **Python** (version 3.10+)
+- **Pip**
+- **Packflow** (the version corresponding to the docs being served)
+- **Pandoc** - Must be installed separately, from system package manager (see `Pandoc installation instructions <http://pandoc.org/installing.html>`_)
+- **make** command (``xcode-select`` on macOS and WSL on Windows, or ``build-essential`` on Linux)
+
+Steps to build and serve documentation:
+
+.. code-block:: bash
+
+   # Navigate to docs folder
+   cd docs
+
+   # Install Python dependencies
+   pip install -r requirements.txt
+
+   # Serve documentation with live updates (development)
+   make dev
+
+   # OR serve static multi-version documentation (production)
+   make prod-serve
+
+   # Access the documentation in a web browser at http://127.0.0.1:8000/
 
 
 Creating a Packflow Project

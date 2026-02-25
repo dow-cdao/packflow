@@ -7,7 +7,7 @@
     <link href="_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
     <link href="_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Started &mdash; Packflow 0.2.0b1 documentation</title>
+  <title>Getting Started &mdash; Packflow 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
@@ -16,7 +16,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="_static/documentation_options.js?v=e259d695"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -107,23 +107,66 @@
 <p>This guide covers Packflow installation and basic usage of the CLI to create a simple Packflow project.</p>
 <section id="installing-packflow">
 <h2>Installing Packflow<a class="headerlink" href="#installing-packflow" title="Link to this heading"></a></h2>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This package is currently not available on PyPI. Packflow will be available on PyPI upon its first official release. In the meantime, Packflow must be installed from source.</p>
-</div>
 <p><strong>Prerequisites</strong></p>
 <ul class="simple">
 <li><p><strong>Python</strong> (version 3.10+)</p></li>
 </ul>
-<p><strong>Install from Source (with documentation serving)</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install package with all dependencies</span>
+<p><strong>Install from PyPI</strong></p>
+<p>Packflow can be installed directly from PyPI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>packflow
+</pre></div>
+</div>
+<p><strong>Install from Source</strong></p>
+<p>For development or to install from source:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone repository and navigate to the root directory</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/dow-cdao/packflow.git
 <span class="nb">cd</span><span class="w"> </span>packflow
+
+<span class="c1"># Install package</span>
 pip<span class="w"> </span>install<span class="w"> </span>.
 
-<span class="c1"># run the docs site - it will run on localhost, with the url output as part of the command</span>
+<span class="c1"># For contributors: install in editable mode</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+<p><strong>Viewing Pre-built Documentation</strong></p>
+<p>The simplest way to view the Packflow documentation is to serve the pre-build HTML files included in the repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Navigate to the pre-built docs folder</span>
+<span class="nb">cd</span><span class="w"> </span>docs/built/html
+
+<span class="c1"># Start a local web server</span>
+python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
+
+<span class="c1"># Access the documentation in a web browser at http://127.0.0.1:8000/</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If a “Not Found” error page is received when first accessing the documentation, wait a moment for the server to fully start and refresh the page.</p>
+</div>
+<p><strong>Building Documentation from Source</strong></p>
+<p>The following are required to build documentation from source:</p>
+<ul class="simple">
+<li><p><strong>Python</strong> (version 3.10+)</p></li>
+<li><p><strong>Pip</strong></p></li>
+<li><p><strong>Packflow</strong> (the version corresponding to the docs being served)</p></li>
+<li><p><strong>Pandoc</strong> - Must be installed separately, from system package manager (see <a class="reference external" href="http://pandoc.org/installing.html">Pandoc installation instructions</a>)</p></li>
+<li><p><strong>make</strong> command (<code class="docutils literal notranslate"><span class="pre">xcode-select</span></code> on macOS and WSL on Windows, or <code class="docutils literal notranslate"><span class="pre">build-essential</span></code> on Linux)</p></li>
+</ul>
+<p>Steps to build and serve documentation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Navigate to docs folder</span>
 <span class="nb">cd</span><span class="w"> </span>docs
+
+<span class="c1"># Install Python dependencies</span>
 pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-make<span class="w"> </span>prod-build
+
+<span class="c1"># Serve documentation with live updates (development)</span>
+make<span class="w"> </span>dev
+
+<span class="c1"># OR serve static multi-version documentation (production)</span>
+make<span class="w"> </span>prod-serve
+
+<span class="c1"># Access the documentation in a web browser at http://127.0.0.1:8000/</span>
 </pre></div>
 </div>
 </section>
