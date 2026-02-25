@@ -3,12 +3,12 @@
 </h1>
 
 <p align="center">
-  <a href="https://pypi.org/project/packflow/"><img alt="PyPI - Version" src="https://img.shields.io/pypi/v/packflow">
+  <a href="https://pypi.org/project/packflow/"><img alt="Packflow on PyPI - Version" src="https://img.shields.io/pypi/v/packflow">
 </a>
-  <a href="https://pypi.org/project/packflow/"><img alt="Packflow PyPI - Python Versions" src="https://img.shields.io/pypi/pyversions/packflow">
+  <a href="https://pypi.org/project/packflow/"><img alt="Packflow on PyPI - Python Versions" src="https://img.shields.io/pypi/pyversions/packflow">
 </a>
 <a href="https://github.com/dow-cdao/packflow/blob/master/LICENSE">
-  <img alt="GitHub License" src="https://img.shields.io/github/license/dow-cdao/packflow">
+  <img alt="Packflow on GitHub - License" src="https://img.shields.io/github/license/dow-cdao/packflow">
 </a>
 </p>
 
