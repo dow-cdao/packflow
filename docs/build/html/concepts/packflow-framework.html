@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Packflow Inference Backend &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Structure of a Packflow Project" href="packflow-structure.html" />
+    <link rel="prev" title="About Packflow" href="about-packflow.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Packflow Inference Backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lifecycle-functions">Lifecycle Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execution-functions">Execution Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packflow-loaders">Packflow Loaders</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Packflow Inference Backend</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/concepts/packflow-framework.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="packflow-inference-backend">
+<h1>Packflow Inference Backend<a class="headerlink" href="#packflow-inference-backend" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">packflow</span></code> package introduces a flexible approach to building and deploying models and analyzers with its
+<strong>Inference Backend</strong> architecture. The <code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code> is an abstract base class
+that empowers developers to craft bespoke inference code or extend it to create reusable model backends.</p>
+<p>Each Inference Backend has a <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> that can be used to leverage out-of-the-box functionality and can be
+extended to support more advanced, bespoke use-cases.</p>
+<section id="lifecycle-functions">
+<h2>Lifecycle Functions<a class="headerlink" href="#lifecycle-functions" title="Link to this heading"></a></h2>
+<p>When managing a model or analytic, there are often steps that relate to preparing resources for execution.
+A common example would be loading a large model from a file or many files into memory, or moving a model loaded into memory to VRAM (the GPU memory).</p>
+<p>Packflow’s <code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code> provides the following functions to manage these steps:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Initialization:</strong> <code class="docutils literal notranslate"><span class="pre">initialize()</span></code> [Optional]</dt><dd><ul class="simple">
+<li><p>Optional user-defined method that runs during the <code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code> base class’s <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method.</p></li>
+<li><p>Expensive or slow procedures related to initial model loading or preparation belong here.</p></li>
+<li><p><strong>It is NOT recommended</strong> to extend the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method in order to define model initialization logic. The <code class="docutils literal notranslate"><span class="pre">initialize()</span></code> method is included in profiling calculations, and the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method runs without profiling to load configurations, set up the logger and preprocessor, and set up the profiling metrics.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Readiness check:</strong> <code class="docutils literal notranslate"><span class="pre">ready()</span></code> [Optional]</dt><dd><ul class="simple">
+<li><p>Optional user-defined method to define whether the Packflow analytic is ready to accept execution requests.</p></li>
+<li><p>Packflow does not check readiness before allowing calls to <code class="docutils literal notranslate"><span class="pre">backend.__call__(...)</span></code>, <code class="docutils literal notranslate"><span class="pre">backend.execute(...)</span></code>, etc; Intended for use by third party systems that wish to check/report readiness, hold off on attempting execution, and so forth.</p></li>
+<li><p>Intended for use cases where initialization occurs in the background or depends on other resources not managed by the Inference Backend.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+<section id="execution-functions">
+<h2>Execution Functions<a class="headerlink" href="#execution-functions" title="Link to this heading"></a></h2>
+<p>Execution of an Inference Backend consists of four primary steps, each serving a distinct purpose:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Preprocessing:</strong> [Internal]</dt><dd><ul class="simple">
+<li><p>Inference Backends have built-in preprocessing steps to assist in common data transformation steps.</p></li>
+<li><p>Preprocessors will run automatically based on the <code class="docutils literal notranslate"><span class="pre">input_format</span></code> field of the <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code>.</p></li>
+<li><dl class="simple">
+<dt>Supported preprocessors:</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">passthrough</span></code>: Gives most flexibility by directly passing the data through without any preprocessing.</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">records</span></code> [Default]: Provides the ability to rename, filter, or flatten nested fields on input data.</dt><dd><ul>
+<li><p><em>Note: This preprocessor acts as a passthrough until specific fields are explicitly set.</em></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>: Converts input records to a Numpy NDArray</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>See the <a class="reference internal" href="../backends/preprocessor-configuration.html#preprocessors"><span class="std std-ref">Preprocessors</span></a> section of the documentation for more details on each processor.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Input Transformation:</strong> <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> [Optional]</dt><dd><ul class="simple">
+<li><p>An optional, user-defined method to transform inputs and return featurized/model-ready data.</p></li>
+<li><p>If the method is not defined, preprocessed data is passed directly through to the <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Model Execution:</strong> <code class="docutils literal notranslate"><span class="pre">execute()</span></code> [Required]</dt><dd><ul class="simple">
+<li><p>Required user-defined method that performs model inference, analysis, or other operations that generate outputs.</p></li>
+<li><p>This step should focus on the main execution logic with minimal pre- or post-processing.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Output Transformation:</strong> <code class="docutils literal notranslate"><span class="pre">transform_outputs()</span></code> [Optional]</dt><dd><ul class="simple">
+<li><p>Optional user-defined method to apply business logic, calculate metrics, and perform data type conversions as necessary.</p></li>
+<li><p>If the method is not defined, the result of <code class="docutils literal notranslate"><span class="pre">execute()</span></code> is passed through as the final output.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<p><strong>Execution Procedure</strong></p>
+<p>All data passed through the Inference Backend follows a direct execution of:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>inputs --&gt; preprocess --&gt; transform_inputs --&gt; execute --&gt; transform_outputs --&gt; outputs
+</pre></div>
+</div>
+<p>As <code class="docutils literal notranslate"><span class="pre">transform_inputs</span></code> and <code class="docutils literal notranslate"><span class="pre">transform_outputs</span></code> are optional, the final execution could take the following forms:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Backend with only ``execute()`` defined:
+    inputs --&gt; preprocess --&gt; execute --&gt; outputs
+
+Backend with ``transform_inputs()`` and ``execute()`` defined:
+    inputs --&gt; preprocess --&gt; transform_inputs --&gt; execute --&gt; outputs
+
+Backend with ``execute()`` and ``transform_outputs()`` defined:
+    inputs --&gt; preprocess --&gt; execute --&gt; transform_outputs --&gt; outputs
+</pre></div>
+</div>
+<p>The inputs to a Packflow Inference Backend will <strong>always</strong> be records (e.g., a list of dictionaries). As such, the
+<em>final output</em> of the Inference Backend must also be in the records format. More specifically, this means the
+<strong>final step</strong> must meet the API requirement, whether the final defined step is <code class="docutils literal notranslate"><span class="pre">execute()</span></code> or <code class="docutils literal notranslate"><span class="pre">transform_outputs()</span></code>.
+Intermediate steps (e.g., transfer between <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> and <code class="docutils literal notranslate"><span class="pre">execute()</span></code>) can be any data format.</p>
+<p><strong>The Power of Modular Design</strong></p>
+<p>The separation into each distinct step is driven by the need for <strong>profiling and optimization</strong>. By isolating each
+phase, <code class="docutils literal notranslate"><span class="pre">packflow</span></code> automatically tracks key metrics such as execution time for each step, facilitating the identification
+of bottlenecks and areas for improvement. These valuable insights are not only logged with each backend call but also
+accessible programmatically through the <code class="docutils literal notranslate"><span class="pre">.get_metrics()</span></code> method, empowering developers to optimize and refine their
+Inference Backends continuously.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>An Inference Backend is deployed to production and it is observed that there is comparatively high latency in
+the <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> step. After investigation, it was found that preprocessing was much faster when using Numpy
+instead of Pandas for formatting the data prior to inference. Upon deploying again, it is observed that latency was
+lowered.</p>
+</div>
+</section>
+<section id="packflow-loaders">
+<h2>Packflow Loaders<a class="headerlink" href="#packflow-loaders" title="Link to this heading"></a></h2>
+<p>Packflow includes integrations for loading Inference Backends from standalone scripts (<code class="docutils literal notranslate"><span class="pre">LocalLoader</span></code>) or packages
+installed with tools such as <code class="docutils literal notranslate"><span class="pre">poetry</span></code> or <code class="docutils literal notranslate"><span class="pre">uv</span></code> (<code class="docutils literal notranslate"><span class="pre">ModuleLoader</span></code>). This flexibility enables developers to integrate
+<code class="docutils literal notranslate"><span class="pre">packflow</span></code> into existing Python packages or use it in a more informal setting like Jupyter Notebooks or Conda
+environments to write, validate, and share inference code without any packaging frameworks.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">LocalLoader</span></code> Example</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow.loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalLoader</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">LocalLoader</span><span class="p">(</span><span class="s1">&#39;inference:Backend&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="n">backend</span><span class="p">({</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">})</span>
+<span class="c1"># &gt;&gt; {&quot;sample&quot;: &quot;data&quot;}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="about-packflow.html" class="btn btn-neutral float-left" title="About Packflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="packflow-structure.html" class="btn btn-neutral float-right" title="Structure of a Packflow Project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>packflow.backend package &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">packflow.backend package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api-reference/auto/packflow.backend.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="packflow-backend-package">
+<h1>packflow.backend package<a class="headerlink" href="#packflow-backend-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-packflow.backend.base">
+<span id="packflow-backend-base-module"></span><h2>packflow.backend.base module<a class="headerlink" href="#module-packflow.backend.base" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.backend.base.InferenceBackend">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.base.</span></span><span class="sig-name descname"><span class="pre">InferenceBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/base.html#InferenceBackend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.base.InferenceBackend" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract Base Class for the inference backend base</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="packflow.backend.base.InferenceBackend.backend_config_model">
+<span class="sig-name descname"><span class="pre">backend_config_model</span></span><a class="headerlink" href="#packflow.backend.base.InferenceBackend.backend_config_model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#packflow.backend.configuration.BackendConfig" title="packflow.backend.configuration.BackendConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BackendConfig</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.base.InferenceBackend.execute">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/base.html#InferenceBackend.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.base.InferenceBackend.execute" title="Link to this definition"></a></dt>
+<dd><p>The main execution of inference or analysis for the developed application.</p>
+<p>This method should remain targeted to passing data through the model/execution
+code for profiling purposes. Minimal pre- or post-processing should occur at this
+step unless completely necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputs</strong> (<em>List</em><em>[</em><em>Dict</em><em>]</em>) – The output of the transform_inputs method. If the transform_inputs method is
+not overridden, the data is formatted as records (list of dictionaries)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Model Outputs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The transform_outputs() method should handle all postprocessing including calculating
+metrics, converting outputs back to Python types, and other postprocessing steps. Try
+to keep this method focused purely on inference/analysis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.base.InferenceBackend.get_metrics">
+<span class="sig-name descname"><span class="pre">get_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/base.html#InferenceBackend.get_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.base.InferenceBackend.get_metrics" title="Link to this definition"></a></dt>
+<dd><p>Utility for collecting user-defined metrics and validating their contents</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics" title="packflow.backend.metrics.ExecutionMetrics">ExecutionMetrics</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.base.InferenceBackend.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/base.html#InferenceBackend.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.base.InferenceBackend.initialize" title="Link to this definition"></a></dt>
+<dd><p>User-defined initialization steps. Runs during __init__ for the base class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function is to simplify initialization steps for an extension of this class</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.base.InferenceBackend.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/base.html#InferenceBackend.ready"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.base.InferenceBackend.ready" title="Link to this definition"></a></dt>
+<dd><p>Optional function to define when the app is ready to execute</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.base.InferenceBackend.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/base.html#InferenceBackend.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.base.InferenceBackend.validate" title="Link to this definition"></a></dt>
+<dd><p>Run validations against the inference backend to ensure it meets API restrictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-packflow.backend.configuration">
+<span id="packflow-backend-configuration-module"></span><h2>packflow.backend.configuration module<a class="headerlink" href="#module-packflow.backend.configuration" title="Link to this heading"></a></h2>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.configuration.</span></span><span class="sig-name descname"><span class="pre">BackendConfig</span></span><a class="reference internal" href="../../_modules/packflow/backend/configuration.html#BackendConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.configuration.BackendConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>See <a class="reference internal" href="../../backends/preprocessor-configuration.html#backend-configuration"><span class="std std-ref">Backend Configuration</span></a> for details.</p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BackendConfig&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;See :ref:`Backend Configuration&lt;backend-configuration&gt;` for details.&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;verbose&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Verbose&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;input_format&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/InputFormats&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;records&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;rename_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Rename Fields&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;feature_names&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">         </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Feature Names&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;flatten_nested_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Flatten Nested Inputs&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;flatten_lists&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Flatten Lists&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;nested_field_delimiter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Nested Field Delimiter&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;InputFormats&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;See :ref:`Preprocessors&lt;preprocessors&gt;` for details.&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;passthrough&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;records&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;numpy&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;InputFormats&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.feature_names" title="packflow.backend.configuration.BackendConfig.feature_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_names</span> <span class="pre">(List[str])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.flatten_lists" title="packflow.backend.configuration.BackendConfig.flatten_lists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten_lists</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.flatten_nested_inputs" title="packflow.backend.configuration.BackendConfig.flatten_nested_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten_nested_inputs</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.input_format" title="packflow.backend.configuration.BackendConfig.input_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_format</span> <span class="pre">(packflow.backend.configuration.InputFormats)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.nested_field_delimiter" title="packflow.backend.configuration.BackendConfig.nested_field_delimiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nested_field_delimiter</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.rename_fields" title="packflow.backend.configuration.BackendConfig.rename_fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rename_fields</span> <span class="pre">(dict)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.verbose" title="packflow.backend.configuration.BackendConfig.verbose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verbose</span> <span class="pre">(bool)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.feature_names">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">feature_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.feature_names" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.flatten_lists">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flatten_lists</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.flatten_lists" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.flatten_nested_inputs">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flatten_nested_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.flatten_nested_inputs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.input_format">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_format</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#packflow.backend.configuration.InputFormats" title="packflow.backend.configuration.InputFormats"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputFormats</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">InputFormats.RECORDS</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.input_format" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.nested_field_delimiter">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nested_field_delimiter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'.'</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.nested_field_delimiter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.rename_fields">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rename_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.rename_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.verbose">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.verbose" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.backend.configuration.InputFormats">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.configuration.</span></span><span class="sig-name descname"><span class="pre">InputFormats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/configuration.html#InputFormats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.configuration.InputFormats" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>See <a class="reference internal" href="../../backends/preprocessor-configuration.html#preprocessors"><span class="std std-ref">Preprocessors</span></a> for details.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="packflow.backend.configuration.InputFormats.NUMPY">
+<span class="sig-name descname"><span class="pre">NUMPY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'numpy'</span></em><a class="headerlink" href="#packflow.backend.configuration.InputFormats.NUMPY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="packflow.backend.configuration.InputFormats.PASSTHROUGH">
+<span class="sig-name descname"><span class="pre">PASSTHROUGH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'passthrough'</span></em><a class="headerlink" href="#packflow.backend.configuration.InputFormats.PASSTHROUGH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="packflow.backend.configuration.InputFormats.RECORDS">
+<span class="sig-name descname"><span class="pre">RECORDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'records'</span></em><a class="headerlink" href="#packflow.backend.configuration.InputFormats.RECORDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.backend.configuration.load_backend_configuration">
+<span class="sig-prename descclassname"><span class="pre">packflow.backend.configuration.</span></span><span class="sig-name descname"><span class="pre">load_backend_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend_config_model=&lt;class</span> <span class="pre">'packflow.backend.configuration.BackendConfig'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**backend_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/configuration.html#load_backend_configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.configuration.load_backend_configuration" title="Link to this definition"></a></dt>
+<dd><p>Loads, resolves, and validates base configurations and overrides.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>backend_config_model</strong> (<a class="reference internal" href="#packflow.backend.configuration.BackendConfig" title="packflow.backend.configuration.BackendConfig"><em>BackendConfig</em></a>) – An instance of, or a subclass of, a BackendConfig Model to use for validation.
+Defaults to a base BackendConfig</p></li>
+<li><p><strong>**backend_kwargs</strong> – Optional keyword arguments to use as base parameters. These values are overridden by
+any configurations loaded from the environment configuration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A validated configuration model</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig" title="packflow.backend.configuration.BackendConfig">BackendConfig</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-packflow.backend.metrics">
+<span id="packflow-backend-metrics-module"></span><h2>packflow.backend.metrics module<a class="headerlink" href="#module-packflow.backend.metrics" title="Link to this heading"></a></h2>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionMetrics">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.metrics.</span></span><span class="sig-name descname"><span class="pre">ExecutionMetrics</span></span><a class="reference internal" href="../../_modules/packflow/backend/metrics.html#ExecutionMetrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.metrics.ExecutionMetrics" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExecutionMetrics&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;batch_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Batch Size&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;execution_times&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/$defs/ExecutionTimes&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;total_execution_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total Execution Time&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;ExecutionTimes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;preprocess&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preprocess&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;transform_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">                  </span><span class="p">},</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">               </span><span class="p">],</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Transform Inputs&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;execute&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Execute&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;transform_outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">                  </span><span class="p">},</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                     </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">               </span><span class="p">],</span>
+<span class="w">               </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">               </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Transform Outputs&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;preprocess&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;execute&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExecutionTimes&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;batch_size&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;execution_times&quot;</span>
+<span class="w">   </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics.batch_size" title="packflow.backend.metrics.ExecutionMetrics.batch_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_size</span> <span class="pre">(int)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics.execution_times" title="packflow.backend.metrics.ExecutionMetrics.execution_times"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execution_times</span> <span class="pre">(packflow.backend.metrics.ExecutionTimes)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics.total_execution_time" title="packflow.backend.metrics.ExecutionMetrics.total_execution_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_execution_time</span> <span class="pre">(float)</span></code></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Validators<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time" title="packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_total_execution_time</span></code></a> » <code class="xref py py-obj docutils literal notranslate"><span class="pre">all</span> <span class="pre">fields</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionMetrics.batch_size">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#packflow.backend.metrics.ExecutionMetrics.batch_size" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time" title="packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_total_execution_time</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionMetrics.execution_times">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execution_times</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#packflow.backend.metrics.ExecutionTimes" title="packflow.backend.metrics.ExecutionTimes"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExecutionTimes</span></code></a></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#packflow.backend.metrics.ExecutionMetrics.execution_times" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time" title="packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_total_execution_time</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionMetrics.total_execution_time">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_execution_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#packflow.backend.metrics.ExecutionMetrics.total_execution_time" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Validated by<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time" title="packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_total_execution_time</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method pydantic_validator">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time">
+<em class="property"><span class="pre">validator</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_total_execution_time</span></span><em class="autodoc_pydantic_validator_arrow property">&#160; <span class="pre">»</span>&#160; </em><em class="xref py py-obj"><span class="pre">all</span> <span class="pre">fields</span></em><a class="reference internal" href="../../_modules/packflow/backend/metrics.html#ExecutionMetrics.calculate_total_execution_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionTimes">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.metrics.</span></span><span class="sig-name descname"><span class="pre">ExecutionTimes</span></span><a class="reference internal" href="../../_modules/packflow/backend/metrics.html#ExecutionTimes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.metrics.ExecutionTimes" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ExecutionTimes&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;preprocess&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Preprocess&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;transform_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Transform Inputs&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;execute&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Execute&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;transform_outputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;anyOf&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;null&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Transform Outputs&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;preprocess&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;execute&quot;</span>
+<span class="w">   </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionTimes.execute" title="packflow.backend.metrics.ExecutionTimes.execute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execute</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionTimes.preprocess" title="packflow.backend.metrics.ExecutionTimes.preprocess"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preprocess</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionTimes.transform_inputs" title="packflow.backend.metrics.ExecutionTimes.transform_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_inputs</span> <span class="pre">(float</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.metrics.ExecutionTimes.transform_outputs" title="packflow.backend.metrics.ExecutionTimes.transform_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform_outputs</span> <span class="pre">(float</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionTimes.execute">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#packflow.backend.metrics.ExecutionTimes.execute" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionTimes.preprocess">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preprocess</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#packflow.backend.metrics.ExecutionTimes.preprocess" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionTimes.transform_inputs">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#packflow.backend.metrics.ExecutionTimes.transform_inputs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionTimes.transform_outputs">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_outputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#packflow.backend.metrics.ExecutionTimes.transform_outputs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.metrics.ExecutionTimes.total">
+<span class="sig-name descname"><span class="pre">total</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/metrics.html#ExecutionTimes.total"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.metrics.ExecutionTimes.total" title="Link to this definition"></a></dt>
+<dd><p>Return the total execution time based on the sum of each defined field</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-packflow.backend.preprocessors">
+<span id="packflow-backend-preprocessors-module"></span><h2>packflow.backend.preprocessors module<a class="headerlink" href="#module-packflow.backend.preprocessors" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.NumpyPreprocessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.preprocessors.</span></span><span class="sig-name descname"><span class="pre">NumpyPreprocessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#NumpyPreprocessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.NumpyPreprocessor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#packflow.backend.preprocessors.Preprocessor" title="packflow.backend.preprocessors.Preprocessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Preprocessor</span></code></a></p>
+<p>Converts input records to a numpy array.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.NumpyPreprocessor.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#NumpyPreprocessor.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.NumpyPreprocessor.process" title="Link to this definition"></a></dt>
+<dd><p>Convert the records to a numpy array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_inputs</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.NumpyPreprocessor.resolve">
+<span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#NumpyPreprocessor.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.NumpyPreprocessor.resolve" title="Link to this definition"></a></dt>
+<dd><p>Check the config for required fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This preprocessor will only execute if the user has specified <cite>feature_names</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.PassthroughPreprocessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.preprocessors.</span></span><span class="sig-name descname"><span class="pre">PassthroughPreprocessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#PassthroughPreprocessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.PassthroughPreprocessor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#packflow.backend.preprocessors.Preprocessor" title="packflow.backend.preprocessors.Preprocessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Preprocessor</span></code></a></p>
+<p>Passthrough preprocessor that does nothing.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.PassthroughPreprocessor.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#PassthroughPreprocessor.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.PassthroughPreprocessor.process" title="Link to this definition"></a></dt>
+<dd><p>Return inputs without any preprocessing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.PassthroughPreprocessor.resolve">
+<span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#PassthroughPreprocessor.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.PassthroughPreprocessor.resolve" title="Link to this definition"></a></dt>
+<dd><p>Ignored, as all data is passed through.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.Preprocessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.preprocessors.</span></span><span class="sig-name descname"><span class="pre">Preprocessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#Preprocessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.Preprocessor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for Packflow preprocessors</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.Preprocessor.process">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#Preprocessor.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.Preprocessor.process" title="Link to this definition"></a></dt>
+<dd><p>Run the preprocessor against raw inputs and return the processed data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.Preprocessor.resolve">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#Preprocessor.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.Preprocessor.resolve" title="Link to this definition"></a></dt>
+<dd><p>Check the config for required fields or conditions that may not
+be caught by the pydantic model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.RecordsPreprocessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.preprocessors.</span></span><span class="sig-name descname"><span class="pre">RecordsPreprocessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#RecordsPreprocessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.RecordsPreprocessor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#packflow.backend.preprocessors.Preprocessor" title="packflow.backend.preprocessors.Preprocessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Preprocessor</span></code></a></p>
+<dl class="simple">
+<dt>Records preprocessor that is highly optimized for:</dt><dd><ul class="simple">
+<li><p>filtering fields</p></li>
+<li><p>ensuring proper order of keys</p></li>
+<li><p>flattening nested fields/lists</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.RecordsPreprocessor.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#RecordsPreprocessor.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.RecordsPreprocessor.process" title="Link to this definition"></a></dt>
+<dd><p>Process an input batch and make transformations as necessary.</p>
+<dl class="simple">
+<dt>This preprocessor focuses on three main transformations:</dt><dd><ol class="arabic simple">
+<li><p>Renaming input fields</p></li>
+<li><p>Filtering to only required fields</p></li>
+<li><p>Flattening objects (dictionaries and/or lists)</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>raw_inputs</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – Raw input records to transform</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Transformed records</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.RecordsPreprocessor.resolve">
+<span class="sig-name descname"><span class="pre">resolve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#RecordsPreprocessor.resolve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.RecordsPreprocessor.resolve" title="Link to this definition"></a></dt>
+<dd><p>Resolve the config to ensure that required fields are satisfied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This preprocessor may default to being a passthrough if a specific subset of
+config fields are not set. For example, if the config specifies that there are
+no fields to rename, no filtering to be done, or flattening is not enabled, then
+the run() method will default to passing through data for performance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.backend.preprocessors.get_preprocessor">
+<span class="sig-prename descclassname"><span class="pre">packflow.backend.preprocessors.</span></span><span class="sig-name descname"><span class="pre">get_preprocessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/preprocessors.html#get_preprocessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.preprocessors.get_preprocessor" title="Link to this definition"></a></dt>
+<dd><p>Instantiate a preprocessor based on the provided BackendConfig.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="#packflow.backend.configuration.BackendConfig" title="packflow.backend.configuration.BackendConfig"><em>BackendConfig</em></a>) – The packflow BackendConfig for the inference backend.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#packflow.backend.preprocessors.Preprocessor" title="packflow.backend.preprocessors.Preprocessor">Preprocessor</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="packflow.html#packflow.exceptions.UnknownPreprocessorError" title="packflow.exceptions.UnknownPreprocessorError"><strong>UnknownPreprocessorError</strong></a> – </p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is a general factory function for simpler loading of preprocessor objects.
+All subclasses of the Preprocessor object follow the same API and be executed
+generically.</p>
+</dd></dl>
+
+</section>
+<section id="module-packflow.backend.validation">
+<span id="packflow-backend-validation-module"></span><h2>packflow.backend.validation module<a class="headerlink" href="#module-packflow.backend.validation" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.backend.validation.InferenceBackendValidator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.backend.validation.</span></span><span class="sig-name descname"><span class="pre">InferenceBackendValidator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/validation.html#InferenceBackendValidator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.validation.InferenceBackendValidator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.backend.validation.InferenceBackendValidator.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/backend/validation.html#InferenceBackendValidator.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.backend.validation.InferenceBackendValidator.run" title="Link to this definition"></a></dt>
+<dd><p>Run all validation checks against the backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputs</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>List</em><em>[</em><em>dict</em><em>]</em><em>]</em>) – Input data to test the backend against.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>The validated outputs of the inference backend.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-packflow.backend">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-packflow.backend" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

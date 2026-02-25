@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Topics &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Validation" href="../validation-testing.html" />
+    <link rel="prev" title="Configuring the Preprocessor" href="preprocessor-configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Inference Backends</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#contents">Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="custom-backends.html">Creating a Custom Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preprocessor-configuration.html">Configuring the Preprocessor</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Advanced Topics</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#custom-config-models">Custom Config Models</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#config-hierarchy">Config Hierarchy</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#why-use-a-json-configuration-file">Why Use a JSON Configuration File?</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#example-use-cases">Example Use Cases</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-reusable-backends">Creating Reusable Backends</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#benefits-of-reusable-backends">Benefits of Reusable Backends</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#example-sklearnpipelinebackend">Example: SklearnPipelineBackend</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#further-assistance">Further Assistance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inference Backends</a></li>
+      <li class="breadcrumb-item active">Advanced Topics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/backends/advanced-usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="advanced-topics">
+<h1>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h1>
+<section id="custom-config-models">
+<span id="id1"></span><h2>Custom Config Models<a class="headerlink" href="#custom-config-models" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> is an implementation of a Pydantic <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> and can be extended to add more domain- or
+capability-specific configurations to the Inference Backend.  Please see the example below in which the
+<code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> is extended and initialized as the <code class="docutils literal notranslate"><span class="pre">CustomBackend</span></code>’s <code class="docutils literal notranslate"><span class="pre">backend_config_model</span></code> class attribute.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">BackendConfig</span><span class="p">,</span> <span class="n">InferenceBackend</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>
+<span class="hll"><span class="linenos"> 6</span><span class="k">class</span><span class="w"> </span><span class="nc">CustomConfigModel</span><span class="p">(</span><span class="n">BackendConfig</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos"> 7</span>    <span class="c1"># New domain-specific fields with defaults</span>
+</span><span class="hll"><span class="linenos"> 8</span>    <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;./resources/model.joblib&quot;</span>
+</span><span class="hll"><span class="linenos"> 9</span>
+</span><span class="hll"><span class="linenos">10</span>    <span class="c1"># Set fields without defaults so the backend cannot start without this provided</span>
+</span><span class="hll"><span class="linenos">11</span>    <span class="n">output_class_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span class="linenos">12</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="k">class</span><span class="w"> </span><span class="nc">CustomBackend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+<span class="linenos">15</span>    <span class="n">backend_config_model</span> <span class="o">=</span> <span class="n">CustomConfigModel</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span>    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="hll"><span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading model from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="linenos">19</span>        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>  <span class="c1"># Mocking loading of a model</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="linenos">22</span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span>    <span class="k">def</span><span class="w"> </span><span class="nf">transform_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="linenos">25</span>        <span class="n">cleaned</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">26</span>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+<span class="hll"><span class="linenos">27</span>            <span class="n">cleaned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">output_class_names</span><span class="p">,</span> <span class="n">row</span><span class="p">)))</span>
+</span><span class="linenos">28</span>        <span class="k">return</span> <span class="n">cleaned</span>
+</pre></div>
+</div>
+<p>Further down, the config fields are accessed via the <cite>self.config</cite> instance attribute.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> will be interpreted and validated according to
+<a class="reference external" href="https://docs.pydantic.dev/latest/concepts/models/#basic-model-usage">Pydantic’s validation rules</a>.  In the example above, because the <code class="docutils literal notranslate"><span class="pre">output_class_names</span></code> field is required,
+Pydantic will treat it as such.  Therefore, any instances of <code class="docutils literal notranslate"><span class="pre">CustomBackend</span></code> must be initialized with the
+<code class="docutils literal notranslate"><span class="pre">output_class_names</span></code> keyword argument.  For example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">backend</span> <span class="pre">=</span> <span class="pre">CustomBackend(output_class_names=[&quot;doubled&quot;])</span></code></p>
+</div>
+<section id="config-hierarchy">
+<span id="id2"></span><h3>Config Hierarchy<a class="headerlink" href="#config-hierarchy" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code> in Packflow automatically loads and validates configurations passed through three methods:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Base Config Arguments</dt><dd><ul class="simple">
+<li><p>These are the default values defined in the config.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Keyword Arguments Passed at Backend Load Time</dt><dd><ul class="simple">
+<li><p>These will override the base config values.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>An optional JSON configuration file that will override all other configs</dt><dd><ul class="simple">
+<li><p>The Inference Backend will load this overrides file from a path passed through the <code class="docutils literal notranslate"><span class="pre">BACKEND_CONFIG_FILE_PATH</span></code> environment variable.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>All configurations are Deep Merged, meaning only explicitly set fields will override fields.</p>
+<p><strong>Example:</strong> If the base is <code class="docutils literal notranslate"><span class="pre">{&quot;parent&quot;:</span> <span class="pre">{&quot;child_1&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;child_2&quot;:</span> <span class="pre">2}}</span></code> and the overrides are
+<code class="docutils literal notranslate"><span class="pre">{&quot;parent&quot;:</span> <span class="pre">{&quot;child_2&quot;:</span> <span class="pre">200,</span> <span class="pre">&quot;child_3&quot;:</span> <span class="pre">3}}</span></code>, then the deep-merged output will be <code class="docutils literal notranslate"><span class="pre">{&quot;parent&quot;:</span> <span class="pre">{&quot;child_1&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;child_2&quot;:</span> <span class="pre">200,</span> <span class="pre">&quot;child_3&quot;:</span> <span class="pre">3}}</span></code></p>
+</div>
+<p>This approach ensures that configuration is not only easy, but robust through Pydantic validators to help
+engineers tasked with deploying, debugging, and optimizing the production deployment.</p>
+</section>
+<section id="why-use-a-json-configuration-file">
+<h3>Why Use a JSON Configuration File?<a class="headerlink" href="#why-use-a-json-configuration-file" title="Link to this heading"></a></h3>
+<p>An external JSON configuration file is especially helpful for custom configurations in production environments, which allow further
+configuration of conditions change. For example, if the input fields in the lab/training environment are <code class="docutils literal notranslate"><span class="pre">INPUT0</span></code> and
+<code class="docutils literal notranslate"><span class="pre">INPUT1</span></code> but in production, they are <code class="docutils literal notranslate"><span class="pre">input_0</span></code> and <code class="docutils literal notranslate"><span class="pre">input_1</span></code>, the config.json can be configured without changing
+the code of the Inference Backend by creating the following file:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;configs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;feature_names&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;input_0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;input_1&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Then setting the <code class="docutils literal notranslate"><span class="pre">BACKEND_CONFIG_FILE_PATH</span></code> environment variable to the absolute path to the config file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">BACKEND_CONFIG_FILE_PATH</span><span class="o">=</span>/path/to/config.json
+</pre></div>
+</div>
+<p>This will be automatically loaded and validated with the Inference Backend’s config model.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The loaded JSON configuration file <em>must</em> contain a <code class="docutils literal notranslate"><span class="pre">&quot;configs&quot;</span></code> parent key or all values will be ignored. This
+behavior is the ensure the config file format is extensible to new fields in future releases of Packflow.</p>
+</div>
+</section>
+<section id="example-use-cases">
+<h3>Example Use Cases<a class="headerlink" href="#example-use-cases" title="Link to this heading"></a></h3>
+<p>Here are some example use cases for custom configuration models:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Use Case #1: Dynamic Input Field/Feature Names</dt><dd><ul>
+<li><p>A machine learning model requires a specific set of features to be processed. - Create a custom configuration model that includes these features and use it to validate the input data.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Use Case #2: Test/Prod Configurations</dt><dd><ul>
+<li><p>A data processing pipeline requires different configurations for different environments (e.g., development, testing, production). - Create custom configuration models for each environment and use them to configure the pipeline.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>By using custom configuration models, code can be more flexible and easier to maintain.</p>
+</section>
+</section>
+<section id="creating-reusable-backends">
+<h2>Creating Reusable Backends<a class="headerlink" href="#creating-reusable-backends" title="Link to this heading"></a></h2>
+<p>Inference Backends can be designed to be reusable across multiple projects. This approach allows sharing of common functionality and reducing duplication.</p>
+<section id="benefits-of-reusable-backends">
+<h3>Benefits of Reusable Backends<a class="headerlink" href="#benefits-of-reusable-backends" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Write once, use many: A single reusable Inference Backend can support multiple projects that share similar requirements.</p></li>
+<li><p>Simplified maintenance: Updates to the Inference Backend can be applied universally, reducing the effort needed to maintain multiple bespoke solutions.</p></li>
+</ul>
+</section>
+<section id="example-sklearnpipelinebackend">
+<h3>Example: SklearnPipelineBackend<a class="headerlink" href="#example-sklearnpipelinebackend" title="Link to this heading"></a></h3>
+<p>For instance, organizations that frequently uses Scikit-Learn pipelines, can create a single <code class="docutils literal notranslate"><span class="pre">SklearnPipelineBackend</span></code>. This Inference Backend can be configured to run multiple pipelines, leveraging:</p>
+<ul class="simple">
+<li><p><strong>Backend configurations</strong>: Specify key information like input names and types.</p></li>
+<li><p><strong>Optimized inference code</strong>: Reuse optimized code for inference, improving performance and reducing duplication.</p></li>
+</ul>
+</section>
+<section id="best-practices">
+<h3>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Modular design</strong>: Design Inference Backends to be modular, making it easier to reuse and combine them.</p></li>
+<li><p><strong>Flexible configuration</strong>: Use configuration options to adapt the Inference Backend to work with different projects and requirements.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="preprocessor-configuration.html" class="btn btn-neutral float-left" title="Configuring the Preprocessor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../validation-testing.html" class="btn btn-neutral float-right" title="Validation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

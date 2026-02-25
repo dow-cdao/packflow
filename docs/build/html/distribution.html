@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preparing for Distribution &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=606bf197" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contact" href="appendix.html" />
+    <link rel="prev" title="Scikit-Learn Classifier" href="examples/notebooks/sklearn-classifier/sklearn-classifier.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparing for Distribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#before-distribution">Before Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packflow-config-file">Packflow Config File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#contents">Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-package">Creating a Package</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Preparing for Distribution</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distribution.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="preparing-for-distribution">
+<span id="distribution"></span><h1>Preparing for Distribution<a class="headerlink" href="#preparing-for-distribution" title="Link to this heading"></a></h1>
+<p>This documentation describes how to create a distributable version of the model backend for sharing inference code.</p>
+<section id="before-distribution">
+<h2>Before Distribution<a class="headerlink" href="#before-distribution" title="Link to this heading"></a></h2>
+<p>Before distributing a Packflow project, it is important to ensure that the Inference Backend has been properly <a class="reference internal" href="validation-testing.html#validation"><span class="std std-ref">validated</span></a> and <a class="reference internal" href="validation-testing.html#best-practices-testing"><span class="std std-ref">tested</span></a>. This ensures that the backend functions as expected and meets the necessary requirements for deployment.</p>
+<p>It is also strongly recommended to complete the following files in the project structure to provide necessary context and information for downstream users:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MODEL_CARD.md</span></code>: Document model details, limitations, and ownership.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code>: Provide usage instructions and relevant information for developers and contributors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LICENSE.txt</span></code>: Specify the applicable licensing information for the project.</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>Additional Requirements:</dt><dd><ul class="simple">
+<li><p>Complete <code class="docutils literal notranslate"><span class="pre">packflow.yaml</span></code>: Ensure that the Packflow configuration file is fully populated with accurate metadata and configuration details.</p></li>
+<li><p>Specify dependencies in <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>: List all necessary Python dependencies to ensure that the environment can be properly set up for the Inference Backend.</p></li>
+</ul>
+</dd>
+</dl>
+<p>These files are created as part of the Packflow project structure when initializing a new project with the <code class="docutils literal notranslate"><span class="pre">packflow</span> <span class="pre">create</span></code> command.</p>
+</section>
+<section id="packflow-config-file">
+<h2>Packflow Config File<a class="headerlink" href="#packflow-config-file" title="Link to this heading"></a></h2>
+<p>After initializing a project with the <code class="docutils literal notranslate"><span class="pre">packflow</span> <span class="pre">create</span></code> command, a file named <code class="docutils literal notranslate"><span class="pre">packflow.yaml</span></code> will be automatically
+generated in the project structure. This file contains information that Packflow can read to load the
+project, and presents a natural integration surface for other systems to load and interact with Packflow-built analytics.</p>
+<section id="contents">
+<h3>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h3>
+<p>The purpose of <code class="docutils literal notranslate"><span class="pre">packflow.yaml</span></code> is to track:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Project metadata, including <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, and <code class="docutils literal notranslate"><span class="pre">maintainers</span></code>.</dt><dd><ul class="simple">
+<li><p>This information could be used as a part of a DevOps pipeline or workflow designed to efficiently import Packflow projects into a system.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For instance, a DevOps pipeline could send automated emails to warn the maintainers of an issue with running the project, or to alert them of a vulnerability detected in one of the project’s dependencies.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><dl class="simple">
+<dt>Loader configuration, including <code class="docutils literal notranslate"><span class="pre">python_version</span></code>, <code class="docutils literal notranslate"><span class="pre">inference_backend</span></code>, and <code class="docutils literal notranslate"><span class="pre">loader</span></code>.</dt><dd><ul class="simple">
+<li><p>These configuration fields specify how an Inference Backend may be loaded from the Packflow project.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Custom configuration/metadata fields</dt><dd><ul class="simple">
+<li><p>If there are any other project-scope configurations or metadata that needs to be tracked, arbitrary configuration values are accepted here.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please also consider <a class="reference internal" href="backends/preprocessor-configuration.html#backend-configuration"><span class="std std-ref">Backend Configuration</span></a> for configurations specific to Packflow’s preprocessors or Inference Backend, and for defining <a class="reference internal" href="backends/advanced-usage.html#custom-config-models"><span class="std std-ref">custom configurations</span></a> and behaviors in the <code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code> controlled by the backend config.</p>
+</div>
+</section>
+</section>
+<section id="creating-a-package">
+<h2>Creating a Package<a class="headerlink" href="#creating-a-package" title="Link to this heading"></a></h2>
+<p>After ensuring that the Packflow project is properly validated, tested, and documented, create a distributable package of the project using the <code class="docutils literal notranslate"><span class="pre">packflow</span> <span class="pre">export</span> <span class="pre">[PROJECT_PATH]</span></code> command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>packflow<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="o">[</span>PROJECT_PATH<span class="o">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">[PROJECT_PATH]</span></code> argument is optional; if not provided, the current working directory will be used as the project path.</p>
+<p>This will create a zipped archive of the Packflow project in the current working directory, which can then be shared and deployed across different environments.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Creating a new package should equate to a new ‘release’ of this project, and it is recommended to create packages based on Git branches or tags for versioning purposes.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples/notebooks/sklearn-classifier/sklearn-classifier.html" class="btn btn-neutral float-left" title="Scikit-Learn Classifier" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="appendix.html" class="btn btn-neutral float-right" title="Contact" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

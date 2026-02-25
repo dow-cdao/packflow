@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>packflow package &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">packflow package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api-reference/auto/packflow.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="packflow-package">
+<h1>packflow package<a class="headerlink" href="#packflow-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="packflow.backend.html">packflow.backend package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packflow.backend.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.backend.html#module-packflow.backend.base">packflow.backend.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend"><code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend.backend_config_model"><code class="docutils literal notranslate"><span class="pre">InferenceBackend.backend_config_model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend.execute"><code class="docutils literal notranslate"><span class="pre">InferenceBackend.execute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend.get_metrics"><code class="docutils literal notranslate"><span class="pre">InferenceBackend.get_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend.initialize"><code class="docutils literal notranslate"><span class="pre">InferenceBackend.initialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend.ready"><code class="docutils literal notranslate"><span class="pre">InferenceBackend.ready()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend.validate"><code class="docutils literal notranslate"><span class="pre">InferenceBackend.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.backend.html#module-packflow.backend.configuration">packflow.backend.configuration module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig"><code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig.feature_names"><code class="docutils literal notranslate"><span class="pre">BackendConfig.feature_names</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig.flatten_lists"><code class="docutils literal notranslate"><span class="pre">BackendConfig.flatten_lists</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig.flatten_nested_inputs"><code class="docutils literal notranslate"><span class="pre">BackendConfig.flatten_nested_inputs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig.input_format"><code class="docutils literal notranslate"><span class="pre">BackendConfig.input_format</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig.nested_field_delimiter"><code class="docutils literal notranslate"><span class="pre">BackendConfig.nested_field_delimiter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig.rename_fields"><code class="docutils literal notranslate"><span class="pre">BackendConfig.rename_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.BackendConfig.verbose"><code class="docutils literal notranslate"><span class="pre">BackendConfig.verbose</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.InputFormats"><code class="docutils literal notranslate"><span class="pre">InputFormats</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.InputFormats.NUMPY"><code class="docutils literal notranslate"><span class="pre">InputFormats.NUMPY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.InputFormats.PASSTHROUGH"><code class="docutils literal notranslate"><span class="pre">InputFormats.PASSTHROUGH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.InputFormats.RECORDS"><code class="docutils literal notranslate"><span class="pre">InputFormats.RECORDS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.configuration.load_backend_configuration"><code class="docutils literal notranslate"><span class="pre">load_backend_configuration()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.backend.html#module-packflow.backend.metrics">packflow.backend.metrics module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionMetrics"><code class="docutils literal notranslate"><span class="pre">ExecutionMetrics</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionMetrics.batch_size"><code class="docutils literal notranslate"><span class="pre">ExecutionMetrics.batch_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionMetrics.execution_times"><code class="docutils literal notranslate"><span class="pre">ExecutionMetrics.execution_times</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionMetrics.total_execution_time"><code class="docutils literal notranslate"><span class="pre">ExecutionMetrics.total_execution_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionMetrics.calculate_total_execution_time"><code class="docutils literal notranslate"><span class="pre">ExecutionMetrics.calculate_total_execution_time</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionTimes"><code class="docutils literal notranslate"><span class="pre">ExecutionTimes</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionTimes.execute"><code class="docutils literal notranslate"><span class="pre">ExecutionTimes.execute</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionTimes.preprocess"><code class="docutils literal notranslate"><span class="pre">ExecutionTimes.preprocess</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionTimes.transform_inputs"><code class="docutils literal notranslate"><span class="pre">ExecutionTimes.transform_inputs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionTimes.transform_outputs"><code class="docutils literal notranslate"><span class="pre">ExecutionTimes.transform_outputs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.metrics.ExecutionTimes.total"><code class="docutils literal notranslate"><span class="pre">ExecutionTimes.total()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.backend.html#module-packflow.backend.preprocessors">packflow.backend.preprocessors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.NumpyPreprocessor"><code class="docutils literal notranslate"><span class="pre">NumpyPreprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.NumpyPreprocessor.process"><code class="docutils literal notranslate"><span class="pre">NumpyPreprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.NumpyPreprocessor.resolve"><code class="docutils literal notranslate"><span class="pre">NumpyPreprocessor.resolve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.PassthroughPreprocessor"><code class="docutils literal notranslate"><span class="pre">PassthroughPreprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.PassthroughPreprocessor.process"><code class="docutils literal notranslate"><span class="pre">PassthroughPreprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.PassthroughPreprocessor.resolve"><code class="docutils literal notranslate"><span class="pre">PassthroughPreprocessor.resolve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.Preprocessor"><code class="docutils literal notranslate"><span class="pre">Preprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.Preprocessor.process"><code class="docutils literal notranslate"><span class="pre">Preprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.Preprocessor.resolve"><code class="docutils literal notranslate"><span class="pre">Preprocessor.resolve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.RecordsPreprocessor"><code class="docutils literal notranslate"><span class="pre">RecordsPreprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.RecordsPreprocessor.process"><code class="docutils literal notranslate"><span class="pre">RecordsPreprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.RecordsPreprocessor.resolve"><code class="docutils literal notranslate"><span class="pre">RecordsPreprocessor.resolve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.preprocessors.get_preprocessor"><code class="docutils literal notranslate"><span class="pre">get_preprocessor()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.backend.html#module-packflow.backend.validation">packflow.backend.validation module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.backend.html#packflow.backend.validation.InferenceBackendValidator"><code class="docutils literal notranslate"><span class="pre">InferenceBackendValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.backend.html#packflow.backend.validation.InferenceBackendValidator.run"><code class="docutils literal notranslate"><span class="pre">InferenceBackendValidator.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.backend.html#module-packflow.backend">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="packflow.loaders.html">packflow.loaders package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packflow.loaders.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.loaders.html#module-packflow.loaders.base">packflow.loaders.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.base.InferenceBackendLoader"><code class="docutils literal notranslate"><span class="pre">InferenceBackendLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.base.InferenceBackendLoader.from_project"><code class="docutils literal notranslate"><span class="pre">InferenceBackendLoader.from_project()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.base.InferenceBackendLoader.load"><code class="docutils literal notranslate"><span class="pre">InferenceBackendLoader.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.base.InferenceBackendLoader.load_backend_module"><code class="docutils literal notranslate"><span class="pre">InferenceBackendLoader.load_backend_module()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.loaders.html#module-packflow.loaders.config">packflow.loaders.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig"><code class="docutils literal notranslate"><span class="pre">PackflowConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.description"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.inference_backend"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.inference_backend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.loader"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.loader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.maintainers"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.maintainers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.name"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.python_version"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.python_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.version"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.archive_file_name"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.archive_file_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.from_project_path"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.from_project_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.write_requirements"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.write_requirements()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.PackflowConfig.write_yaml"><code class="docutils literal notranslate"><span class="pre">PackflowConfig.write_yaml()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.get_python_version"><code class="docutils literal notranslate"><span class="pre">get_python_version()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.load_packflow_config"><code class="docutils literal notranslate"><span class="pre">load_packflow_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.config.normalize_name"><code class="docutils literal notranslate"><span class="pre">normalize_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.loaders.html#module-packflow.loaders.local">packflow.loaders.local module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.local.LocalLoader"><code class="docutils literal notranslate"><span class="pre">LocalLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.local.LocalLoader.load_backend_module"><code class="docutils literal notranslate"><span class="pre">LocalLoader.load_backend_module()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.loaders.html#module-packflow.loaders.module">packflow.loaders.module module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.module.ModuleLoader"><code class="docutils literal notranslate"><span class="pre">ModuleLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.module.ModuleLoader.load_backend_module"><code class="docutils literal notranslate"><span class="pre">ModuleLoader.load_backend_module()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.loaders.html#module-packflow.loaders.utils">packflow.loaders.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.loaders.html#packflow.loaders.utils.inference_backend_parts"><code class="docutils literal notranslate"><span class="pre">inference_backend_parts()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.loaders.html#module-packflow.loaders">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="packflow.utils.html">packflow.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html">packflow.utils.normalize package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize.base">packflow.utils.normalize.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize.handlers">packflow.utils.normalize.handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize.normalize">packflow.utils.normalize.normalize module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.html#module-packflow.utils.data">packflow.utils.data module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.html#packflow.utils.data.flatten_dict"><code class="docutils literal notranslate"><span class="pre">flatten_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.html#packflow.utils.data.flatten_records"><code class="docutils literal notranslate"><span class="pre">flatten_records()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.html#packflow.utils.data.get_nested_field"><code class="docutils literal notranslate"><span class="pre">get_nested_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.html#packflow.utils.data.records_to_ndarray"><code class="docutils literal notranslate"><span class="pre">records_to_ndarray()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.html#module-packflow.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-packflow.cli">
+<span id="packflow-cli-module"></span><h2>packflow.cli module<a class="headerlink" href="#module-packflow.cli" title="Link to this heading"></a></h2>
+</section>
+<section id="module-packflow.constants">
+<span id="packflow-constants-module"></span><h2>packflow.constants module<a class="headerlink" href="#module-packflow.constants" title="Link to this heading"></a></h2>
+</section>
+<section id="module-packflow.exceptions">
+<span id="packflow-exceptions-module"></span><h2>packflow.exceptions module<a class="headerlink" href="#module-packflow.exceptions" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="packflow.exceptions.InferenceBackendInitializationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.exceptions.</span></span><span class="sig-name descname"><span class="pre">InferenceBackendInitializationError</span></span><a class="reference internal" href="../../_modules/packflow/exceptions.html#InferenceBackendInitializationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.exceptions.InferenceBackendInitializationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="packflow.exceptions.InferenceBackendLoadError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.exceptions.</span></span><span class="sig-name descname"><span class="pre">InferenceBackendLoadError</span></span><a class="reference internal" href="../../_modules/packflow/exceptions.html#InferenceBackendLoadError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.exceptions.InferenceBackendLoadError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="packflow.exceptions.InferenceBackendRuntimeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.exceptions.</span></span><span class="sig-name descname"><span class="pre">InferenceBackendRuntimeError</span></span><a class="reference internal" href="../../_modules/packflow/exceptions.html#InferenceBackendRuntimeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.exceptions.InferenceBackendRuntimeError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="packflow.exceptions.InferenceBackendValidationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.exceptions.</span></span><span class="sig-name descname"><span class="pre">InferenceBackendValidationError</span></span><a class="reference internal" href="../../_modules/packflow/exceptions.html#InferenceBackendValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.exceptions.InferenceBackendValidationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="packflow.exceptions.PreprocessorInitError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.exceptions.</span></span><span class="sig-name descname"><span class="pre">PreprocessorInitError</span></span><a class="reference internal" href="../../_modules/packflow/exceptions.html#PreprocessorInitError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.exceptions.PreprocessorInitError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="packflow.exceptions.PreprocessorRuntimeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.exceptions.</span></span><span class="sig-name descname"><span class="pre">PreprocessorRuntimeError</span></span><a class="reference internal" href="../../_modules/packflow/exceptions.html#PreprocessorRuntimeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.exceptions.PreprocessorRuntimeError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="packflow.exceptions.UnknownPreprocessorError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnknownPreprocessorError</span></span><a class="reference internal" href="../../_modules/packflow/exceptions.html#UnknownPreprocessorError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.exceptions.UnknownPreprocessorError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-packflow.logger">
+<span id="packflow-logger-module"></span><h2>packflow.logger module<a class="headerlink" href="#module-packflow.logger" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.logger.get_logger">
+<span class="sig-prename descclassname"><span class="pre">packflow.logger.</span></span><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/logger.html#get_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.logger.get_logger" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-packflow.project">
+<span id="packflow-project-module"></span><h2>packflow.project module<a class="headerlink" href="#module-packflow.project" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.project.PackflowProject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.project.</span></span><span class="sig-name descname"><span class="pre">PackflowProject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/project.html#PackflowProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.project.PackflowProject" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.project.PackflowProject.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'minimal'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/project.html#PackflowProject.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.project.PackflowProject.create" title="Link to this definition"></a></dt>
+<dd><p>Create a new project and then return the PackflowProject controller
+for the new project</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.project.PackflowProject.export">
+<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/project.html#PackflowProject.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.project.PackflowProject.export" title="Link to this definition"></a></dt>
+<dd><p>Save the loaded project as a package.zip with schema <cite>{name}-{version}-pkg.zip</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="packflow.project.PackflowProject.has_packflow_config">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_packflow_config</span></span><a class="headerlink" href="#packflow.project.PackflowProject.has_packflow_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.project.PackflowProject.load_config">
+<span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/project.html#PackflowProject.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.project.PackflowProject.load_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-packflow">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-packflow" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

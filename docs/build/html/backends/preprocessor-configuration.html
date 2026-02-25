@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuring the Preprocessor &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Topics" href="advanced-usage.html" />
+    <link rel="prev" title="Creating a Custom Backend" href="custom-backends.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Inference Backends</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#contents">Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="custom-backends.html">Creating a Custom Backend</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Configuring the Preprocessor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#backend-configuration">Backend Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#preprocessors">Preprocessors</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#passthrough-preprocessor">Passthrough Preprocessor</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#records-preprocessor-default">Records Preprocessor [Default]</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#numpy-preprocessor">Numpy Preprocessor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="advanced-usage.html">Advanced Topics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#further-assistance">Further Assistance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Inference Backends</a></li>
+      <li class="breadcrumb-item active">Configuring the Preprocessor</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/backends/preprocessor-configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuring-the-preprocessor">
+<h1>Configuring the Preprocessor<a class="headerlink" href="#configuring-the-preprocessor" title="Link to this heading"></a></h1>
+<section id="backend-configuration">
+<span id="id1"></span><h2>Backend Configuration<a class="headerlink" href="#backend-configuration" title="Link to this heading"></a></h2>
+<p>The base <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> contains fields that are leveraged by internal functions for processing input data prior
+to passing inputs to the <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> method. The base config arguments are initialized at the Backend’s
+<code class="docutils literal notranslate"><span class="pre">base_config_model</span></code> class attribute, and they can be accessed via the <code class="docutils literal notranslate"><span class="pre">config</span></code> instance attribute in the custom
+Inference Backend.</p>
+<p>The following fields are used for default behaviors of the Base Config Model:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code>: A boolean indicating whether to output verbose logs. Defaults to True.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input_format</span></code>:  A string specifying the preprocessor; one of <code class="docutils literal notranslate"><span class="pre">'passthrough'</span></code>, <code class="docutils literal notranslate"><span class="pre">'records'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'numpy'</span></code>. For details, see <a class="reference internal" href="#preprocessors"><span class="std std-ref">Preprocessors</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rename_fields</span></code>: A dictionary mapping of <code class="docutils literal notranslate"><span class="pre">{&quot;old_name&quot;:</span> <span class="pre">&quot;new_name&quot;}</span></code> which will be renamed during <code class="docutils literal notranslate"><span class="pre">'records'</span></code> or <code class="docutils literal notranslate"><span class="pre">'numpy'</span></code> preprocessing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_names</span></code>: A list of feature names. If non-empty, acts as a preprocessing filter. Behavior varies between <code class="docutils literal notranslate"><span class="pre">'records'</span></code> and <code class="docutils literal notranslate"><span class="pre">'numpy'</span></code> preprocessors. Defaults to an empty list.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flatten_nested_inputs</span></code>: A boolean indicating whether to flatten nested inputs. Defaults to False.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flatten_lists</span></code>: A boolean indicating whether to also flatten lists when flattening nested inputs. Defaults to False.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nested_field_delimiter</span></code>: A string indicating the delimiter for nested fields. Defaults to a period (‘.’).</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">flatten_nested_inputs</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, input keys containing <code class="docutils literal notranslate"><span class="pre">nested_field_delimiter</span></code> may result in incorrect nested structures or key collisions. For best results, ensure delimiters do not appear in record keys.</p>
+</div>
+<p><strong>Example</strong></p>
+<p>Consider the following preprocessor configuration:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">/path/to/a/config.json</span></code></span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="p">{</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="nt">&quot;configs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">        </span><span class="nt">&quot;flatten_nested_inputs&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="linenos"> 4</span><span class="w">        </span><span class="nt">&quot;nested_field_delimiter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="nt">&quot;rename_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 6</span><span class="w">            </span><span class="nt">&quot;foo:bar&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;feature_1&quot;</span><span class="p">,</span>
+<span class="linenos"> 7</span><span class="w">            </span><span class="nt">&quot;fizz:buzz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;feature_2&quot;</span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="p">},</span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="nt">&quot;feature_names&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="linenos">10</span><span class="w">            </span><span class="s2">&quot;feature_1&quot;</span><span class="p">,</span>
+<span class="linenos">11</span><span class="w">            </span><span class="s2">&quot;feature_2&quot;</span>
+<span class="linenos">12</span><span class="w">        </span><span class="p">]</span>
+<span class="linenos">13</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">14</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>and this <code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code> implementation that simply prints the data at each stage:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">inference.py</span></code></span><a class="headerlink" href="#id4" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceBackend</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">class</span><span class="w"> </span><span class="nc">PrintBackend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+<span class="linenos"> 5</span>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="hll"><span class="linenos"> 6</span>        <span class="c1"># Normally, __call__ should not be overridden in a backend.</span>
+</span><span class="hll"><span class="linenos"> 7</span>        <span class="c1"># This is just to show the inputs before the internal preprocessors run.</span>
+</span><span class="hll"><span class="linenos"> 8</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PrintBackend called with args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">, kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="linenos"> 9</span>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span>    <span class="k">def</span><span class="w"> </span><span class="nf">transform_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="hll"><span class="linenos">12</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Transform Inputs received: </span><span class="si">{</span><span class="n">inputs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="linenos">13</span>        <span class="k">return</span> <span class="n">inputs</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="hll"><span class="linenos">16</span>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Execute received: </span><span class="si">{</span><span class="n">inputs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class="linenos">17</span>        <span class="c1"># Config fields are available in the backend through self.config</span>
+<span class="linenos">18</span>        <span class="c1"># For demonstration, this will just encapsulate each record in a dict with a &quot;result&quot; key.</span>
+<span class="linenos">19</span>        <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="n">record</span><span class="p">}</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">]</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">23</span>    <span class="n">backend</span> <span class="o">=</span> <span class="n">PrintBackend</span><span class="p">()</span>
+<span class="hll"><span class="linenos">24</span>    <span class="n">sample_input</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="s2">&quot;fizz&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;buzz&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}}</span>
+</span><span class="hll"><span class="linenos">25</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final Output:&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="p">(</span><span class="n">sample_input</span><span class="p">))</span>
+</span></pre></div>
+</div>
+</div>
+<p>When the above backend is executed without configuration, the input from the <code class="docutils literal notranslate"><span class="pre">__main__</span></code> block <code class="docutils literal notranslate"><span class="pre">{&quot;foo&quot;:</span> <span class="pre">{&quot;bar&quot;:</span> <span class="pre">0,</span> <span class="pre">&quot;baz&quot;:</span> <span class="pre">[1]},</span> <span class="pre">&quot;fizz&quot;:</span> <span class="pre">{&quot;buzz&quot;:</span> <span class="pre">2}}</span></code> will pass through unchanged:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>inference.py
+<span class="go">PrintBackend called with args: ({&#39;foo&#39;: {&#39;bar&#39;: 0, &#39;baz&#39;: [1]}, &#39;fizz&#39;: {&#39;buzz&#39;: 2}},), kwargs: {}</span>
+<span class="go">Transform Inputs received: [{&#39;foo&#39;: {&#39;bar&#39;: 0, &#39;baz&#39;: [1]}, &#39;fizz&#39;: {&#39;buzz&#39;: 2}}]</span>
+<span class="go">Execute received: [{&#39;foo&#39;: {&#39;bar&#39;: 0, &#39;baz&#39;: [1]}, &#39;fizz&#39;: {&#39;buzz&#39;: 2}}]</span>
+<span class="go">Final Output: {&#39;result&#39;: {&#39;foo&#39;: {&#39;bar&#39;: 0, &#39;baz&#39;: [1]}, &#39;fizz&#39;: {&#39;buzz&#39;: 2}}}</span>
+</pre></div>
+</div>
+<p>However, when the backend is executed with the above config, the input will be transformed according to the preprocessor configuration:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">BACKEND_CONFIG_FILE_PATH</span><span class="o">=</span>/path/to/a/config.json<span class="w"> </span>python<span class="w"> </span>inference.py
+<span class="go">PrintBackend called with args: ({&#39;foo&#39;: {&#39;bar&#39;: 0, &#39;baz&#39;: [1]}, &#39;fizz&#39;: {&#39;buzz&#39;: 2}},), kwargs: {}</span>
+<span class="go">Transform Inputs received: [{&#39;feature_1&#39;: 0, &#39;feature_2&#39;: 2}]</span>
+<span class="go">Execute received: [{&#39;feature_1&#39;: 0, &#39;feature_2&#39;: 2}]</span>
+<span class="go">Final Output: {&#39;result&#39;: {&#39;feature_1&#39;: 0, &#39;feature_2&#39;: 2}}</span>
+</pre></div>
+</div>
+<p>The input record has been flattened, filtered to only include the specified feature names, and renamed according to the config file. This demonstrates how the preprocessor configuration fields can be used to manipulate input data before it reaches the core logic of the InferenceBackend, allowing for an InferenceBackend to be reused across different data schemas with minimal code changes.</p>
+<p>Please see <a class="reference internal" href="advanced-usage.html#config-hierarchy"><span class="std std-ref">Config Hierarchy</span></a> for more details on how configurations are loaded and overridden.</p>
+</section>
+<section id="preprocessors">
+<span id="id2"></span><h2>Preprocessors<a class="headerlink" href="#preprocessors" title="Link to this heading"></a></h2>
+<p>Preprocessing occurs in tandem to the Inference Backend framework to assist with streamlining development. Each preprocessor relies on
+different <a class="reference internal" href="#backend-configuration"><span class="std std-ref">Backend Configuration</span></a> fields. The following subsections outline the required fields and expected behaviors for each preprocessor.</p>
+<section id="passthrough-preprocessor">
+<h3>Passthrough Preprocessor<a class="headerlink" href="#passthrough-preprocessor" title="Link to this heading"></a></h3>
+<p><strong>Condition</strong>: Used when <code class="docutils literal notranslate"><span class="pre">input_format=&quot;passthrough&quot;</span></code>.</p>
+<p><strong>Expected Behaviors:</strong></p>
+<ul class="simple">
+<li><p>Input data is untouched and passed directly to the <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> method.</p></li>
+</ul>
+</section>
+<section id="records-preprocessor-default">
+<h3>Records Preprocessor [Default]<a class="headerlink" href="#records-preprocessor-default" title="Link to this heading"></a></h3>
+<p><strong>Condition</strong>: Used when <code class="docutils literal notranslate"><span class="pre">input_format=&quot;records&quot;</span></code>.</p>
+<p><strong>Expected Behaviors:</strong></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>If <code class="docutils literal notranslate"><span class="pre">rename_fields</span></code> has a value:</dt><dd><ul>
+<li><p>The fields in incoming records will be renamed based on this mapping, prior to any other preprocessing steps.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>If <code class="docutils literal notranslate"><span class="pre">feature_names</span></code> is not empty:</dt><dd><ul>
+<li><p>The records will be filtered and sorted based on the values in this array.</p></li>
+<li><p>This will drastically lower the size of the data passing through the pipeline, which can lead to performance boosts.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>If <code class="docutils literal notranslate"><span class="pre">flatten_nested_inputs</span></code> is True:</dt><dd><ul>
+<li><p>Nested events (e.g., <code class="docutils literal notranslate"><span class="pre">{&quot;foo&quot;:</span> <span class="pre">{&quot;bar&quot;:</span> <span class="pre">0}}</span></code>) will be ‘flattened’ to <code class="docutils literal notranslate"><span class="pre">{&quot;foo.bar&quot;:</span> <span class="pre">0}</span></code>.</p></li>
+<li><p>The value of the <code class="docutils literal notranslate"><span class="pre">nested_field_delimiter</span></code> config will determine the delimiter for the flattened fields (default: ‘.’).</p></li>
+<li><dl class="simple">
+<dt>If <code class="docutils literal notranslate"><span class="pre">flatten_lists</span></code> is True:</dt><dd><ul>
+<li><p>The flattening will also include lists.</p></li>
+<li><p>Example: <code class="docutils literal notranslate"><span class="pre">{&quot;foo&quot;:</span> <span class="pre">{&quot;bar&quot;:</span> <span class="pre">[0,</span> <span class="pre">1]}}</span></code> will be flattened to <code class="docutils literal notranslate"><span class="pre">{&quot;foo.bar.0&quot;:</span> <span class="pre">0,</span> <span class="pre">&quot;foo.bar.1&quot;:</span> <span class="pre">1}</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The default <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> values will not trigger any of the above conditions and will fall back to acting as a
+Passthrough preprocessor for optimization purposes.</p>
+</div>
+</section>
+<section id="numpy-preprocessor">
+<h3>Numpy Preprocessor<a class="headerlink" href="#numpy-preprocessor" title="Link to this heading"></a></h3>
+<p><strong>Condition</strong>: Used when <code class="docutils literal notranslate"><span class="pre">input_format=&quot;numpy&quot;</span></code>.</p>
+<p><strong>Expected Behaviors:</strong></p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>If <code class="docutils literal notranslate"><span class="pre">rename_fields</span></code> has a value:</dt><dd><ul>
+<li><p>The fields in incoming records will be renamed based on this mapping, prior to conversion to an ndarray.</p></li>
+<li><p>Especially helpful if input names to not match required feature names.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Creates a loosely-typed <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> based on the contents of the <code class="docutils literal notranslate"><span class="pre">feature_names</span></code> config.</dt><dd><ul>
+<li><p>Example: If <code class="docutils literal notranslate"><span class="pre">inputs=[{&quot;foo&quot;:</span> <span class="pre">0},</span> <span class="pre">{&quot;foo&quot;:</span> <span class="pre">1}]</span></code> and <code class="docutils literal notranslate"><span class="pre">feature_names=[&quot;foo&quot;]</span></code>, the data passed to <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> would be equivalent to <code class="docutils literal notranslate"><span class="pre">numpy.array([[0],</span> <span class="pre">[1]])</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom-backends.html" class="btn btn-neutral float-left" title="Creating a Custom Backend" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advanced-usage.html" class="btn btn-neutral float-right" title="Advanced Topics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

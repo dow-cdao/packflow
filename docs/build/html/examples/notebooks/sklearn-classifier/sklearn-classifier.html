@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scikit-Learn Classifier &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Preparing for Distribution" href="../../../distribution.html" />
+    <link rel="prev" title="Inference Backends 101" href="../inference-backend-101/inference-backend-101.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#notebooks">Notebooks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../inference-backend-101/inference-backend-101.html">Inference Backends 101</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Scikit-Learn Classifier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Creating-a-Project">Creating a Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Training-a-Iris-Classifier">Training a Iris Classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Developing-the-Inference-Backend">Developing the Inference Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Validating-the-Inference-Backend">Validating the Inference Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#IMPORTANT">IMPORTANT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+      <li class="breadcrumb-item active">Scikit-Learn Classifier</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/notebooks/sklearn-classifier/sklearn-classifier.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Scikit-Learn-Classifier">
+<h1>Scikit-Learn Classifier<a class="headerlink" href="#Scikit-Learn-Classifier" title="Link to this heading"></a></h1>
+<p>This Notebook is designed to be an example for developing a modular, reusable Scikit-Learn classification backend. In this guide we will:</p>
+<ol class="arabic simple">
+<li><p>Creating a project with the Poetry</p></li>
+<li><p>Train a classifier with Scikit-Learn</p></li>
+<li><p>Develop the Inference Backend for running the model with Packflow</p></li>
+<li><p>Load and validate the Backend from the installed package</p></li>
+</ol>
+<section id="Creating-a-Project">
+<h2>Creating a Project<a class="headerlink" href="#Creating-a-Project" title="Link to this heading"></a></h2>
+<p>First, We’ll install poetry and create a new Project:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install poetry --quiet
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Note: you may need to restart the kernel to use updated packages.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-sh notranslate"><div class="highlight"><pre><span></span>%%sh
+
+poetry<span class="w"> </span>new<span class="w"> </span>sklearn_classifier
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Created package sklearn_classifier in sklearn_classifier
+</pre></div></div>
+</div>
+<p>Next, we need to install a few dependencies to our poetry project:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-sh notranslate"><div class="highlight"><pre><span></span>%%sh
+
+poetry<span class="w"> </span>--directory<span class="w"> </span>./sklearn_classifier<span class="w"> </span>add<span class="w"> </span>scikit-learn<span class="w"> </span>joblib<span class="w"> </span>pandas
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using version ^1.8.0 for scikit-learn
+Using version ^1.5.3 for joblib
+Using version ^3.0.0 for pandas
+
+Updating dependencies
+Resolving dependencies...
+
+No dependencies to install or update
+
+Writing lock file
+</pre></div></div>
+</div>
+</section>
+<section id="Training-a-Iris-Classifier">
+<h2>Training a Iris Classifier<a class="headerlink" href="#Training-a-Iris-Classifier" title="Link to this heading"></a></h2>
+<p>For our sample use-case, we’ll use the Scikit-Learn Iris dataset and train a simple Decision Tree Classifier:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">X</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sepal length (cm)</th>
+      <th>sepal width (cm)</th>
+      <th>petal length (cm)</th>
+      <th>petal width (cm)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21</th>
+      <td>5.1</td>
+      <td>3.7</td>
+      <td>1.5</td>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>4.7</td>
+      <td>3.2</td>
+      <td>1.6</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>6.4</td>
+      <td>2.7</td>
+      <td>5.3</td>
+      <td>1.9</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>For simplicity, we will ignore best practices and train our model on the entire dataset:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;sklearn_classifier/src/sklearn_classifier/model.joblib&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;sklearn_classifier/src/sklearn_classifier/model.joblib&#39;]
+</pre></div></div>
+</div>
+<p>The model has now been trained (fit) and serialized with joblib to the path output above.</p>
+</section>
+<section id="Developing-the-Inference-Backend">
+<h2>Developing the Inference Backend<a class="headerlink" href="#Developing-the-Inference-Backend" title="Link to this heading"></a></h2>
+<p>Now we can develop the Inference Backend for running and sharing the model with Packflow:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> sklearn_classifier/src/sklearn_classifier/inference.py
+
+<span class="c1"># -- Packflow imports --</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">packflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceBackend</span><span class="p">,</span> <span class="n">BackendConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">packflow.utils.normalize</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_valid_output</span>
+
+<span class="c1"># -- Imports that are required to run the model --</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sklearn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SklearnClassifierConfig</span><span class="p">(</span><span class="n">BackendConfig</span><span class="p">):</span>
+    <span class="c1"># Create a config field for where to load the model from</span>
+    <span class="n">serialized_model_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;model.joblib&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Define the default input feature names</span>
+    <span class="n">feature_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sepal width (cm)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;petal length (cm)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;petal width (cm)&#39;</span>
+    <span class="p">]</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Backend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+    <span class="c1"># override the default model with the custom model defined above</span>
+    <span class="n">backend_config_model</span> <span class="o">=</span> <span class="n">SklearnClassifierConfig</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loading model from: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">serialized_model_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">serialized_model_path</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert input array (this backend uses the Numpy Preprocessor) to a Pandas DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">inputs</span><span class="p">)</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run the Pandas DataFrame through the loaded model</span>
+<span class="sd">        and return the predicted class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use Packflow.dev to convert outputs to safe return types.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method is less flexible and does not apply business-logic.</span>
+<span class="sd">            However, for this demo we will assume the output does not need</span>
+<span class="sd">            any special postprocessing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ensure_valid_output</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s1">&#39;class&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Set defaults for base fields</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span>
+    <span class="n">input_format</span><span class="o">=</span><span class="s1">&#39;numpy&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Writing sklearn_classifier/src/sklearn_classifier/inference.py
+</pre></div></div>
+</div>
+<p>We will also need to add the <code class="docutils literal notranslate"><span class="pre">inference</span></code> module to the package by adding it to the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file so it can be imported:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> sklearn_classifier/src/sklearn_classifier/__init__.py
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">inference</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Overwriting sklearn_classifier/src/sklearn_classifier/__init__.py
+</pre></div></div>
+</div>
+<p>Now that we’ve created an <code class="docutils literal notranslate"><span class="pre">inference.py</span></code> file to our poetry package, we can use Packflow’s ModuleLoader to import the backend and run it wherever needed.</p>
+</section>
+<section id="Validating-the-Inference-Backend">
+<h2>Validating the Inference Backend<a class="headerlink" href="#Validating-the-Inference-Backend" title="Link to this heading"></a></h2>
+<p>Now that we’ve create a snapshot, let’s load and validate the backend is running as expected:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install ./sklearn_classifier --quiet
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Note: you may need to restart the kernel to use updated packages.
+</pre></div></div>
+</div>
+</section>
+<section id="IMPORTANT">
+<h2>IMPORTANT<a class="headerlink" href="#IMPORTANT" title="Link to this heading"></a></h2>
+<p>You will likely need to restart the kernel in this notebook to proceed with loading and running the inference backend!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow.loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModuleLoader</span>
+
+<span class="c1"># Import from the installed Poetry package</span>
+<span class="c1"># We want to import the `backend` object from the `inference` module</span>
+<span class="c1"># we will also pass a relative</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">ModuleLoader</span><span class="p">(</span><span class="s2">&quot;sklearn_classifier.inference:backend&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="n">backend</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:16:08.037</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.utils.normalize.base</span>:<span class="ansi-cyan-fg">_import_module</span>:<span class="ansi-cyan-fg">30</span> - <span class="ansi-blue-intense-fg ansi-bold">TorchScalarHandler Type Converter is not available. Reason: No module named &#39;torch&#39;</span>
+<span class="ansi-green-fg">2026-01-21 14:16:08.038</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.utils.normalize.base</span>:<span class="ansi-cyan-fg">_import_module</span>:<span class="ansi-cyan-fg">30</span> - <span class="ansi-blue-intense-fg ansi-bold">TorchTensorHandler Type Converter is not available. Reason: No module named &#39;torch&#39;</span>
+<span class="ansi-green-fg">2026-01-21 14:16:08.039</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.utils.normalize.base</span>:<span class="ansi-cyan-fg">_import_module</span>:<span class="ansi-cyan-fg">30</span> - <span class="ansi-blue-intense-fg ansi-bold">PillowImageHandler Type Converter is not available. Reason: No module named &#39;PIL&#39;</span>
+<span class="ansi-green-fg">2026-01-21 14:16:08.059</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;input_format&#39;: &#39;numpy&#39;}</span>
+<span class="ansi-green-fg">2026-01-21 14:16:08.060</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: SklearnClassifierConfig(verbose=True, input_format=&lt;InputFormats.NUMPY: &#39;numpy&#39;&gt;, rename_fields={}, feature_names=[&#39;sepal length (cm)&#39;, &#39;sepal width (cm)&#39;, &#39;petal length (cm)&#39;, &#39;petal width (cm)&#39;], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;, serialized_model_path=PosixPath(&#39;/Users/cdao-user/.pyenv/versions/3.11.14/envs/packflow/lib/python3.11/site-packages/sklearn_classifier/model.joblib&#39;))</span>
+<span class="ansi-green-fg">2026-01-21 14:16:08.060</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">sklearn_classifier.inference</span>:<span class="ansi-cyan-fg">initialize</span>:<span class="ansi-cyan-fg">31</span> - <span class="ansi-bold">Loading model from: /Users/cdao-user/.pyenv/versions/3.11.14/envs/packflow/lib/python3.11/site-packages/sklearn_classifier/model.joblib</span>
+<span class="ansi-green-fg">2026-01-21 14:16:08.061</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.base</span>:<span class="ansi-cyan-fg">_initialize</span>:<span class="ansi-cyan-fg">103</span> - <span class="ansi-bold">Initialized Backend in 0.0009 ms</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Backend[
+  SklearnClassifierConfig(verbose=True, input_format=&lt;InputFormats.NUMPY: &#39;numpy&#39;&gt;, rename_fields={}, feature_names=[&#39;sepal length (cm)&#39;, &#39;sepal width (cm)&#39;, &#39;petal length (cm)&#39;, &#39;petal width (cm)&#39;], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;, serialized_model_path=PosixPath(&#39;/Users/cdao-user/.pyenv/versions/3.11.14/envs/packflow/lib/python3.11/site-packages/sklearn_classifier/model.joblib&#39;))
+]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">))</span>
+
+<span class="n">outputs</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:16:08.071</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.base</span>:<span class="ansi-cyan-fg">__call__</span>:<span class="ansi-cyan-fg">86</span> - <span class="ansi-bold">ExecutionMetrics(batch_size=10, execution_times=ExecutionTimes(preprocess=0.01938, transform_inputs=0.09275, execute=0.60546, transform_outputs=0.02338), total_execution_time=0.74097)</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;class&#39;: 0}, {&#39;class&#39;: 0}, {&#39;class&#39;: 1}, {&#39;class&#39;: 0}, {&#39;class&#39;: 1}]
+</pre></div></div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>In this example notebook, we went through a simple example of how to create an inference backend for a scikit-learn classifier.</p>
+<p>Try extending this example further to support custom output logic or supporting different model types!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../inference-backend-101/inference-backend-101.html" class="btn btn-neutral float-left" title="Inference Backends 101" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../distribution.html" class="btn btn-neutral float-right" title="Preparing for Distribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

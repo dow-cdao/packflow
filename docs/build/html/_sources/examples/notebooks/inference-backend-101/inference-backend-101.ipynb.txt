@@ -1,0 +1,787 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "b784c0c7-7729-408a-a68f-a2b407ce03e1",
+   "metadata": {},
+   "source": [
+    "# Inference Backends 101"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "aab1ed6d-1215-4be0-a5fe-46238cc3c049",
+   "metadata": {},
+   "source": [
+    "This Notebook is designed to be a bare-bones introduction to Inference Backend development. It will not perform any data operations, but\n",
+    "will instead show some basic operations, including:\n",
+    "\n",
+    "1. Writing an Inference Backend to show execution flow\n",
+    "2. Exploration of available preprocessors.\n",
+    "3. Quick validation to ensure the Backend is operational"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cd043b28-1a74-48ee-8b09-61f2efea1d05",
+   "metadata": {},
+   "source": [
+    "## Write the Inference Backend\n",
+    "\n",
+    "In this guide, we will not perform any meaningful data transformations or run models--instead, we will explore the flow of data through an \n",
+    "inference backend and how built-in preprocessors can facilitate your development process.\n",
+    "\n",
+    "First, we can create a simple inference backend that simply prints the received inputs, then returns what it received:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "6d85b93b-3e47-4470-8a74-d509466c60ae",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:00:33.055\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:33.055\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=True, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:33.056\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.preprocessors\u001b[0m:\u001b[36mresolve\u001b[0m:\u001b[36m127\u001b[0m - \u001b[1mCurrent config does not require preprocessing steps. Defaulting to Passthrough mode.\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:33.056\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.base\u001b[0m:\u001b[36m_initialize\u001b[0m:\u001b[36m103\u001b[0m - \u001b[1mInitialized Backend in 0.0000 ms\u001b[0m\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "Backend[\n",
+       "  BackendConfig(verbose=True, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\n",
+       "]"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from packflow import InferenceBackend\n",
+    "\n",
+    "\n",
+    "class Backend(InferenceBackend):\n",
+    "    def execute(self, inputs):\n",
+    "        print(\"Executing against data:\", inputs)\n",
+    "        return inputs\n",
+    "\n",
+    "\n",
+    "backend = Backend()\n",
+    "\n",
+    "backend"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "32187c4f-3306-4a35-8749-f30f88bb2fe5",
+   "metadata": {},
+   "source": [
+    "As seen above, Packflow will provide production-ready logs during initialization, included the parsed configurations from keyword arguments and JSON configuration files, \n",
+    "and run validation on the configs--more on this later.\n",
+    "\n",
+    "Now we can generate some sample data and pass it through the loaded backend:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "c7081300-17f6-4ead-a19f-4ea08c40f40e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:00:44.690\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.base\u001b[0m:\u001b[36m__call__\u001b[0m:\u001b[36m86\u001b[0m - \u001b[1mExecutionMetrics(batch_size=5, execution_times=ExecutionTimes(preprocess=0.00558, transform_inputs=None, execute=0.05417, transform_outputs=None), total_execution_time=0.059750000000000004)\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "samples = [dict(number=i) for i in range(5)]\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "783de881-7591-45b9-85ac-ef80095ce100",
+   "metadata": {},
+   "source": [
+    "With each call, Packflow will collect and log execution metrics for downstream analysis, which can be seen above. If you would prefer to not print these\n",
+    "logs, you can initialize the backend with `verbose=False`.\n",
+    "\n",
+    "We can also validate that the backend meets Packflow's API requirements by calling `.validate()`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "861b57b0-285a-4a9d-982d-b7ee1fc7d5f4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:00:48.021\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:48.022\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:48.022\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.preprocessors\u001b[0m:\u001b[36mresolve\u001b[0m:\u001b[36m127\u001b[0m - \u001b[1mCurrent config does not require preprocessing steps. Defaulting to Passthrough mode.\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "backend = Backend(verbose=False)\n",
+    "\n",
+    "backend.validate(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fabe334b-c8cc-4eaa-928b-1dfe4fd82676",
+   "metadata": {},
+   "source": [
+    "### Preprocessors\n",
+    "\n",
+    "Packflow has built-in preprocessors that assist with records parsing and transformation. The following sections will explore the main\n",
+    "preprocessors that are available and some practical uses of the built-in functionality.\n",
+    "\n",
+    "#### Passthrough\n",
+    "\n",
+    "Starting with the most straight-forward, the `passthrough` preprocessor does exactly that--all configurations are ignored and\n",
+    "the raw data is passed straight to the `transform_inputs()` or `execute()` function."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "516000e2-0d96-4c2f-b1f4-d670a2a3d707",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:00:53.661\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'input_format': 'passthrough', 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:53.661\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.PASSTHROUGH: 'passthrough'>, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "backend = Backend(input_format=\"passthrough\", verbose=False)\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "40f65aa6-b447-4fb6-9af7-a7709a1ae1fd",
+   "metadata": {},
+   "source": [
+    "This is mostly useful for when your use-case requires access to the raw data or advanced preprocessing would be more useful.\n",
+    "\n",
+    "### Records [Default]\n",
+    "\n",
+    "The `records` preprocessor is the default preprocessor for all Inference Backends. The default values for the configuration\n",
+    "make this preprocessor act as a passthrough. However, if any baseline configurations are modified, it will begin to \n",
+    "provide functionality automatically."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "0a1b2fb6-733e-4e85-9811-c35b500e329e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:00:56.080\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'input_format': 'records', 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:56.081\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:00:56.081\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.preprocessors\u001b[0m:\u001b[36mresolve\u001b[0m:\u001b[36m127\u001b[0m - \u001b[1mCurrent config does not require preprocessing steps. Defaulting to Passthrough mode.\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number': 0, 'other_field': 1}, {'number': 1, 'other_field': 2}, {'number': 2, 'other_field': 3}, {'number': 3, 'other_field': 4}, {'number': 4, 'other_field': 5}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number': 0, 'other_field': 1},\n",
+       " {'number': 1, 'other_field': 2},\n",
+       " {'number': 2, 'other_field': 3},\n",
+       " {'number': 3, 'other_field': 4},\n",
+       " {'number': 4, 'other_field': 5}]"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "samples = [dict(number=i, other_field=i + 1) for i in range(5)]\n",
+    "\n",
+    "backend = Backend(input_format=\"records\", verbose=False)\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d0ad84f3-8687-4ee0-8315-7f7c03e0076a",
+   "metadata": {},
+   "source": [
+    "#### Filtering Features"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "5734608d-37ba-4983-8335-a29d15da49c5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:01:15.616\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'input_format': 'records', 'feature_names': ['number'], 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:01:15.616\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=['number'], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number': 0}, {'number': 1}, {'number': 2}, {'number': 3}, {'number': 4}]"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Filter\n",
+    "backend = Backend(input_format=\"records\", feature_names=[\"number\"], verbose=False)\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6230c154-7fee-4405-947a-4f1499951ee1",
+   "metadata": {},
+   "source": [
+    "#### Reorder Fields/Columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "90bb59dd-ab35-41f3-bc9c-ca5279010cda",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2025-07-08 17:41:15.269\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m59\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'input_format': 'records', 'feature_names': ['other_field', 'number'], 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2025-07-08 17:41:15.270\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=['other_field', 'number'], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=':')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'other_field': 1, 'number': 0}, {'other_field': 2, 'number': 1}, {'other_field': 3, 'number': 2}, {'other_field': 4, 'number': 3}, {'other_field': 5, 'number': 4}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'other_field': 1, 'number': 0},\n",
+       " {'other_field': 2, 'number': 1},\n",
+       " {'other_field': 3, 'number': 2},\n",
+       " {'other_field': 4, 'number': 3},\n",
+       " {'other_field': 5, 'number': 4}]"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Change Order\n",
+    "backend = Backend(\n",
+    "    input_format=\"records\", feature_names=[\"other_field\", \"number\"], verbose=False\n",
+    ")\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0b155cec-667d-4aed-b36f-6e1ea4918138",
+   "metadata": {},
+   "source": [
+    "#### Renaming Input fields"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "afb2adb1-1caa-4014-bc46-9c08b7fbc4ec",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:01:54.276\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'input_format': 'records', 'rename_fields': {'other_field': 'feature_0', 'number': 'feature_1'}, 'feature_names': ['feature_0', 'feature_1'], 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:01:54.277\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={'other_field': 'feature_0', 'number': 'feature_1'}, feature_names=['feature_0', 'feature_1'], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'feature_0': 1, 'feature_1': 0}, {'feature_0': 2, 'feature_1': 1}, {'feature_0': 3, 'feature_1': 2}, {'feature_0': 4, 'feature_1': 3}, {'feature_0': 5, 'feature_1': 4}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'feature_0': 1, 'feature_1': 0},\n",
+       " {'feature_0': 2, 'feature_1': 1},\n",
+       " {'feature_0': 3, 'feature_1': 2},\n",
+       " {'feature_0': 4, 'feature_1': 3},\n",
+       " {'feature_0': 5, 'feature_1': 4}]"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Renaming fields and Changing Order\n",
+    "backend = Backend(\n",
+    "    input_format=\"records\",\n",
+    "    rename_fields={\"other_field\": \"feature_0\", \"number\": \"feature_1\"},\n",
+    "    feature_names=[\"feature_0\", \"feature_1\"],\n",
+    "    verbose=False,\n",
+    ")\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b4985efd-8b57-410a-a6e7-9937846aa771",
+   "metadata": {},
+   "source": [
+    "#### Flattening Nested Fields"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "aa4b7375-6d57-42c7-8063-3a4e241064cb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:01:56.551\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'flatten_nested_inputs': True, 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:01:56.553\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=True, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number.value': [0, 1]}, {'number.value': [1, 2]}, {'number.value': [2, 3]}, {'number.value': [3, 4]}, {'number.value': [4, 5]}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number.value': [0, 1]},\n",
+       " {'number.value': [1, 2]},\n",
+       " {'number.value': [2, 3]},\n",
+       " {'number.value': [3, 4]},\n",
+       " {'number.value': [4, 5]}]"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "samples = [{\"number\": {\"value\": [i, i + 1]}} for i in range(5)]\n",
+    "\n",
+    "backend = Backend(flatten_nested_inputs=True, verbose=False)\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "634371df-9ec1-4343-8900-32e16d945c80",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:02:41.691\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'flatten_nested_inputs': True, 'nested_field_delimiter': ':', 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:02:41.692\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=True, flatten_lists=False, nested_field_delimiter=':')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number:value': [0, 1]}, {'number:value': [1, 2]}, {'number:value': [2, 3]}, {'number:value': [3, 4]}, {'number:value': [4, 5]}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number:value': [0, 1]},\n",
+       " {'number:value': [1, 2]},\n",
+       " {'number:value': [2, 3]},\n",
+       " {'number:value': [3, 4]},\n",
+       " {'number:value': [4, 5]}]"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# with a custom delimiter:\n",
+    "backend = Backend(flatten_nested_inputs=True, nested_field_delimiter=\":\", verbose=False)\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "99bd8cc5-8d49-4d04-b004-749d45dca87e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:02:50.230\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'flatten_nested_inputs': True, 'nested_field_delimiter': '.', 'flatten_lists': True, 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:02:50.231\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=True, flatten_lists=True, nested_field_delimiter='.')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [{'number.value.0': 0, 'number.value.1': 1}, {'number.value.0': 1, 'number.value.1': 2}, {'number.value.0': 2, 'number.value.1': 3}, {'number.value.0': 3, 'number.value.1': 4}, {'number.value.0': 4, 'number.value.1': 5}]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'number.value.0': 0, 'number.value.1': 1},\n",
+       " {'number.value.0': 1, 'number.value.1': 2},\n",
+       " {'number.value.0': 2, 'number.value.1': 3},\n",
+       " {'number.value.0': 3, 'number.value.1': 4},\n",
+       " {'number.value.0': 4, 'number.value.1': 5}]"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# with flattening lists:\n",
+    "backend = Backend(\n",
+    "    flatten_nested_inputs=True,\n",
+    "    nested_field_delimiter=\".\",\n",
+    "    flatten_lists=True,\n",
+    "    verbose=False,\n",
+    ")\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "66079565-f6b2-4f81-ab14-f2e6460becec",
+   "metadata": {},
+   "source": [
+    "#### Numpy Preprocessor\n",
+    "\n",
+    "Packflow also has built-in support for converting records to Numpy arrays. \n",
+    "\n",
+    "**This preprocessor requires `feature_names` to be set in the configuration to ensure column order.**\n",
+    "\n",
+    "Since a Numpy array isn't an allowed output format, we'll need to write a slightly more advanced Backend to handle converstion back to\n",
+    "a JSON-serializable output. \n",
+    "\n",
+    "Thankfully, Packflow has built-in support for converting outputs for Numpy, PyTorch, Tensorflow, and PIL Images to ensure they meet API \n",
+    "Requirements."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "c7e8a410-4cbc-4279-a7f3-7a4a51da1a27",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:06:04.805\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'input_format': 'numpy', 'feature_names': ['parent_key.value'], 'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:06:04.806\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.NUMPY: 'numpy'>, rename_fields={}, feature_names=['parent_key.value'], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Executing against data: [[1]\n",
+      " [2]\n",
+      " [3]\n",
+      " [4]\n",
+      " [5]]\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "[{'doubled': 2},\n",
+       " {'doubled': 4},\n",
+       " {'doubled': 6},\n",
+       " {'doubled': 8},\n",
+       " {'doubled': 10}]"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from packflow.utils.normalize import ensure_valid_output\n",
+    "\n",
+    "\n",
+    "class NumpyBackend(InferenceBackend):\n",
+    "    def execute(self, inputs):\n",
+    "        print(\"Executing against data:\", inputs)\n",
+    "\n",
+    "        # double the values in the Numpy array\n",
+    "        return inputs * 2\n",
+    "\n",
+    "    def transform_outputs(self, inputs):\n",
+    "        # Use built-in Packflow utilities to convert type handling\n",
+    "        return ensure_valid_output(inputs, parent_key=\"doubled\")\n",
+    "\n",
+    "\n",
+    "# Generate Sample Data\n",
+    "\n",
+    "samples = [{\"feature1\": i, \"parent_key\": {\"value\": i + 1}} for i in range(5)]\n",
+    "\n",
+    "# Initialize and run the\n",
+    "backend = NumpyBackend(\n",
+    "    input_format=\"numpy\",\n",
+    "    feature_names=[\n",
+    "        \"parent_key.value\"\n",
+    "    ],  # note that the Numpy preprocessor will work with nested fields!\n",
+    "    verbose=False,\n",
+    ")\n",
+    "\n",
+    "backend(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "75d0425a-d1ed-439f-b517-cbf968aaeb8d",
+   "metadata": {},
+   "source": [
+    "## Execution Order\n",
+    "\n",
+    "The Inference Backend acts as a preset DAG, performing precossing steps then executing `transform_inputs()`, `execute()`, then `transform_outputs()`.\n",
+    "Both transformation methods are completely optional but are **highly recommended** for any use-case that has custom logic for either pre- or post-execution logic.\n",
+    "This is for profiling reasons to address any production throughput bottlenecks or identifying areas for improvement. \n",
+    "\n",
+    "As a quick example, here is a backend that leverages all steps:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "f164920a-9e94-4694-a964-86b4a3b02e8f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[32m2026-01-21 14:06:14.991\u001b[0m | \u001b[34m\u001b[1mDEBUG   \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m63\u001b[0m - \u001b[34m\u001b[1mLoaded raw configuration: {'verbose': False}\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:06:14.993\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.configuration\u001b[0m:\u001b[36mload_backend_configuration\u001b[0m:\u001b[36m67\u001b[0m - \u001b[1mConfiguration: BackendConfig(verbose=False, input_format=<InputFormats.RECORDS: 'records'>, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter='.')\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:06:14.995\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36mpackflow.backend.preprocessors\u001b[0m:\u001b[36mresolve\u001b[0m:\u001b[36m127\u001b[0m - \u001b[1mCurrent config does not require preprocessing steps. Defaulting to Passthrough mode.\u001b[0m\n",
+      "\u001b[32m2026-01-21 14:06:14.996\u001b[0m | \u001b[1mINFO    \u001b[0m | \u001b[36m__main__\u001b[0m:\u001b[36minitialize\u001b[0m:\u001b[36m3\u001b[0m - \u001b[1mHello from __init__!\u001b[0m\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Transformed Inputs: [0, 1, 2, 3, 4]\n",
+      "Output of Execute: [0, 2, 4, 6, 8]\n",
+      "Transformed Outputs: [{'doubled': 0, 'is_even': True}, {'doubled': 2, 'is_even': True}, {'doubled': 4, 'is_even': True}, {'doubled': 6, 'is_even': True}, {'doubled': 8, 'is_even': True}]\n"
+     ]
+    }
+   ],
+   "source": [
+    "class FullBackend(InferenceBackend):\n",
+    "    def initialize(self):\n",
+    "        self.logger.info(\"Hello from __init__!\")\n",
+    "\n",
+    "    def transform_inputs(self, inputs):\n",
+    "        inputs = [row[\"number\"] for row in inputs]\n",
+    "        print(\"Transformed Inputs:\", inputs)\n",
+    "        return inputs\n",
+    "\n",
+    "    def execute(self, inputs):\n",
+    "        results = [i * 2 for i in inputs]\n",
+    "        print(\"Output of Execute:\", results)\n",
+    "        return results\n",
+    "\n",
+    "    def transform_outputs(self, inputs):\n",
+    "        # business logic\n",
+    "        output = []\n",
+    "        for num in inputs:\n",
+    "            output.append({\"doubled\": num, \"is_even\": num % 2 == 0})\n",
+    "\n",
+    "        print(\"Transformed Outputs:\", output)\n",
+    "        return output\n",
+    "\n",
+    "\n",
+    "# Create samples and run backend\n",
+    "samples = [{\"number\": i} for i in range(5)]\n",
+    "\n",
+    "backend = FullBackend(verbose=False)\n",
+    "\n",
+    "assert backend.validate(samples)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "96198c63-0013-4fdc-9b82-bd395a296e97",
+   "metadata": {},
+   "source": [
+    "## Conclusion\n",
+    "\n",
+    "In this example notebook, we went through the standard flow of defining an Inference Backend. See the other Example notebooks for more\n",
+    "specific examples and usage patterns!"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.14"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

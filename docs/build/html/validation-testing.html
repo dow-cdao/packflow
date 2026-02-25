@@ -1,0 +1,210 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Validation &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=606bf197" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CLI Reference" href="api-reference/cli.html" />
+    <link rel="prev" title="Advanced Topics" href="backends/advanced-usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rules">Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-validations">Running Validations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Validation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/validation-testing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="validation">
+<span id="id1"></span><h1>Validation<a class="headerlink" href="#validation" title="Link to this heading"></a></h1>
+<p>This documentation provides information on Packflow’s built-in validation tools for Inference Backends and how to use them effectively during development.</p>
+<section id="rules">
+<h2>Rules<a class="headerlink" href="#rules" title="Link to this heading"></a></h2>
+<p>Packflow’s validators enforce a series of rules to ensure fully normalized inputs/outputs. For reference, the rules are listed
+below:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Correct Input Format:</strong></dt><dd><ul>
+<li><p>Inputs must be provided as a dictionary or a list of dictionaries.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Inputs and Outputs are same length:</strong></dt><dd><ul>
+<li><p>The number of inputs rows <em>must</em> match in length.</p></li>
+<li><p><em>Tip:</em> Build in exception handling and return an empty dictionary if a row fails, when possible</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Correct Output Format:</strong></dt><dd><ul>
+<li><p>The output type must match the input type (e.g., dictionary in, dictionary out)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Outputs must be JSON Serializable:</strong></dt><dd><ul>
+<li><p>Output cannot contain non-native types (e.g., Numpy Arrays) that are not serializable with the <code class="docutils literal notranslate"><span class="pre">json</span></code> library.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Packflow’s built-in validation helpers check these rules and will warn if some conditions are not met – however, it is
+recommended to keep these items in mind when developing.</p>
+</section>
+<section id="running-validations">
+<h2>Running Validations<a class="headerlink" href="#running-validations" title="Link to this heading"></a></h2>
+<p>Use the Inference Backend’s built-in <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> method to run all validation checks against sample input data.</p>
+<p>This can be accomplished programmatically:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span> <span class="c1"># -- Import backend --</span>
+<span class="linenos"> 2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">main</span><span class="w"> </span><span class="kn">import</span> <span class="n">Backend</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">()</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span> <span class="c1"># Replace this with data relevant to the Inference Backend implementation</span>
+<span class="linenos"> 7</span> <span class="n">sample_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span> <span class="c1"># If all validations passed, the outputs will be returned and can be visually inspected</span>
+<span class="linenos">12</span> <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<p id="best-practices-testing">To ensure effective testing and validation for an Inference Backend, consider the following best practices:</p>
+<ul class="simple">
+<li><p><strong>Use realistic sample data:</strong> When running validations, use sample data that closely resembles the expected input during actual inference.</p></li>
+<li><p><strong>Write unit tests:</strong> While Packflow provides validation of Inference Backend input/output, these validation checks are best used alongside a proper unit testing framework, such as <code class="docutils literal notranslate"><span class="pre">pytest</span></code> or <code class="docutils literal notranslate"><span class="pre">unittest</span></code>, rather than as a replacement. Packflow’s validation tools can be integrated with established unit tests to ensure the Inference Backend consistently meets the required standards.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Packflow’s validation checks run only when explicitly invoked via the <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> method. They do not run automatically during inference, i.e. in <code class="docutils literal notranslate"><span class="pre">.__call__()</span></code> or any other pipeline method. It is the developer’s responsibility to ensure that the Inference Backend is validated as needed and when changes are made. This is one reason why integrating validation checks into unit tests is recommended.</p>
+</div>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>Continue to the <a class="reference internal" href="distribution.html#distribution"><span class="std std-ref">Preparing for Distribution</span></a> documentation page for instructions on how to prepare a Packflow project that can be shared across environments for replicable inference.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="backends/advanced-usage.html" class="btn btn-neutral float-left" title="Advanced Topics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api-reference/cli.html" class="btn btn-neutral float-right" title="CLI Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

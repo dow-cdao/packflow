@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=606bf197" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inference Backends" href="backends/index.html" />
+    <link rel="prev" title="Structure of a Packflow Project" href="concepts/packflow-structure.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-packflow">Installing Packflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-packflow-project">Creating a Packflow Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-create-the-project-structure">Step 1: Create the project structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-write-the-inference-backend">Step 2: Write the Inference Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-local-validation">Step 3: Local Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting-started.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>This guide covers Packflow installation and basic usage of the CLI to create a simple Packflow project.</p>
+<section id="installing-packflow">
+<h2>Installing Packflow<a class="headerlink" href="#installing-packflow" title="Link to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This package is currently not available on PyPI. Packflow will be available on PyPI upon its first official release. In the meantime, Packflow must be installed from source.</p>
+</div>
+<p><strong>Prerequisites</strong></p>
+<ul class="simple">
+<li><p><strong>Python</strong> (version 3.10+)</p></li>
+</ul>
+<p><strong>Install from Source (with documentation serving)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install package with all dependencies</span>
+<span class="nb">cd</span><span class="w"> </span>packflow
+pip<span class="w"> </span>install<span class="w"> </span>.
+
+<span class="c1"># run the docs site - it will run on localhost, with the url output as part of the command</span>
+<span class="nb">cd</span><span class="w"> </span>docs
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+make<span class="w"> </span>prod-build
+</pre></div>
+</div>
+</section>
+<section id="creating-a-packflow-project">
+<h2>Creating a Packflow Project<a class="headerlink" href="#creating-a-packflow-project" title="Link to this heading"></a></h2>
+<p>This section covers the initial setup process for creating a Packflow project, defining an Inference Backend, and running Packflow’s validation checks on the input/output requirements of the Inference Backend.</p>
+<section id="step-1-create-the-project-structure">
+<h3>Step 1: Create the project structure<a class="headerlink" href="#step-1-create-the-project-structure" title="Link to this heading"></a></h3>
+<p>Initialize a new project by running <code class="docutils literal notranslate"><span class="pre">packflow</span> <span class="pre">create</span> <span class="pre">hello-world</span></code>. This will create a new directory named <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> that contains the following directory structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>hello-world/
+├── packflow.yaml
+├── LICENSE.txt
+├── MODEL_CARD.md
+├── README.md
+├── requirements.txt
+├── inference.py
+└── validate.py
+</pre></div>
+</div>
+</section>
+<section id="step-2-write-the-inference-backend">
+<h3>Step 2: Write the Inference Backend<a class="headerlink" href="#step-2-write-the-inference-backend" title="Link to this heading"></a></h3>
+<p>Open the <code class="docutils literal notranslate"><span class="pre">inference.py</span></code> with a code or text editor of your choice. Some templated code will be provided. Populate the <code class="docutils literal notranslate"><span class="pre">execute()</span></code> function with logic to double the value under the key ‘number’, and return the doubled number:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">inference.py</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceBackend</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">class</span><span class="w"> </span><span class="nc">Backend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+<span class="linenos"> 7</span>    <span class="k">def</span><span class="w"> </span><span class="nf">transform_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 9</span><span class="sd">        Preprocessing steps or other transformations before running inference.</span>
+<span class="linenos">10</span><span class="sd">        ...</span>
+<span class="linenos">11</span><span class="sd">        &quot;&quot;&quot;</span>
+<span class="linenos">12</span>        <span class="k">return</span> <span class="n">inputs</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="linenos">15</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;The main execution of inference or analysis for the developed application.</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="sd">        This method should remain targeted to passing data through the model/execution</span>
+<span class="linenos">18</span><span class="sd">        code for profiling purposes. Minimal pre- or post-processing should occur at this</span>
+<span class="linenos">19</span><span class="sd">        step unless completely necessary.</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="sd">        Parameters</span>
+<span class="linenos">22</span><span class="sd">        ----------</span>
+<span class="linenos">23</span><span class="sd">        inputs: List[Dict]</span>
+<span class="linenos">24</span><span class="sd">            The output of the transform_inputs method. If the transform_inputs method is</span>
+<span class="linenos">25</span><span class="sd">            not overridden, the data is formatted as records (list of dictionaries)</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="sd">        Returns</span>
+<span class="linenos">28</span><span class="sd">        -------</span>
+<span class="linenos">29</span><span class="sd">        Any</span>
+<span class="linenos">30</span><span class="sd">            Model Outputs</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="sd">        Notes</span>
+<span class="linenos">33</span><span class="sd">        -----</span>
+<span class="linenos">34</span><span class="sd">        The transform_outputs() method should handle all postprocessing including calculating</span>
+<span class="linenos">35</span><span class="sd">        metrics, converting outputs back to Python types, and other postprocessing steps. Try</span>
+<span class="linenos">36</span><span class="sd">        to keep this method focused purely on inference/analysis.</span>
+<span class="linenos">37</span><span class="sd">        &quot;&quot;&quot;</span>
+<span class="linenos">38</span>        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">39</span>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+<span class="linenos">40</span>            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;doubled&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">})</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span>        <span class="k">return</span> <span class="n">outputs</span>
+<span class="linenos">43</span>
+<span class="linenos">44</span>    <span class="k">def</span><span class="w"> </span><span class="nf">transform_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+<span class="linenos">45</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">46</span><span class="sd">        Postprocessing steps or other transformation steps to be executed prior to</span>
+<span class="linenos">47</span><span class="sd">        returning outputs.</span>
+<span class="linenos">48</span><span class="sd">        ...</span>
+<span class="linenos">49</span><span class="sd">        &quot;&quot;&quot;</span>
+<span class="linenos">50</span>        <span class="k">return</span> <span class="n">outputs</span>
+</pre></div>
+</div>
+</div>
+<p>The Inference Backend is now ready to be loaded, validated, and shared.</p>
+</section>
+<section id="step-3-local-validation">
+<h3>Step 3: Local Validation<a class="headerlink" href="#step-3-local-validation" title="Link to this heading"></a></h3>
+<p>Now that the Inference Backend is written, use the built-in validation to ensure it will run as expected in production.</p>
+<p>This can be done programmatically. Open the <code class="docutils literal notranslate"><span class="pre">validate.py</span></code> script and modify it to match the Inference Backend’s inputs:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">validate.py</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># Import Packflow&#39;s dev tools to run validations on the Inference Backend</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow.loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalLoader</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="c1"># Load the backend in the current directory</span>
+<span class="linenos"> 5</span><span class="c1"># The path &#39;inference:Backend&#39; can be interpreted as</span>
+<span class="linenos"> 6</span><span class="c1">#   `from inference import Backend`</span>
+<span class="linenos"> 7</span><span class="n">backend</span> <span class="o">=</span> <span class="n">LocalLoader</span><span class="p">(</span><span class="s2">&quot;inference:Backend&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="c1"># Define sample inputs that represent realistic data for your backend.</span>
+<span class="linenos">10</span><span class="c1"># These should exercise the expected input format(s) your backend will receive.</span>
+<span class="linenos">11</span><span class="n">SAMPLE_SINGLE_ROW</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="n">SAMPLE_BATCH</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">14</span>    <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+<span class="linenos">15</span>    <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+<span class="linenos">16</span>    <span class="c1"># Add more sample rows as needed</span>
+<span class="linenos">17</span><span class="p">]</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">20</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running validation...&quot;</span><span class="p">)</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample single row: </span><span class="si">{</span><span class="n">SAMPLE_SINGLE_ROW</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">23</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample batch: </span><span class="si">{</span><span class="n">SAMPLE_BATCH</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span>    <span class="c1"># backend.validate() runs your backend and checks the outputs</span>
+<span class="linenos">26</span>    <span class="c1"># meet Packflow&#39;s API requirements. Returns outputs if valid.</span>
+<span class="linenos">27</span>    <span class="n">outputs_single_row</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">SAMPLE_SINGLE_ROW</span><span class="p">)</span>
+<span class="linenos">28</span>    <span class="n">outputs_batch</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">SAMPLE_BATCH</span><span class="p">)</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Outputs single row: </span><span class="si">{</span><span class="n">outputs_single_row</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">31</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Outputs batch: </span><span class="si">{</span><span class="n">outputs_batch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">32</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Validation passed!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Validation can be run via the <code class="docutils literal notranslate"><span class="pre">validate.py</span></code> file, or directly from a Notebook. However the path will ned to be updated
+if it is not running in the same directory</p>
+<p>Passing <code class="docutils literal notranslate"><span class="pre">&quot;inference:Backend&quot;</span></code> to the Local Loader is roughly equal to <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">inference</span> <span class="pre">import</span> <span class="pre">Backend</span></code>. If the script
+is nested further, the path can be separated via dot notation, such as <code class="docutils literal notranslate"><span class="pre">src.mypackage.inference:Backend</span></code>.</p>
+</div>
+<p>If any validations fail, an exception message containing details of the issue and what needs to be fixed will be returned.</p>
+</section>
+</section>
+<section id="next-steps">
+<span id="getting-started-next-steps"></span><h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>Please see the <a class="reference internal" href="backends/custom-backends.html#custom-backends"><span class="std std-ref">Creating a Custom Backend</span></a> section of this site for more detailed information on building custom Inference Backends with Packflow.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="concepts/packflow-structure.html" class="btn btn-neutral float-left" title="Structure of a Packflow Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="backends/index.html" class="btn btn-neutral float-right" title="Inference Backends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

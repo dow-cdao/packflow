@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>packflow.utils package &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">packflow.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api-reference/auto/packflow.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="packflow-utils-package">
+<h1>packflow.utils package<a class="headerlink" href="#packflow-utils-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="packflow.utils.normalize.html">packflow.utils.normalize package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.normalize.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize.base">packflow.utils.normalize.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.base.TypeConversionHandler"><code class="docutils literal notranslate"><span class="pre">TypeConversionHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.base.TypeConversionHandler.available"><code class="docutils literal notranslate"><span class="pre">TypeConversionHandler.available()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.base.TypeConversionHandler.convert"><code class="docutils literal notranslate"><span class="pre">TypeConversionHandler.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.base.TypeConversionHandler.is_type"><code class="docutils literal notranslate"><span class="pre">TypeConversionHandler.is_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.base.TypeConversionHandler.package_name"><code class="docutils literal notranslate"><span class="pre">TypeConversionHandler.package_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize.handlers">packflow.utils.normalize.handlers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.NumpyTypeHandler"><code class="docutils literal notranslate"><span class="pre">NumpyTypeHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.NumpyTypeHandler.convert"><code class="docutils literal notranslate"><span class="pre">NumpyTypeHandler.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.NumpyTypeHandler.is_type"><code class="docutils literal notranslate"><span class="pre">NumpyTypeHandler.is_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.NumpyTypeHandler.package_name"><code class="docutils literal notranslate"><span class="pre">NumpyTypeHandler.package_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasDataFrameHandler"><code class="docutils literal notranslate"><span class="pre">PandasDataFrameHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasDataFrameHandler.convert"><code class="docutils literal notranslate"><span class="pre">PandasDataFrameHandler.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasDataFrameHandler.is_type"><code class="docutils literal notranslate"><span class="pre">PandasDataFrameHandler.is_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasDataFrameHandler.package_name"><code class="docutils literal notranslate"><span class="pre">PandasDataFrameHandler.package_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasSeriesHandler"><code class="docutils literal notranslate"><span class="pre">PandasSeriesHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasSeriesHandler.convert"><code class="docutils literal notranslate"><span class="pre">PandasSeriesHandler.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasSeriesHandler.is_type"><code class="docutils literal notranslate"><span class="pre">PandasSeriesHandler.is_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PandasSeriesHandler.package_name"><code class="docutils literal notranslate"><span class="pre">PandasSeriesHandler.package_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PillowImageHandler"><code class="docutils literal notranslate"><span class="pre">PillowImageHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PillowImageHandler.convert"><code class="docutils literal notranslate"><span class="pre">PillowImageHandler.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PillowImageHandler.is_type"><code class="docutils literal notranslate"><span class="pre">PillowImageHandler.is_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.PillowImageHandler.package_name"><code class="docutils literal notranslate"><span class="pre">PillowImageHandler.package_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchScalarHandler"><code class="docutils literal notranslate"><span class="pre">TorchScalarHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchScalarHandler.convert"><code class="docutils literal notranslate"><span class="pre">TorchScalarHandler.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchScalarHandler.is_type"><code class="docutils literal notranslate"><span class="pre">TorchScalarHandler.is_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchScalarHandler.package_name"><code class="docutils literal notranslate"><span class="pre">TorchScalarHandler.package_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchTensorHandler"><code class="docutils literal notranslate"><span class="pre">TorchTensorHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchTensorHandler.convert"><code class="docutils literal notranslate"><span class="pre">TorchTensorHandler.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchTensorHandler.is_type"><code class="docutils literal notranslate"><span class="pre">TorchTensorHandler.is_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.handlers.TorchTensorHandler.package_name"><code class="docutils literal notranslate"><span class="pre">TorchTensorHandler.package_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize.normalize">packflow.utils.normalize.normalize module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.normalize.ensure_native_types"><code class="docutils literal notranslate"><span class="pre">ensure_native_types()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="packflow.utils.normalize.html#packflow.utils.normalize.normalize.ensure_valid_output"><code class="docutils literal notranslate"><span class="pre">ensure_valid_output()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packflow.utils.normalize.html#module-packflow.utils.normalize">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-packflow.utils.data">
+<span id="packflow-utils-data-module"></span><h2>packflow.utils.data module<a class="headerlink" href="#module-packflow.utils.data" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.utils.data.flatten_dict">
+<span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">flatten_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten_lists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#flatten_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.flatten_dict" title="Link to this definition"></a></dt>
+<dd><p>Create a flattened dictionary from a nested object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>dict</em>)</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em>) – Default ‘.’</p></li>
+<li><p><strong>flatten_lists</strong> (<em>bool</em>) – Default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Flattened dictionary.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.utils.data.flatten_records">
+<span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">flatten_records</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten_lists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#flatten_records"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.flatten_records" title="Link to this definition"></a></dt>
+<dd><p>Flatten a list of dictionaries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>records</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>)</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em>) – Default ‘.’</p></li>
+<li><p><strong>flatten_lists</strong> (<em>bool</em>) – Default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Flattened records.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.utils.data.get_nested_field">
+<span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">get_nested_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#get_nested_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.get_nested_field" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a single nested field from a dictionary given a field name.</p>
+<p>Example: get_nested_field({“foo”: {“bar”: 5}}, ‘foo.bar’) -&gt; 5</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>dict</em>) – An arbitrary dictionary of data</p></li>
+<li><p><strong>field</strong> (<em>str</em>) – The key name to retrieve where subfields are split by $delimiter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value retrieved from the nested key</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.utils.data.records_to_ndarray">
+<span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">records_to_ndarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#records_to_ndarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.records_to_ndarray" title="Link to this definition"></a></dt>
+<dd><p>Converts records to a numpy nd array</p>
+<p class="rubric">Example</p>
+<p>in: [{“num”: 1, “num2”: 1}, {“num”: 2, “num”: 2}]
+args: feature_names=[“num”, “num2”]
+out: np.array([[1, 1], [2, 2]])</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>records</strong> (<em>List</em><em>[</em><em>Dict</em><em>]</em>) – A list of dictionary items to be converted</p></li>
+<li><p><strong>feature_names</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – The values to extract for each row</p></li>
+<li><p><strong>dtype</strong> (<em>str</em>) – The numpy data type to coerce the array to. Defaults to ‘float32’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-packflow.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-packflow.utils" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

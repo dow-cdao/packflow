@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>packflow.loaders package &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">packflow.loaders package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api-reference/auto/packflow.loaders.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="packflow-loaders-package">
+<h1>packflow.loaders package<a class="headerlink" href="#packflow-loaders-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-packflow.loaders.base">
+<span id="packflow-loaders-base-module"></span><h2>packflow.loaders.base module<a class="headerlink" href="#module-packflow.loaders.base" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.loaders.base.InferenceBackendLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.loaders.base.</span></span><span class="sig-name descname"><span class="pre">InferenceBackendLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/base.html#InferenceBackendLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.base.InferenceBackendLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.base.InferenceBackendLoader.from_project">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">backend_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/base.html#InferenceBackendLoader.from_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.base.InferenceBackendLoader.from_project" title="Link to this definition"></a></dt>
+<dd><p>Load an InferenceBackend from a Packflow directory/packflow.yaml.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend" title="packflow.backend.base.InferenceBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceBackend</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.base.InferenceBackendLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">backend_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/base.html#InferenceBackendLoader.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.base.InferenceBackendLoader.load" title="Link to this definition"></a></dt>
+<dd><p>Load the inference backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**backend_kwargs</strong> – Optional Keyword arguments to pass to the backend if the provided path
+leads to a non-instantiated class.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instantiated InferenceBackend that is ready to produce inferences.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend" title="packflow.backend.base.InferenceBackend">InferenceBackend</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.base.InferenceBackendLoader.load_backend_module">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_backend_module</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/base.html#InferenceBackendLoader.load_backend_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.base.InferenceBackendLoader.load_backend_module" title="Link to this definition"></a></dt>
+<dd><p>Load the backend module from its source.
+This method should not handle instantiation or error handling, as
+it is wrapped with error handling and general validation checks at
+runtime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend" title="packflow.backend.base.InferenceBackend">InferenceBackend</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The base class handles determining if the loaded object is already
+instantiated and validation checks for if the loaded object is not
+in fact an InferenceBackend object. This method should focus solely
+on loading the object from its source.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-packflow.loaders.config">
+<span id="packflow-loaders-config-module"></span><h2>packflow.loaders.config module<a class="headerlink" href="#module-packflow.loaders.config" title="Link to this heading"></a></h2>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.loaders.config.</span></span><span class="sig-name descname"><span class="pre">PackflowConfig</span></span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#PackflowConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.PackflowConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p><details  class="autodoc_pydantic_collapsable_json">
+<summary>Show JSON schema</summary><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PackflowConfig&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;pattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^[A-Za-z_]+$&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Name&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Version&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Description&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;maintainers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">         </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">         </span><span class="p">},</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Maintainers&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;array&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;inference_backend&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;inference:Backend&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;pattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^[^:]+:[^:]+$&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Inference Backend&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;loader&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;local&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;module&quot;</span>
+<span class="w">         </span><span class="p">],</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Loader&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;python_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3.11.14&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Python Version&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;name&quot;</span>
+<span class="w">   </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details></p><dl class="field-list simple">
+<dt class="field-odd">Config<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>extra</strong>: <em>str = allow</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Fields<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#packflow.loaders.config.PackflowConfig.description" title="packflow.loaders.config.PackflowConfig.description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">description</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.loaders.config.PackflowConfig.inference_backend" title="packflow.loaders.config.PackflowConfig.inference_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inference_backend</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.loaders.config.PackflowConfig.loader" title="packflow.loaders.config.PackflowConfig.loader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">loader</span> <span class="pre">(Literal['local',</span> <span class="pre">'module'])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.loaders.config.PackflowConfig.maintainers" title="packflow.loaders.config.PackflowConfig.maintainers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">maintainers</span> <span class="pre">(list[str])</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.loaders.config.PackflowConfig.name" title="packflow.loaders.config.PackflowConfig.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.loaders.config.PackflowConfig.python_version" title="packflow.loaders.config.PackflowConfig.python_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">python_version</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.loaders.config.PackflowConfig.version" title="packflow.loaders.config.PackflowConfig.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span> <span class="pre">(str)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.description">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.inference_backend">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inference_backend</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'inference:Backend'</span></em><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.inference_backend" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pattern</strong> = ^[^:]+:[^:]+$</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.loader">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loader</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code><span class="pre">[</span><code class="docutils literal notranslate"><span class="pre">'local'</span></code><span class="pre">,</span> <code class="docutils literal notranslate"><span class="pre">'module'</span></code><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'local'</span></em><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.loader" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.maintainers">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">maintainers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.maintainers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.name">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><em class="property"> <span class="pre">[Required]</span></em><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.name" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Constraints<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pattern</strong> = ^[<a href="#id1"><span class="problematic" id="id2">A-Za-z_</span></a>]+$</p></li>
+<li><p><strong>func</strong> = &lt;function normalize_name at 0x116b636a0&gt;</p></li>
+<li><p><strong>json_schema_input_type</strong> = PydanticUndefined</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.python_version">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">python_version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'3.11.14'</span></em><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.python_version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.version">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.archive_file_name">
+<span class="sig-name descname"><span class="pre">archive_file_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#PackflowConfig.archive_file_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.archive_file_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.from_project_path">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_project_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#PackflowConfig.from_project_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.from_project_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.write_requirements">
+<span class="sig-name descname"><span class="pre">write_requirements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#PackflowConfig.write_requirements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.write_requirements" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.config.PackflowConfig.write_yaml">
+<span class="sig-name descname"><span class="pre">write_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#PackflowConfig.write_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.PackflowConfig.write_yaml" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.loaders.config.get_python_version">
+<span class="sig-prename descclassname"><span class="pre">packflow.loaders.config.</span></span><span class="sig-name descname"><span class="pre">get_python_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#get_python_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.get_python_version" title="Link to this definition"></a></dt>
+<dd><p>Extract semantic version of the current process’ python</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.loaders.config.load_packflow_config">
+<span class="sig-prename descclassname"><span class="pre">packflow.loaders.config.</span></span><span class="sig-name descname"><span class="pre">load_packflow_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_or_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#load_packflow_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.load_packflow_config" title="Link to this definition"></a></dt>
+<dd><p>Check for local path FIRST – fallback is to try to import it</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.loaders.config.normalize_name">
+<span class="sig-prename descclassname"><span class="pre">packflow.loaders.config.</span></span><span class="sig-name descname"><span class="pre">normalize_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/config.html#normalize_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.config.normalize_name" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-packflow.loaders.local">
+<span id="packflow-loaders-local-module"></span><h2>packflow.loaders.local module<a class="headerlink" href="#module-packflow.loaders.local" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.loaders.local.LocalLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.loaders.local.</span></span><span class="sig-name descname"><span class="pre">LocalLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/local.html#LocalLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.local.LocalLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#packflow.loaders.base.InferenceBackendLoader" title="packflow.loaders.base.InferenceBackendLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceBackendLoader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.local.LocalLoader.load_backend_module">
+<span class="sig-name descname"><span class="pre">load_backend_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">backend_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/local.html#LocalLoader.load_backend_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.local.LocalLoader.load_backend_module" title="Link to this definition"></a></dt>
+<dd><p>Load the backend module from its source.
+This method should not handle instantiation or error handling, as
+it is wrapped with error handling and general validation checks at
+runtime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend" title="packflow.backend.base.InferenceBackend">InferenceBackend</a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The base class handles determining if the loaded object is already
+instantiated and validation checks for if the loaded object is not
+in fact an InferenceBackend object. This method should focus solely
+on loading the object from its source.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-packflow.loaders.module">
+<span id="packflow-loaders-module-module"></span><h2>packflow.loaders.module module<a class="headerlink" href="#module-packflow.loaders.module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="packflow.loaders.module.ModuleLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">packflow.loaders.module.</span></span><span class="sig-name descname"><span class="pre">ModuleLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/module.html#ModuleLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.module.ModuleLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#packflow.loaders.base.InferenceBackendLoader" title="packflow.loaders.base.InferenceBackendLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceBackendLoader</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="packflow.loaders.module.ModuleLoader.load_backend_module">
+<span class="sig-name descname"><span class="pre">load_backend_module</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/module.html#ModuleLoader.load_backend_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.module.ModuleLoader.load_backend_module" title="Link to this definition"></a></dt>
+<dd><p>Load an InferenceBackend from an installed module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="packflow.backend.html#packflow.backend.base.InferenceBackend" title="packflow.backend.base.InferenceBackend">InferenceBackend</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-packflow.loaders.utils">
+<span id="packflow-loaders-utils-module"></span><h2>packflow.loaders.utils module<a class="headerlink" href="#module-packflow.loaders.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.loaders.utils.inference_backend_parts">
+<span class="sig-prename descclassname"><span class="pre">packflow.loaders.utils.</span></span><span class="sig-name descname"><span class="pre">inference_backend_parts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/loaders/utils.html#inference_backend_parts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.loaders.utils.inference_backend_parts" title="Link to this definition"></a></dt>
+<dd><p>Utility for splitting the inference_backend to the module and object parts</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the backend to load. Notation should follow ‘module.submodule:object’</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parts the first will be the path to the module and the second will be the object
+within the module that will be loaded.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>‘foo.bar:baz’ would return [‘foo.bar’, ‘baz’] and can be interpreted as:</dt><dd><p>from foo.bar import baz</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-packflow.loaders">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-packflow.loaders" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,781 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../../_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="../../../_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inference Backends 101 &mdash; Packflow 0.2.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=606bf197" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=3804d0ff"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Scikit-Learn Classifier" href="../sklearn-classifier/sklearn-classifier.html" />
+    <link rel="prev" title="Examples" href="../../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../validation-testing.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#notebooks">Notebooks</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Inference Backends 101</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Write-the-Inference-Backend">Write the Inference Backend</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#Preprocessors">Preprocessors</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#Records-[Default]">Records [Default]</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#Execution-Order">Execution Order</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sklearn-classifier/sklearn-classifier.html">Scikit-Learn Classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Examples</a></li>
+      <li class="breadcrumb-item active">Inference Backends 101</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/examples/notebooks/inference-backend-101/inference-backend-101.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Inference-Backends-101">
+<h1>Inference Backends 101<a class="headerlink" href="#Inference-Backends-101" title="Link to this heading"></a></h1>
+<p>This Notebook is designed to be a bare-bones introduction to Inference Backend development. It will not perform any data operations, but will instead show some basic operations, including:</p>
+<ol class="arabic simple">
+<li><p>Writing an Inference Backend to show execution flow</p></li>
+<li><p>Exploration of available preprocessors.</p></li>
+<li><p>Quick validation to ensure the Backend is operational</p></li>
+</ol>
+<section id="Write-the-Inference-Backend">
+<h2>Write the Inference Backend<a class="headerlink" href="#Write-the-Inference-Backend" title="Link to this heading"></a></h2>
+<p>In this guide, we will not perform any meaningful data transformations or run models–instead, we will explore the flow of data through an inference backend and how built-in preprocessors can facilitate your development process.</p>
+<p>First, we can create a simple inference backend that simply prints the received inputs, then returns what it received:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceBackend</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Backend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Executing against data:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span>
+
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">()</span>
+
+<span class="n">backend</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:00:33.055</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {}</span>
+<span class="ansi-green-fg">2026-01-21 14:00:33.055</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=True, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+<span class="ansi-green-fg">2026-01-21 14:00:33.056</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.preprocessors</span>:<span class="ansi-cyan-fg">resolve</span>:<span class="ansi-cyan-fg">127</span> - <span class="ansi-bold">Current config does not require preprocessing steps. Defaulting to Passthrough mode.</span>
+<span class="ansi-green-fg">2026-01-21 14:00:33.056</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.base</span>:<span class="ansi-cyan-fg">_initialize</span>:<span class="ansi-cyan-fg">103</span> - <span class="ansi-bold">Initialized Backend in 0.0000 ms</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Backend[
+  BackendConfig(verbose=True, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)
+]
+</pre></div></div>
+</div>
+<p>As seen above, Packflow will provide production-ready logs during initialization, included the parsed configurations from keyword arguments and JSON configuration files, and run validation on the configs–more on this later.</p>
+<p>Now we can generate some sample data and pass it through the loaded backend:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:00:44.690</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.base</span>:<span class="ansi-cyan-fg">__call__</span>:<span class="ansi-cyan-fg">86</span> - <span class="ansi-bold">ExecutionMetrics(batch_size=5, execution_times=ExecutionTimes(preprocess=0.00558, transform_inputs=None, execute=0.05417, transform_outputs=None), total_execution_time=0.059750000000000004)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<p>With each call, Packflow will collect and log execution metrics for downstream analysis, which can be seen above. If you would prefer to not print these logs, you can initialize the backend with <code class="docutils literal notranslate"><span class="pre">verbose=False</span></code>.</p>
+<p>We can also validate that the backend meets Packflow’s API requirements by calling <code class="docutils literal notranslate"><span class="pre">.validate()</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:00:48.021</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:00:48.022</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+<span class="ansi-green-fg">2026-01-21 14:00:48.022</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.preprocessors</span>:<span class="ansi-cyan-fg">resolve</span>:<span class="ansi-cyan-fg">127</span> - <span class="ansi-bold">Current config does not require preprocessing steps. Defaulting to Passthrough mode.</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<section id="Preprocessors">
+<h3>Preprocessors<a class="headerlink" href="#Preprocessors" title="Link to this heading"></a></h3>
+<p>Packflow has built-in preprocessors that assist with records parsing and transformation. The following sections will explore the main preprocessors that are available and some practical uses of the built-in functionality.</p>
+<section id="Passthrough">
+<h4>Passthrough<a class="headerlink" href="#Passthrough" title="Link to this heading"></a></h4>
+<p>Starting with the most straight-forward, the <code class="docutils literal notranslate"><span class="pre">passthrough</span></code> preprocessor does exactly that–all configurations are ignored and the raw data is passed straight to the <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> or <code class="docutils literal notranslate"><span class="pre">execute()</span></code> function.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;passthrough&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:00:53.661</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;input_format&#39;: &#39;passthrough&#39;, &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:00:53.661</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.PASSTHROUGH: &#39;passthrough&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<p>This is mostly useful for when your use-case requires access to the raw data or advanced preprocessing would be more useful.</p>
+</section>
+</section>
+<section id="Records-[Default]">
+<h3>Records [Default]<a class="headerlink" href="#Records-[Default]" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">records</span></code> preprocessor is the default preprocessor for all Inference Backends. The default values for the configuration make this preprocessor act as a passthrough. However, if any baseline configurations are modified, it will begin to provide functionality automatically.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">other_field</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:00:56.080</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;input_format&#39;: &#39;records&#39;, &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:00:56.081</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+<span class="ansi-green-fg">2026-01-21 14:00:56.081</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.preprocessors</span>:<span class="ansi-cyan-fg">resolve</span>:<span class="ansi-cyan-fg">127</span> - <span class="ansi-bold">Current config does not require preprocessing steps. Defaulting to Passthrough mode.</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number&#39;: 0, &#39;other_field&#39;: 1}, {&#39;number&#39;: 1, &#39;other_field&#39;: 2}, {&#39;number&#39;: 2, &#39;other_field&#39;: 3}, {&#39;number&#39;: 3, &#39;other_field&#39;: 4}, {&#39;number&#39;: 4, &#39;other_field&#39;: 5}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number&#39;: 0, &#39;other_field&#39;: 1},
+ {&#39;number&#39;: 1, &#39;other_field&#39;: 2},
+ {&#39;number&#39;: 2, &#39;other_field&#39;: 3},
+ {&#39;number&#39;: 3, &#39;other_field&#39;: 4},
+ {&#39;number&#39;: 4, &#39;other_field&#39;: 5}]
+</pre></div></div>
+</div>
+<section id="Filtering-Features">
+<h4>Filtering Features<a class="headerlink" href="#Filtering-Features" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:01:15.616</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;input_format&#39;: &#39;records&#39;, &#39;feature_names&#39;: [&#39;number&#39;], &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:01:15.616</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[&#39;number&#39;], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number&#39;: 0}, {&#39;number&#39;: 1}, {&#39;number&#39;: 2}, {&#39;number&#39;: 3}, {&#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+</section>
+<section id="Reorder-Fields/Columns">
+<h4>Reorder Fields/Columns<a class="headerlink" href="#Reorder-Fields/Columns" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change Order</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span>
+    <span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;other_field&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2025-07-08 17:41:15.269</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">59</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;input_format&#39;: &#39;records&#39;, &#39;feature_names&#39;: [&#39;other_field&#39;, &#39;number&#39;], &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2025-07-08 17:41:15.270</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[&#39;other_field&#39;, &#39;number&#39;], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;:&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;other_field&#39;: 1, &#39;number&#39;: 0}, {&#39;other_field&#39;: 2, &#39;number&#39;: 1}, {&#39;other_field&#39;: 3, &#39;number&#39;: 2}, {&#39;other_field&#39;: 4, &#39;number&#39;: 3}, {&#39;other_field&#39;: 5, &#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;other_field&#39;: 1, &#39;number&#39;: 0},
+ {&#39;other_field&#39;: 2, &#39;number&#39;: 1},
+ {&#39;other_field&#39;: 3, &#39;number&#39;: 2},
+ {&#39;other_field&#39;: 4, &#39;number&#39;: 3},
+ {&#39;other_field&#39;: 5, &#39;number&#39;: 4}]
+</pre></div></div>
+</div>
+</section>
+<section id="Renaming-Input-fields">
+<h4>Renaming Input fields<a class="headerlink" href="#Renaming-Input-fields" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Renaming fields and Changing Order</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span>
+    <span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">,</span>
+    <span class="n">rename_fields</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;other_field&quot;</span><span class="p">:</span> <span class="s2">&quot;feature_0&quot;</span><span class="p">,</span> <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;feature_1&quot;</span><span class="p">},</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;feature_0&quot;</span><span class="p">,</span> <span class="s2">&quot;feature_1&quot;</span><span class="p">],</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:01:54.276</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;input_format&#39;: &#39;records&#39;, &#39;rename_fields&#39;: {&#39;other_field&#39;: &#39;feature_0&#39;, &#39;number&#39;: &#39;feature_1&#39;}, &#39;feature_names&#39;: [&#39;feature_0&#39;, &#39;feature_1&#39;], &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:01:54.277</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={&#39;other_field&#39;: &#39;feature_0&#39;, &#39;number&#39;: &#39;feature_1&#39;}, feature_names=[&#39;feature_0&#39;, &#39;feature_1&#39;], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;feature_0&#39;: 1, &#39;feature_1&#39;: 0}, {&#39;feature_0&#39;: 2, &#39;feature_1&#39;: 1}, {&#39;feature_0&#39;: 3, &#39;feature_1&#39;: 2}, {&#39;feature_0&#39;: 4, &#39;feature_1&#39;: 3}, {&#39;feature_0&#39;: 5, &#39;feature_1&#39;: 4}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;feature_0&#39;: 1, &#39;feature_1&#39;: 0},
+ {&#39;feature_0&#39;: 2, &#39;feature_1&#39;: 1},
+ {&#39;feature_0&#39;: 3, &#39;feature_1&#39;: 2},
+ {&#39;feature_0&#39;: 4, &#39;feature_1&#39;: 3},
+ {&#39;feature_0&#39;: 5, &#39;feature_1&#39;: 4}]
+</pre></div></div>
+</div>
+</section>
+<section id="Flattening-Nested-Fields">
+<h4>Flattening Nested Fields<a class="headerlink" href="#Flattening-Nested-Fields" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">flatten_nested_inputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:01:56.551</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;flatten_nested_inputs&#39;: True, &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:01:56.553</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=True, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number.value&#39;: [0, 1]}, {&#39;number.value&#39;: [1, 2]}, {&#39;number.value&#39;: [2, 3]}, {&#39;number.value&#39;: [3, 4]}, {&#39;number.value&#39;: [4, 5]}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number.value&#39;: [0, 1]},
+ {&#39;number.value&#39;: [1, 2]},
+ {&#39;number.value&#39;: [2, 3]},
+ {&#39;number.value&#39;: [3, 4]},
+ {&#39;number.value&#39;: [4, 5]}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with a custom delimiter:</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span><span class="n">flatten_nested_inputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nested_field_delimiter</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:02:41.691</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;flatten_nested_inputs&#39;: True, &#39;nested_field_delimiter&#39;: &#39;:&#39;, &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:02:41.692</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=True, flatten_lists=False, nested_field_delimiter=&#39;:&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number:value&#39;: [0, 1]}, {&#39;number:value&#39;: [1, 2]}, {&#39;number:value&#39;: [2, 3]}, {&#39;number:value&#39;: [3, 4]}, {&#39;number:value&#39;: [4, 5]}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number:value&#39;: [0, 1]},
+ {&#39;number:value&#39;: [1, 2]},
+ {&#39;number:value&#39;: [2, 3]},
+ {&#39;number:value&#39;: [3, 4]},
+ {&#39;number:value&#39;: [4, 5]}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with flattening lists:</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">Backend</span><span class="p">(</span>
+    <span class="n">flatten_nested_inputs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">nested_field_delimiter</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">flatten_lists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:02:50.230</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;flatten_nested_inputs&#39;: True, &#39;nested_field_delimiter&#39;: &#39;.&#39;, &#39;flatten_lists&#39;: True, &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:02:50.231</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=True, flatten_lists=True, nested_field_delimiter=&#39;.&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [{&#39;number.value.0&#39;: 0, &#39;number.value.1&#39;: 1}, {&#39;number.value.0&#39;: 1, &#39;number.value.1&#39;: 2}, {&#39;number.value.0&#39;: 2, &#39;number.value.1&#39;: 3}, {&#39;number.value.0&#39;: 3, &#39;number.value.1&#39;: 4}, {&#39;number.value.0&#39;: 4, &#39;number.value.1&#39;: 5}]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;number.value.0&#39;: 0, &#39;number.value.1&#39;: 1},
+ {&#39;number.value.0&#39;: 1, &#39;number.value.1&#39;: 2},
+ {&#39;number.value.0&#39;: 2, &#39;number.value.1&#39;: 3},
+ {&#39;number.value.0&#39;: 3, &#39;number.value.1&#39;: 4},
+ {&#39;number.value.0&#39;: 4, &#39;number.value.1&#39;: 5}]
+</pre></div></div>
+</div>
+</section>
+<section id="Numpy-Preprocessor">
+<h4>Numpy Preprocessor<a class="headerlink" href="#Numpy-Preprocessor" title="Link to this heading"></a></h4>
+<p>Packflow also has built-in support for converting records to Numpy arrays.</p>
+<p><strong>This preprocessor requires ``feature_names`` to be set in the configuration to ensure column order.</strong></p>
+<p>Since a Numpy array isn’t an allowed output format, we’ll need to write a slightly more advanced Backend to handle converstion back to a JSON-serializable output.</p>
+<p>Thankfully, Packflow has built-in support for converting outputs for Numpy, PyTorch, Tensorflow, and PIL Images to ensure they meet API Requirements.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow.utils.normalize</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_valid_output</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NumpyBackend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Executing against data:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+
+        <span class="c1"># double the values in the Numpy array</span>
+        <span class="k">return</span> <span class="n">inputs</span> <span class="o">*</span> <span class="mi">2</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="c1"># Use built-in Packflow utilities to convert type handling</span>
+        <span class="k">return</span> <span class="n">ensure_valid_output</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">parent_key</span><span class="o">=</span><span class="s2">&quot;doubled&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Generate Sample Data</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;feature1&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;parent_key&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+<span class="c1"># Initialize and run the</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">NumpyBackend</span><span class="p">(</span>
+    <span class="n">input_format</span><span class="o">=</span><span class="s2">&quot;numpy&quot;</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;parent_key.value&quot;</span>
+    <span class="p">],</span>  <span class="c1"># note that the Numpy preprocessor will work with nested fields!</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">backend</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:06:04.805</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;input_format&#39;: &#39;numpy&#39;, &#39;feature_names&#39;: [&#39;parent_key.value&#39;], &#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:06:04.806</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.NUMPY: &#39;numpy&#39;&gt;, rename_fields={}, feature_names=[&#39;parent_key.value&#39;], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Executing against data: [[1]
+ [2]
+ [3]
+ [4]
+ [5]]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;doubled&#39;: 2},
+ {&#39;doubled&#39;: 4},
+ {&#39;doubled&#39;: 6},
+ {&#39;doubled&#39;: 8},
+ {&#39;doubled&#39;: 10}]
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Execution-Order">
+<h2>Execution Order<a class="headerlink" href="#Execution-Order" title="Link to this heading"></a></h2>
+<p>The Inference Backend acts as a preset DAG, performing precossing steps then executing <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code>, <code class="docutils literal notranslate"><span class="pre">execute()</span></code>, then <code class="docutils literal notranslate"><span class="pre">transform_outputs()</span></code>. Both transformation methods are completely optional but are <strong>highly recommended</strong> for any use-case that has custom logic for either pre- or post-execution logic. This is for profiling reasons to address any production throughput bottlenecks or identifying areas for improvement.</p>
+<p>As a quick example, here is a backend that leverages all steps:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">FullBackend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Hello from __init__!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformed Inputs:&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output of Execute:&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="c1"># business logic</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;doubled&quot;</span><span class="p">:</span> <span class="n">num</span><span class="p">,</span> <span class="s2">&quot;is_even&quot;</span><span class="p">:</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">})</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformed Outputs:&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="c1"># Create samples and run backend</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">FullBackend</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-green-fg">2026-01-21 14:06:14.991</span> | <span class="ansi-blue-intense-fg ansi-bold">DEBUG   </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">63</span> - <span class="ansi-blue-intense-fg ansi-bold">Loaded raw configuration: {&#39;verbose&#39;: False}</span>
+<span class="ansi-green-fg">2026-01-21 14:06:14.993</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.configuration</span>:<span class="ansi-cyan-fg">load_backend_configuration</span>:<span class="ansi-cyan-fg">67</span> - <span class="ansi-bold">Configuration: BackendConfig(verbose=False, input_format=&lt;InputFormats.RECORDS: &#39;records&#39;&gt;, rename_fields={}, feature_names=[], flatten_nested_inputs=False, flatten_lists=False, nested_field_delimiter=&#39;.&#39;)</span>
+<span class="ansi-green-fg">2026-01-21 14:06:14.995</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">packflow.backend.preprocessors</span>:<span class="ansi-cyan-fg">resolve</span>:<span class="ansi-cyan-fg">127</span> - <span class="ansi-bold">Current config does not require preprocessing steps. Defaulting to Passthrough mode.</span>
+<span class="ansi-green-fg">2026-01-21 14:06:14.996</span> | <span class="ansi-bold">INFO    </span> | <span class="ansi-cyan-fg">__main__</span>:<span class="ansi-cyan-fg">initialize</span>:<span class="ansi-cyan-fg">3</span> - <span class="ansi-bold">Hello from __init__!</span>
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Transformed Inputs: [0, 1, 2, 3, 4]
+Output of Execute: [0, 2, 4, 6, 8]
+Transformed Outputs: [{&#39;doubled&#39;: 0, &#39;is_even&#39;: True}, {&#39;doubled&#39;: 2, &#39;is_even&#39;: True}, {&#39;doubled&#39;: 4, &#39;is_even&#39;: True}, {&#39;doubled&#39;: 6, &#39;is_even&#39;: True}, {&#39;doubled&#39;: 8, &#39;is_even&#39;: True}]
+</pre></div></div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>In this example notebook, we went through the standard flow of defining an Inference Backend. See the other Example notebooks for more specific examples and usage patterns!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../index.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sklearn-classifier/sklearn-classifier.html" class="btn btn-neutral float-right" title="Scikit-Learn Classifier" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
