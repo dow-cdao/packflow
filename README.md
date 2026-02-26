@@ -17,6 +17,8 @@
 `packflow` is a software development kit (SDK) that simplifies the development process and standardizes packaging of AI/ML
 running on streaming data sources.
 
+**What does Packflow do?** Packflow provides a framework for *writing*, *running*, and *packaging* inference code. It offers a standardized structure (the `InferenceBackend` class) for writing model execution logic, provides the runtime backbone that executes models with built-in profiling and preprocessing, and includes tools to bundle code into portable zip archives. This means you write your inference code once using Packflow's structure, and Packflow handles both the optimized execution and creation of shareable packages for transfer between systems.
+
 Many existing packaging frameworks are catered towards inference APIs and often require custom preprocessing steps. This can be particularly challenging when dealing with data sources that typically generate data one row at a time in key-value pairs (e.g., firewall logs or message streams).
 
 Packflow, however, is optimized to run models on either individual events or batches of events, streamlining development and reducing the need for additional preprocessing. By leveraging Packflow, teams can focus on building and deploying models with custom out-of-the-box workflows and utilities, significantly reducing the time and effort required to onboard new capabilities.
