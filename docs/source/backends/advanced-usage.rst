@@ -120,3 +120,37 @@ Best Practices
 
 *   **Modular design**: Design Inference Backends to be modular, making it easier to reuse and combine them.
 *   **Flexible configuration**: Use configuration options to adapt the Inference Backend to work with different projects and requirements.
+
+.. _logging-configuration:
+
+Logging Configuration
+=====================
+
+Packflow uses the `loguru <https://github.com/Delgan/loguru>`_ library for logging and defaults to the ``INFO`` log level to minimize noise in production environments. The log level can be controlled via the ``PACKFLOW_LOG_LEVEL`` environment variable.
+
+Setting the Log Level
+---------------------
+
+To change the log level, set the ``PACKFLOW_LOG_LEVEL`` environment variable to one of the following values:
+
+*   ``DEBUG``: Detailed diagnostic information useful for troubleshooting
+*   ``INFO``: General informational messages (default)
+*   ``WARNING``: Warning messages for potentially problematic situations
+*   ``ERROR``: Error messages for serious problems
+*   ``CRITICAL``: Critical messages for very serious errors
+
+**Example:**
+
+.. code-block:: bash
+
+    # Enable debug logging for detailed diagnostics
+    export PACKFLOW_LOG_LEVEL=DEBUG
+    python inference.py
+
+    # Use warning level to see only warnings and errors
+    export PACKFLOW_LOG_LEVEL=WARNING
+    python inference.py
+
+.. note::
+
+    The ``verbose`` field in the ``BackendConfig`` controls whether execution metrics are logged during inference. This is separate from the overall log level and defaults to ``True``. Set ``verbose=False`` to suppress metrics logging regardless of the log level.
