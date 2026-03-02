@@ -133,3 +133,21 @@ environments to write, validate, and share inference code without any packaging 
 
     backend({"sample": "data"})
     # >> {"sample": "data"}
+
+
+.. code-block:: python
+    :caption: ``ModuleLoader`` Example
+
+    from packflow.loaders import ModuleLoader
+
+    # Load from an installed package
+    # Example: pip install myproject
+    backend = ModuleLoader('myproject.backends:MyModelBackend').load()
+
+    backend({"sample": "data"})
+    # >> {"sample": "data"}
+
+The ``ModuleLoader`` is useful when you've developed a package (e.g., ``myproject``) that exposes a valid Packflow
+backend (e.g., ``myproject.backends:MyModelBackend``). Once your package is available on a PyPI repository, users can
+simply ``pip install myproject`` and load the backend using the module path. See the **Scikit-Learn Classifier** notebook
+in the :ref:`Examples<examples>` section for a complete walkthrough of creating a pip-installable package with a Packflow backend.

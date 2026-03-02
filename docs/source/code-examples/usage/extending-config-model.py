@@ -15,7 +15,7 @@ class CustomBackend(InferenceBackend):
     backend_config_model = CustomConfigModel
 
     def initialize(self):
-        self.logger(f"Loading model from {self.config.model_path}")
+        self.logger.info(f"Loading model from {self.config.model_path}")
         self.model = lambda x: x  # Mocking loading of a model
 
     def execute(self, inputs: Any) -> Any:

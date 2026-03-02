@@ -15,6 +15,7 @@ def _error_message(msg: str):
 
 @click.group()
 def cli():
+    """Command-line tools for creating, managing, and packaging Packflow inference projects."""
     pass
 
 
