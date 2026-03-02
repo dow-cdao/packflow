@@ -110,7 +110,7 @@ Benefits of Reusable Backends
 Example: SklearnPipelineBackend
 -------------------------------
 
-For instance, organizations that frequently uses Scikit-Learn pipelines, can create a single ``SklearnPipelineBackend``. This Inference Backend can be configured to run multiple pipelines, leveraging:
+For instance, organizations that frequently use Scikit-Learn pipelines can create a single ``SklearnPipelineBackend``. This Inference Backend can be configured to run multiple pipelines, leveraging:
 
 *   **Backend configurations**: Specify key information like input names and types.
 *   **Optimized inference code**: Reuse optimized code for inference, improving performance and reducing duplication.

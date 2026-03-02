@@ -42,7 +42,7 @@ For development or to install from source:
 
 **Viewing Pre-built Documentation**
 
-The simplest way to view the Packflow documentation is to serve the pre-build HTML files included in the repository:
+The simplest way to view the Packflow documentation is to serve the pre-built HTML files included in the repository:
 
 .. code-block:: bash
 
@@ -138,7 +138,7 @@ This can be done programmatically. Open the ``validate.py`` script and modify it
 
 .. note::
 
-   Validation can be run via the ``validate.py`` file, or directly from a Notebook. However the path will ned to be updated
+   Validation can be run via the ``validate.py`` file, or directly from a Notebook. However the path will need to be updated
    if it is not running in the same directory
 
    Passing ``"inference:Backend"`` to the Local Loader is roughly equal to ``from inference import Backend``. If the script

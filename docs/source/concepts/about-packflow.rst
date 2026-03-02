@@ -12,10 +12,7 @@ Many existing packaging frameworks are catered towards inference APIs and often 
 can be particularly challenging when dealing with data sources that typically generate data one row at a time in key-value
 pairs (e.g., firewall logs or message streams).
 
-Packflow, however, is optimized to run models on batches of such events, streamlining development and reducing the need
-for additional preprocessing. By leveraging Packflow, teams can focus on building and deploying models with custom
-out-of the-box workflows and utilities, significantly reducing the time and effort required to onboard new
-capabilities.
+Packflow, however, is optimized to run models on either individual events or batches of events, streamlining development and reducing the need for additional preprocessing. The framework automatically handles both single-record and batch processing with the same code, eliminating the need to write separate logic for streaming (one-at-a-time) versus batch scenarios. By leveraging Packflow, teams can focus on building and deploying models with custom out-of-the-box workflows and utilities, significantly reducing the time and effort required to onboard new capabilities.
 
 Packflow also ships with a lightweight command-line interface (CLI) that can scaffold new projects, template code, and archive or package
 project files in a consistent, reproducible format, enabling customizable and maintainable deployment pipelines for

@@ -45,13 +45,13 @@ Execute
 -------
 
 
-The ``execute()`` step is an **required** method that ingests transformed inputs and returns its model outputs/results
+The ``execute()`` step is a **required** method that ingests transformed inputs and returns its model outputs/results
 to the ``transform_outputs()`` method. There should be minimal pre- or post-processing done in this step to ensure latency
 profiling is accurate.
 
 **Input**:
-1. The output of the ``preprocess`` step if ``transform_outputs()`` **is not defined**, or
-2. The output of the ``transform_outputs()`` method.
+1. The output of the ``preprocess`` step if ``transform_inputs()`` **is not defined**, or
+2. The output of the ``transform_inputs()`` method.
 
 **Output**: Model outputs or results. 
 

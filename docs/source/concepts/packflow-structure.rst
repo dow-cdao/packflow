@@ -24,7 +24,7 @@ The ``packflow`` CLI provides a lightweight templating command, ``packflow creat
    * - ``requirements.txt``
      - Yes
      - requirements file specifying the list of Python dependencies
-     - Incomplete
+     - Contains only ``packflow`` dependency; user must add model-specific dependencies
    * - ``MODEL_CARD.md``
      - Recommended
      - markdown file documenting model details, limitations, ownership, etc.

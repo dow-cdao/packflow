@@ -14,7 +14,7 @@ below:
 - **Correct Input Format:**
     - Inputs must be provided as a dictionary or a list of dictionaries.
 - **Inputs and Outputs are same length:**
-    - The number of inputs rows *must* match in length.
+    - The number of input rows *must* match the number of output rows.
     - *Tip:* Build in exception handling and return an empty dictionary if a row fails, when possible
 - **Correct Output Format:**
     - The output type must match the input type (e.g., dictionary in, dictionary out)
