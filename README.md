@@ -1,8 +1,8 @@
 <h1 align="center" style="text-align: center; border-bottom: none !important;">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo-white-text.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo.png">
-    <img src="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo-white-text.png" width="500" alt="Packflow logo">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo-light.png">
+    <img src="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo-dark.png" width="500" alt="Packflow logo">
   </picture>
 </h1>
 
@@ -45,8 +45,6 @@ The following instructions quickly walk through how to install Packflow and serv
 pip install packflow
 ```
 
-from the root of the Packflow repo.
-
 > [!NOTE]
 > If contributing to Packflow, it is recommended to install `packflow` from source in editable mode: `pip install -e .`
 
@@ -58,7 +56,7 @@ Packflow documentation is available pre-built in the repository and can be viewe
 
 The simplest way to view the Packflow documentation is to serve the pre-built HTML files included in the repository:
 
-1. Navigate to the pre-built docs folder: `cd docs/built/html`
+1. Navigate to the pre-built docs folder: `cd docs/build/html`
 2. Start a local web server: `python -m http.server 8000`
 3. Access the documentation in a web browser by navigating to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 

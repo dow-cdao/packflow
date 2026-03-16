@@ -1,5 +1,5 @@
 
-.. image:: ../../assets/packflow-logo.png
+.. image:: ../../assets/packflow-logo-light.png
    :width: 450
    :align: center
    :alt: Packflow Logo
