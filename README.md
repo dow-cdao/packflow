@@ -1,5 +1,9 @@
 <h1 align="center" style="text-align: center; border-bottom: none !important;">
-  <img src="assets/packflow-logo-white-text.png" width="500" alt="Packflow logo">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo-white-text.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo.png">
+    <img src="https://raw.githubusercontent.com/dow-cdao/packflow/master/assets/packflow-logo-white-text.png" width="500" alt="Packflow logo">
+  </picture>
 </h1>
 
 <p align="center">
@@ -123,7 +127,7 @@ backend({"sample": "data"})
 
 ## Contributing
 
-Contributions to Packflow are welcomed and highly encouraged! Please refer to the [CONTRIBUTE.md](CONTRIBUTE.md) guide for more information and guidelines for contributing to Packflow.
+Contributions to Packflow are welcomed and highly encouraged! Please refer to the [CONTRIBUTING.md](https://github.com/dow-cdao/packflow/blob/master/CONTRIBUTING.md) guide for more information and guidelines for contributing to Packflow.
 
 ## Authors
 
@@ -131,7 +135,7 @@ Packflow is developed and maintained by [Booz Allen Hamilton](https://www.boozal
 
 ## License
 
-`packflow` is distributed under the terms of the [MIT license](https://spdx.org/licenses/MIT.html). Please refer to the [LICENSE.txt](./LICENSE) for more information of acceptable usage and distribution of Packflow.
+`packflow` is distributed under the terms of the [MIT license](https://spdx.org/licenses/MIT.html). Please refer to the [LICENSE](https://github.com/dow-cdao/packflow/blob/master/LICENSE) for more information of acceptable usage and distribution of Packflow.
 
 
 [^1]: *Pandoc* must be installed separately from the `pandoc` python package in `docs/requirements.txt`.
