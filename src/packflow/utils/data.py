@@ -6,6 +6,105 @@ from flatten_dict import flatten, unflatten
 from flatten_dict.reducers import make_reducer
 
 
+def check_delimiter_collisions(obj: dict, delimiter: str, path: str = "") -> List[str]:
+    """
+    Recursively check for keys containing the delimiter character.
+    
+    Parameters
+    ----------
+    obj : dict
+        Dictionary to check for delimiter collisions
+    delimiter : str
+        The delimiter character to check for
+    path : str
+        Current path (for recursive calls)
+    
+    Returns
+    -------
+    List[str]
+        List of paths where delimiter collisions were found
+    """
+    collisions = []
+    
+    for key, value in obj.items():
+        current_path = f"{path}{delimiter}{key}" if path else key
+        
+        if delimiter in key:
+            collisions.append(current_path)
+        
+        if isinstance(value, dict):
+            collisions.extend(check_delimiter_collisions(value, delimiter, current_path))
+    
+    return collisions
+
+
+def get_nested_field_direct(obj: dict, field: str, delimiter: str = ".") -> Any:
+    """
+    Retrieves a nested field by traversing the dictionary structure directly.
+    Does not use flattening, preserving keys that contain the delimiter.
+    
+    Parameters
+    ----------
+    obj : dict
+        Dictionary to traverse
+    field : str
+        Field path using delimiter notation (e.g., "a.b.c")
+    delimiter : str
+        Delimiter to split the field path
+    
+    Returns
+    -------
+    Any
+        The value at the nested path, or None if not found
+    """
+    # First check if the field exists as a literal key
+    if field in obj:
+        return obj[field]
+    
+    # Otherwise, traverse the nested structure
+    parts = field.split(delimiter)
+    current = obj
+    
+    for part in parts:
+        if not isinstance(current, dict) or part not in current:
+            return None
+        current = current[part]
+    
+    return current
+
+
+def set_nested_field_direct(obj: dict, field: str, value: Any, delimiter: str = ".") -> None:
+    """
+    Sets a nested field by creating the nested structure directly.
+    Does not use flattening/unflattening.
+    
+    Parameters
+    ----------
+    obj : dict
+        Dictionary to modify (modified in place)
+    field : str
+        Field path using delimiter notation (e.g., "a.b.c")
+    value : Any
+        Value to set at the nested path
+    delimiter : str
+        Delimiter to split the field path
+    """
+    parts = field.split(delimiter)
+    current = obj
+    
+    # Navigate/create the nested structure
+    for part in parts[:-1]:
+        if part not in current:
+            current[part] = {}
+        elif not isinstance(current[part], dict):
+            # Can't traverse further if we hit a non-dict value
+            return
+        current = current[part]
+    
+    # Set the final value
+    current[parts[-1]] = value
+
+
 def get_nested_field(obj: dict, field: str, delimiter: Optional[str] = None) -> Any:
     """
     Retrieves a single nested field from a dictionary given a field name.

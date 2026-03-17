@@ -34,6 +34,7 @@ class BackendConfig(BaseModel):
     flatten_nested_inputs: bool = False
     flatten_lists: bool = False
     nested_field_delimiter: str = "."
+    ignore_delimiter_collisions: bool = False
 
 
 def load_backend_configuration(
