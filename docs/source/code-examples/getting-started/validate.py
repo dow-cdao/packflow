@@ -6,8 +6,8 @@ from packflow.loaders import LocalLoader
 #   `from inference import Backend`
 backend = LocalLoader("inference:Backend").load()
 
-# Define sample inputs that represent realistic data for your backend.
-# These should exercise the expected input format(s) your backend will receive.
+# Define sample inputs that represent realistic data for the backend.
+# These should exercise the expected input format(s) the backend will receive.
 SAMPLE_SINGLE_ROW = {"number": 5}
 
 SAMPLE_BATCH = [
@@ -22,8 +22,8 @@ if __name__ == "__main__":
     print(f"Sample single row: {SAMPLE_SINGLE_ROW}\n")
     print(f"Sample batch: {SAMPLE_BATCH}\n")
 
-    # backend.validate() runs your backend and checks the outputs
-    # meet Packflow's API requirements. Returns outputs if valid.
+    # backend.validate() checks that the outputs meet Packflow's format
+    # requirements. Returns outputs if valid.
     outputs_single_row = backend.validate(SAMPLE_SINGLE_ROW)
     outputs_batch = backend.validate(SAMPLE_BATCH)
 

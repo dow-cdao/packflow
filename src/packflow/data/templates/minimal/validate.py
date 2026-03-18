@@ -1,4 +1,8 @@
-# Import Packflow's dev tools to run validations on the Inference Backend
+# validate.py - checks that the backend's inputs and outputs are in the format
+# Packflow expects (correct types, matching row counts, JSON-serializable values).
+# 
+# This is NOT a test of analytic logic or accuracy. Write test cases specific
+# to the expected behavior of the backend to verify correctness.
 from packflow.loaders import LocalLoader
 
 # Load the backend in the current directory
@@ -6,19 +10,20 @@ from packflow.loaders import LocalLoader
 #   `from inference import Backend`
 backend = LocalLoader("inference:Backend").load()
 
-# Define sample inputs that represent realistic data for your backend.
-# These should exercise the expected input format(s) your backend will receive.
+# Define sample inputs that represent realistic data for the backend.
+# These should exercise the expected input format(s) the backend will receive.
 SAMPLE_INPUTS = [
+    # Replace with data structured to match this backend's expected input.
+    # The placeholder below will likely fail - update before running.
     {"example_field": "example_value"},
-    # Add more sample rows as needed
 ]
 
 if __name__ == "__main__":
     print("Running validation...")
     print(f"Sample inputs: {SAMPLE_INPUTS}\n")
 
-    # backend.validate() runs your backend and checks the outputs
-    # meet Packflow's API requirements. Returns outputs if valid.
+    # Checks output structure (format, row count, serializaibility).
+    # Returns outputs if valid.
     outputs = backend.validate(SAMPLE_INPUTS)
 
     print(f"Outputs: {outputs}")
