@@ -51,8 +51,7 @@ The ``InferenceBackend`` in Packflow automatically loads and validates configura
     ``{"parent": {"child_2": 200, "child_3": 3}}``, then the deep-merged output will be ``{"parent": {"child_1": 1, "child_2": 200, "child_3": 3}}``
 
 
-This approach ensures that configuration is not only easy, but robust through Pydantic validators to help
-engineers tasked with deploying, debugging, and optimizing the production deployment.
+All configurations are validated through Pydantic, ensuring correctness at load time.
 
 Why Use a JSON Configuration File?
 ----------------------------------
@@ -94,12 +93,10 @@ Here are some example use cases for custom configuration models:
 - Use Case #2: Test/Prod Configurations
     - A data processing pipeline requires different configurations for different environments (e.g., development, testing, production). - Create custom configuration models for each environment and use them to configure the pipeline.
 
-By using custom configuration models, code can be more flexible and easier to maintain.
-
 Creating Reusable Backends
 ==========================
 
-Inference Backends can be designed to be reusable across multiple projects. This approach allows sharing of common functionality and reducing duplication.
+Inference backends can be designed to be reusable across multiple projects, sharing common functionality and reducing duplication.
 
 Benefits of Reusable Backends
 -----------------------------

@@ -27,7 +27,7 @@ Packflow's ``InferenceBackend`` provides the following functions to manage these
     
     .. note::
     
-        If you must override ``__init__``, you need to call ``super().__init__(**kwargs)`` to preserve the base class behavior (configuration loading, logger setup, preprocessor setup, and profiling metrics). For example:
+        When overriding ``__init__``, ``super().__init__(**kwargs)`` must be called to preserve base class behavior (configuration loading, logger setup, preprocessor setup, and profiling metrics). For example:
         
         .. code-block:: python
         
