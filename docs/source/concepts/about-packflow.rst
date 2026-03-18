@@ -31,7 +31,7 @@ The following terms are essential to understanding the ``packflow`` framework:
 
 **Core Definitions**
 
-* **Event**: A single, discrete unit of data processed by the model. It is analogous to a row in a dataset.
+* **Event**: A single, discrete unit of data processed by the model. It is analogous to a row in a dataset - for example, a single firewall log entry or one message from a data stream.
 * **Batch**: A collection of events, represented as a list of length N, where each element is an individual event.
 * **Records**: The data structure containing a batch of events, typically a list of dictionaries. This term is inspired by ``pandas`` and used extensively throughout the documentation.
 
