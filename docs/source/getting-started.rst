@@ -107,7 +107,8 @@ Initialize a new project by running ``packflow create hello-world``. This will c
    ├── README.md
    ├── requirements.txt
    ├── inference.py
-   └── validate.py
+   ├── validate.py
+   └── test_inference.py
 
 
 Step 2: Write the Inference Backend
