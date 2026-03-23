@@ -143,12 +143,12 @@ To understand the available preprocessors, see <a class="reference internal" hre
 </section>
 <section id="execute">
 <h2>Execute<a class="headerlink" href="#execute" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">execute()</span></code> step is an <strong>required</strong> method that ingests transformed inputs and returns its model outputs/results
+<p>The <code class="docutils literal notranslate"><span class="pre">execute()</span></code> step is a <strong>required</strong> method that ingests transformed inputs and returns its model outputs/results
 to the <code class="docutils literal notranslate"><span class="pre">transform_outputs()</span></code> method. There should be minimal pre- or post-processing done in this step to ensure latency
 profiling is accurate.</p>
 <p><strong>Input</strong>:
-1. The output of the <code class="docutils literal notranslate"><span class="pre">preprocess</span></code> step if <code class="docutils literal notranslate"><span class="pre">transform_outputs()</span></code> <strong>is not defined</strong>, or
-2. The output of the <code class="docutils literal notranslate"><span class="pre">transform_outputs()</span></code> method.</p>
+1. The output of the <code class="docutils literal notranslate"><span class="pre">preprocess</span></code> step if <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> <strong>is not defined</strong>, or
+2. The output of the <code class="docutils literal notranslate"><span class="pre">transform_inputs()</span></code> method.</p>
 <p><strong>Output</strong>: Model outputs or results.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>

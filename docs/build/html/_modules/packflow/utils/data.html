@@ -97,6 +97,114 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">flatten_dict.reducers</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_reducer</span>
 
 
+<div class="viewcode-block" id="check_delimiter_collisions">
+<a class="viewcode-back" href="../../../api-reference/auto/packflow.utils.html#packflow.utils.data.check_delimiter_collisions">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_delimiter_collisions</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively check for keys containing the delimiter character.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : dict</span>
+<span class="sd">        Dictionary to check for delimiter collisions</span>
+<span class="sd">    delimiter : str</span>
+<span class="sd">        The delimiter character to check for</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Current path (for recursive calls)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[str]</span>
+<span class="sd">        List of paths where delimiter collisions were found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">collisions</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">current_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}{</span><span class="n">delimiter</span><span class="si">}{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">key</span>
+        
+        <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
+            <span class="n">collisions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_path</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">collisions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">check_delimiter_collisions</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">current_path</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">collisions</span></div>
+
+
+
+<div class="viewcode-block" id="get_nested_field_direct">
+<a class="viewcode-back" href="../../../api-reference/auto/packflow.utils.html#packflow.utils.data.get_nested_field_direct">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_nested_field_direct</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves a nested field by traversing the dictionary structure directly.</span>
+<span class="sd">    Does not use flattening, preserving keys that contain the delimiter.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : dict</span>
+<span class="sd">        Dictionary to traverse</span>
+<span class="sd">    field : str</span>
+<span class="sd">        Field path using delimiter notation (e.g., &quot;a.b.c&quot;)</span>
+<span class="sd">    delimiter : str</span>
+<span class="sd">        Delimiter to split the field path</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Any</span>
+<span class="sd">        The value at the nested path, or None if not found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># First check if the field exists as a literal key</span>
+    <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="n">field</span><span class="p">]</span>
+    
+    <span class="c1"># Otherwise, traverse the nested structure</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">obj</span>
+    
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">part</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">[</span><span class="n">part</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">current</span></div>
+
+
+
+<div class="viewcode-block" id="set_nested_field_direct">
+<a class="viewcode-back" href="../../../api-reference/auto/packflow.utils.html#packflow.utils.data.set_nested_field_direct">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_nested_field_direct</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets a nested field by creating the nested structure directly.</span>
+<span class="sd">    Does not use flattening/unflattening.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : dict</span>
+<span class="sd">        Dictionary to modify (modified in place)</span>
+<span class="sd">    field : str</span>
+<span class="sd">        Field path using delimiter notation (e.g., &quot;a.b.c&quot;)</span>
+<span class="sd">    value : Any</span>
+<span class="sd">        Value to set at the nested path</span>
+<span class="sd">    delimiter : str</span>
+<span class="sd">        Delimiter to split the field path</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">obj</span>
+    
+    <span class="c1"># Navigate/create the nested structure</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">part</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current</span><span class="p">:</span>
+            <span class="n">current</span><span class="p">[</span><span class="n">part</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="n">part</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># Can&#39;t traverse further if we hit a non-dict value</span>
+            <span class="k">return</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="p">[</span><span class="n">part</span><span class="p">]</span>
+    
+    <span class="c1"># Set the final value</span>
+    <span class="n">current</span><span class="p">[</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">value</span></div>
+
+
+
 <div class="viewcode-block" id="get_nested_field">
 <a class="viewcode-back" href="../../../api-reference/auto/packflow.utils.html#packflow.utils.data.get_nested_field">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_nested_field</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>

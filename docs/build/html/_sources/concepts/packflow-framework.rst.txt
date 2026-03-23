@@ -18,13 +18,31 @@ Packflow's ``InferenceBackend`` provides the following functions to manage these
 
 1. **Initialization:** ``initialize()`` [Optional]
     - Optional user-defined method that runs during the ``InferenceBackend`` base class's ``__init__`` method.
-    - Expensive or slow procedures related to initial model loading or preparation belong here.
+    - **This is where model initialization logic should be defined.** Expensive or slow procedures related to initial model loading or preparation belong here (e.g., loading model weights from disk, moving models to GPU memory, initializing connections to external services).
     - **It is NOT recommended** to extend the ``__init__`` method in order to define model initialization logic. The ``initialize()`` method is included in profiling calculations, and the ``__init__`` method runs without profiling to load configurations, set up the logger and preprocessor, and set up the profiling metrics.
     
+    .. admonition:: Example Use Case
+    
+        A deep learning model requires loading a 2GB PyTorch model file and moving it to GPU memory. This operation takes 5-10 seconds. By implementing this logic in ``initialize()``, the initialization time is automatically profiled and logged, helping identify deployment bottlenecks. If this were done in ``__init__`` instead, the timing wouldn't be captured in metrics, making it harder to diagnose slow startup times in production.
+    
+    .. note::
+    
+        When overriding ``__init__``, ``super().__init__(**kwargs)`` must be called to preserve base class behavior (configuration loading, logger setup, preprocessor setup, and profiling metrics). For example:
+        
+        .. code-block:: python
+        
+            def __init__(self, custom_param, **kwargs):
+                super().__init__(**kwargs)  # Required!
+                self.custom_param = custom_param
+    
 2. **Readiness check:** ``ready()`` [Optional]
-    - Optional user-defined method to define whether the Packflow analytic is ready to accept execution requests.
-    - Packflow does not check readiness before allowing calls to ``backend.__call__(...)``, ``backend.execute(...)``, etc; Intended for use by third party systems that wish to check/report readiness, hold off on attempting execution, and so forth.
-    - Intended for use cases where initialization occurs in the background or depends on other resources not managed by the Inference Backend.
+    - Optional user-defined method that can be implemented to signal whether the analytic is ready to accept execution requests.
+    - Packflow provides the ``ready()`` method interface but does not enforce or check it internally. Calling ``backend(data)`` will always attempt execution regardless of what ``ready()`` returns. This method exists for external systems (e.g., orchestration platforms, health check endpoints, monitoring dashboards) to query readiness status before attempting execution.
+    - Useful for use cases where initialization occurs in the background or depends on external resources not managed by the Inference Backend.
+    
+    .. admonition:: Example Use Case
+    
+        An Inference Backend depends on an external API that may be temporarily unavailable. Implement ``ready()`` to check the API connection. A Kubernetes readiness probe can call ``backend.ready()`` to control traffic routing - if it returns ``False``, no traffic is routed to that instance. Note that direct calls to ``backend(data)`` will still execute regardless of readiness status.
 
 
 Execution Functions
@@ -115,3 +133,21 @@ environments to write, validate, and share inference code without any packaging 
 
     backend({"sample": "data"})
     # >> {"sample": "data"}
+
+
+.. code-block:: python
+    :caption: ``ModuleLoader`` Example
+
+    from packflow.loaders import ModuleLoader
+
+    # Load from an installed package
+    # Example: pip install myproject
+    backend = ModuleLoader('myproject.backends:MyModelBackend').load()
+
+    backend({"sample": "data"})
+    # >> {"sample": "data"}
+
+The ``ModuleLoader`` is useful when you've developed a package (e.g., ``myproject``) that exposes a valid Packflow
+backend (e.g., ``myproject.backends:MyModelBackend``). Once your package is available on a PyPI repository, users can
+simply ``pip install myproject`` and load the backend using the module path. See the **Scikit-Learn Classifier** notebook
+in the :ref:`Examples<examples>` section for a complete walkthrough of creating a pip-installable package with a Packflow backend.

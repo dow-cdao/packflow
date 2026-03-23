@@ -24,7 +24,7 @@ The ``packflow`` CLI provides a lightweight templating command, ``packflow creat
    * - ``requirements.txt``
      - Yes
      - requirements file specifying the list of Python dependencies
-     - Incomplete
+     - Contains only ``packflow`` dependency; user must add model-specific dependencies
    * - ``MODEL_CARD.md``
      - Recommended
      - markdown file documenting model details, limitations, ownership, etc.
@@ -36,7 +36,7 @@ The ``packflow`` CLI provides a lightweight templating command, ``packflow creat
    * - ``README.md``
      - Recommended
      - readme file for use by developers and other contributors
-     - Blank
+     - Template
    * - ``inference.py``
      - Yes
      - inference file containing the ``Backend`` execution object
@@ -44,6 +44,10 @@ The ``packflow`` CLI provides a lightweight templating command, ``packflow creat
    * - ``validate.py``
      - Recommended
      - validation file which can be run to ensure the ``Backend`` adheres to ``InferenceBackend`` requirements
+     - Template
+   * - ``test_inference.py``
+     - Recommended
+     - pytest test file providing a starting point for testing the ``Backend``
      - Template
 
 The ``packflow`` CLI also contains the ``packflow export ...`` command for bundling these components into a single zipped archive,

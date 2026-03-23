@@ -3,7 +3,9 @@
 Validation
 ##########
 
-This documentation provides information on Packflow's built-in validation tools for Inference Backends and how to use them effectively during development.
+``backend.validate()`` runs the backend against sample input and checks that the outputs meet Packflow's format requirements: correct types, matching row counts, and JSON-serializable values. If all checks pass, the outputs are returned for inspection.
+
+The ``validate.py`` script included in generated projects is a starting point for running ``backend.validate()``. The sample input data must be replaced with data structured to match the backend's expected input before it will run successfully.
 
 Rules
 =====
@@ -52,13 +54,11 @@ Best Practices
 
 .. _best-practices-testing:
 
-To ensure effective testing and validation for an Inference Backend, consider the following best practices:
-
 - **Use realistic sample data:** When running validations, use sample data that closely resembles the expected input during actual inference.
-- **Write unit tests:** While Packflow provides validation of Inference Backend input/output, these validation checks are best used alongside a proper unit testing framework, such as ``pytest`` or ``unittest``, rather than as a replacement. Packflow's validation tools can be integrated with established unit tests to ensure the Inference Backend consistently meets the required standards.
+- **Integrate with unit tests:** Packflow's validation checks are most effective when run alongside tests written for the backend's expected behavior.
 
 .. warning::
-    Packflow's validation checks run only when explicitly invoked via the ``.validate()`` method. They do not run automatically during inference, i.e. in ``.__call__()`` or any other pipeline method. It is the developer's responsibility to ensure that the Inference Backend is validated as needed and when changes are made. This is one reason why integrating validation checks into unit tests is recommended.
+    Packflow's validation checks run only when explicitly invoked via the ``.validate()`` method. They do not run automatically during inference, i.e. in ``.__call__()`` or any other pipeline method.
 
 Next Steps
 ==========

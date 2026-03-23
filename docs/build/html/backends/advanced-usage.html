@@ -72,6 +72,10 @@
 <li class="toctree-l5"><a class="reference internal" href="#best-practices">Best Practices</a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="#logging-configuration">Logging Configuration</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#setting-the-log-level">Setting the Log Level</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -140,7 +144,7 @@ capability-specific configurations to the Inference Backend.  Please see the exa
 <span class="linenos">15</span>    <span class="n">backend_config_model</span> <span class="o">=</span> <span class="n">CustomConfigModel</span>
 <span class="linenos">16</span>
 <span class="linenos">17</span>    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="hll"><span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading model from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="hll"><span class="linenos">18</span>        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading model from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span class="linenos">19</span>        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>  <span class="c1"># Mocking loading of a model</span>
 <span class="linenos">20</span>
 <span class="linenos">21</span>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -194,8 +198,7 @@ Pydantic will treat it as such.  Therefore, any instances of <code class="docuti
 <p><strong>Example:</strong> If the base is <code class="docutils literal notranslate"><span class="pre">{&quot;parent&quot;:</span> <span class="pre">{&quot;child_1&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;child_2&quot;:</span> <span class="pre">2}}</span></code> and the overrides are
 <code class="docutils literal notranslate"><span class="pre">{&quot;parent&quot;:</span> <span class="pre">{&quot;child_2&quot;:</span> <span class="pre">200,</span> <span class="pre">&quot;child_3&quot;:</span> <span class="pre">3}}</span></code>, then the deep-merged output will be <code class="docutils literal notranslate"><span class="pre">{&quot;parent&quot;:</span> <span class="pre">{&quot;child_1&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;child_2&quot;:</span> <span class="pre">200,</span> <span class="pre">&quot;child_3&quot;:</span> <span class="pre">3}}</span></code></p>
 </div>
-<p>This approach ensures that configuration is not only easy, but robust through Pydantic validators to help
-engineers tasked with deploying, debugging, and optimizing the production deployment.</p>
+<p>All configurations are validated through Pydantic, ensuring correctness at load time.</p>
 </section>
 <section id="why-use-a-json-configuration-file">
 <h3>Why Use a JSON Configuration File?<a class="headerlink" href="#why-use-a-json-configuration-file" title="Link to this heading"></a></h3>
@@ -240,12 +243,11 @@ behavior is the ensure the config file format is extensible to new fields in fut
 </dl>
 </li>
 </ul>
-<p>By using custom configuration models, code can be more flexible and easier to maintain.</p>
 </section>
 </section>
 <section id="creating-reusable-backends">
 <h2>Creating Reusable Backends<a class="headerlink" href="#creating-reusable-backends" title="Link to this heading"></a></h2>
-<p>Inference Backends can be designed to be reusable across multiple projects. This approach allows sharing of common functionality and reducing duplication.</p>
+<p>Inference backends can be designed to be reusable across multiple projects, sharing common functionality and reducing duplication.</p>
 <section id="benefits-of-reusable-backends">
 <h3>Benefits of Reusable Backends<a class="headerlink" href="#benefits-of-reusable-backends" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -255,7 +257,7 @@ behavior is the ensure the config file format is extensible to new fields in fut
 </section>
 <section id="example-sklearnpipelinebackend">
 <h3>Example: SklearnPipelineBackend<a class="headerlink" href="#example-sklearnpipelinebackend" title="Link to this heading"></a></h3>
-<p>For instance, organizations that frequently uses Scikit-Learn pipelines, can create a single <code class="docutils literal notranslate"><span class="pre">SklearnPipelineBackend</span></code>. This Inference Backend can be configured to run multiple pipelines, leveraging:</p>
+<p>For instance, organizations that frequently use Scikit-Learn pipelines can create a single <code class="docutils literal notranslate"><span class="pre">SklearnPipelineBackend</span></code>. This Inference Backend can be configured to run multiple pipelines, leveraging:</p>
 <ul class="simple">
 <li><p><strong>Backend configurations</strong>: Specify key information like input names and types.</p></li>
 <li><p><strong>Optimized inference code</strong>: Reuse optimized code for inference, improving performance and reducing duplication.</p></li>
@@ -267,6 +269,35 @@ behavior is the ensure the config file format is extensible to new fields in fut
 <li><p><strong>Modular design</strong>: Design Inference Backends to be modular, making it easier to reuse and combine them.</p></li>
 <li><p><strong>Flexible configuration</strong>: Use configuration options to adapt the Inference Backend to work with different projects and requirements.</p></li>
 </ul>
+</section>
+</section>
+<section id="logging-configuration">
+<span id="id3"></span><h2>Logging Configuration<a class="headerlink" href="#logging-configuration" title="Link to this heading"></a></h2>
+<p>Packflow uses the <a class="reference external" href="https://github.com/Delgan/loguru">loguru</a> library for logging and defaults to the <code class="docutils literal notranslate"><span class="pre">INFO</span></code> log level to minimize noise in production environments. The log level can be controlled via the <code class="docutils literal notranslate"><span class="pre">PACKFLOW_LOG_LEVEL</span></code> environment variable.</p>
+<section id="setting-the-log-level">
+<h3>Setting the Log Level<a class="headerlink" href="#setting-the-log-level" title="Link to this heading"></a></h3>
+<p>To change the log level, set the <code class="docutils literal notranslate"><span class="pre">PACKFLOW_LOG_LEVEL</span></code> environment variable to one of the following values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>: Detailed diagnostic information useful for troubleshooting</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INFO</span></code>: General informational messages (default)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WARNING</span></code>: Warning messages for potentially problematic situations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ERROR</span></code>: Error messages for serious problems</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code>: Critical messages for very serious errors</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable debug logging for detailed diagnostics</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PACKFLOW_LOG_LEVEL</span><span class="o">=</span>DEBUG
+python<span class="w"> </span>inference.py
+
+<span class="c1"># Use warning level to see only warnings and errors</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PACKFLOW_LOG_LEVEL</span><span class="o">=</span>WARNING
+python<span class="w"> </span>inference.py
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">verbose</span></code> field in the <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> controls whether execution metrics are logged during inference. This is separate from the overall log level and defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>. Set <code class="docutils literal notranslate"><span class="pre">verbose=False</span></code> to suppress metrics logging regardless of the log level.</p>
+</div>
 </section>
 </section>
 </section>

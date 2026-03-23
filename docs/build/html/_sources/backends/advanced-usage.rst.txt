@@ -51,8 +51,7 @@ The ``InferenceBackend`` in Packflow automatically loads and validates configura
     ``{"parent": {"child_2": 200, "child_3": 3}}``, then the deep-merged output will be ``{"parent": {"child_1": 1, "child_2": 200, "child_3": 3}}``
 
 
-This approach ensures that configuration is not only easy, but robust through Pydantic validators to help
-engineers tasked with deploying, debugging, and optimizing the production deployment.
+All configurations are validated through Pydantic, ensuring correctness at load time.
 
 Why Use a JSON Configuration File?
 ----------------------------------
@@ -94,12 +93,10 @@ Here are some example use cases for custom configuration models:
 - Use Case #2: Test/Prod Configurations
     - A data processing pipeline requires different configurations for different environments (e.g., development, testing, production). - Create custom configuration models for each environment and use them to configure the pipeline.
 
-By using custom configuration models, code can be more flexible and easier to maintain.
-
 Creating Reusable Backends
 ==========================
 
-Inference Backends can be designed to be reusable across multiple projects. This approach allows sharing of common functionality and reducing duplication.
+Inference backends can be designed to be reusable across multiple projects, sharing common functionality and reducing duplication.
 
 Benefits of Reusable Backends
 -----------------------------
@@ -110,7 +107,7 @@ Benefits of Reusable Backends
 Example: SklearnPipelineBackend
 -------------------------------
 
-For instance, organizations that frequently uses Scikit-Learn pipelines, can create a single ``SklearnPipelineBackend``. This Inference Backend can be configured to run multiple pipelines, leveraging:
+For instance, organizations that frequently use Scikit-Learn pipelines can create a single ``SklearnPipelineBackend``. This Inference Backend can be configured to run multiple pipelines, leveraging:
 
 *   **Backend configurations**: Specify key information like input names and types.
 *   **Optimized inference code**: Reuse optimized code for inference, improving performance and reducing duplication.
@@ -120,3 +117,37 @@ Best Practices
 
 *   **Modular design**: Design Inference Backends to be modular, making it easier to reuse and combine them.
 *   **Flexible configuration**: Use configuration options to adapt the Inference Backend to work with different projects and requirements.
+
+.. _logging-configuration:
+
+Logging Configuration
+=====================
+
+Packflow uses the `loguru <https://github.com/Delgan/loguru>`_ library for logging and defaults to the ``INFO`` log level to minimize noise in production environments. The log level can be controlled via the ``PACKFLOW_LOG_LEVEL`` environment variable.
+
+Setting the Log Level
+---------------------
+
+To change the log level, set the ``PACKFLOW_LOG_LEVEL`` environment variable to one of the following values:
+
+*   ``DEBUG``: Detailed diagnostic information useful for troubleshooting
+*   ``INFO``: General informational messages (default)
+*   ``WARNING``: Warning messages for potentially problematic situations
+*   ``ERROR``: Error messages for serious problems
+*   ``CRITICAL``: Critical messages for very serious errors
+
+**Example:**
+
+.. code-block:: bash
+
+    # Enable debug logging for detailed diagnostics
+    export PACKFLOW_LOG_LEVEL=DEBUG
+    python inference.py
+
+    # Use warning level to see only warnings and errors
+    export PACKFLOW_LOG_LEVEL=WARNING
+    python inference.py
+
+.. note::
+
+    The ``verbose`` field in the ``BackendConfig`` controls whether execution metrics are logged during inference. This is separate from the overall log level and defaults to ``True``. Set ``verbose=False`` to suppress metrics logging regardless of the log level.

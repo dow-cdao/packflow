@@ -164,6 +164,27 @@
 <section id="module-packflow.utils.data">
 <span id="packflow-utils-data-module"></span><h2>packflow.utils.data module<a class="headerlink" href="#module-packflow.utils.data" title="Link to this heading"></a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="packflow.utils.data.check_delimiter_collisions">
+<span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">check_delimiter_collisions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#check_delimiter_collisions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.check_delimiter_collisions" title="Link to this definition"></a></dt>
+<dd><p>Recursively check for keys containing the delimiter character.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>dict</em>) – Dictionary to check for delimiter collisions</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em>) – The delimiter character to check for</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – Current path (for recursive calls)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of paths where delimiter collisions were found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="packflow.utils.data.flatten_dict">
 <span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">flatten_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatten_lists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#flatten_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.flatten_dict" title="Link to this definition"></a></dt>
 <dd><p>Create a flattened dictionary from a nested object.</p>
@@ -227,6 +248,28 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="packflow.utils.data.get_nested_field_direct">
+<span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">get_nested_field_direct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#get_nested_field_direct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.get_nested_field_direct" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a nested field by traversing the dictionary structure directly.
+Does not use flattening, preserving keys that contain the delimiter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>dict</em>) – Dictionary to traverse</p></li>
+<li><p><strong>field</strong> (<em>str</em>) – Field path using delimiter notation (e.g., “a.b.c”)</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em>) – Delimiter to split the field path</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value at the nested path, or None if not found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="packflow.utils.data.records_to_ndarray">
 <span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">records_to_ndarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">records</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#records_to_ndarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.records_to_ndarray" title="Link to this definition"></a></dt>
 <dd><p>Converts records to a numpy nd array</p>
@@ -244,6 +287,26 @@ out: np.array([[1, 1], [2, 2]])</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="packflow.utils.data.set_nested_field_direct">
+<span class="sig-prename descclassname"><span class="pre">packflow.utils.data.</span></span><span class="sig-name descname"><span class="pre">set_nested_field_direct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/packflow/utils/data.html#set_nested_field_direct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#packflow.utils.data.set_nested_field_direct" title="Link to this definition"></a></dt>
+<dd><p>Sets a nested field by creating the nested structure directly.
+Does not use flattening/unflattening.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>dict</em>) – Dictionary to modify (modified in place)</p></li>
+<li><p><strong>field</strong> (<em>str</em>) – Field path using delimiter notation (e.g., “a.b.c”)</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – Value to set at the nested path</p></li>
+<li><p><strong>delimiter</strong> (<em>str</em>) – Delimiter to split the field path</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>

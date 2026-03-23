@@ -100,7 +100,8 @@
              
   <section id="validation">
 <span id="id1"></span><h1>Validation<a class="headerlink" href="#validation" title="Link to this heading"></a></h1>
-<p>This documentation provides information on Packflow’s built-in validation tools for Inference Backends and how to use them effectively during development.</p>
+<p><code class="docutils literal notranslate"><span class="pre">backend.validate()</span></code> runs the backend against sample input and checks that the outputs meet Packflow’s format requirements: correct types, matching row counts, and JSON-serializable values. If all checks pass, the outputs are returned for inspection.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">validate.py</span></code> script included in generated projects is a starting point for running <code class="docutils literal notranslate"><span class="pre">backend.validate()</span></code>. The sample input data must be replaced with data structured to match the backend’s expected input before it will run successfully.</p>
 <section id="rules">
 <h2>Rules<a class="headerlink" href="#rules" title="Link to this heading"></a></h2>
 <p>Packflow’s validators enforce a series of rules to ensure fully normalized inputs/outputs. For reference, the rules are listed
@@ -160,14 +161,13 @@ recommended to keep these items in mind when developing.</p>
 </section>
 <section id="best-practices">
 <h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
-<p id="best-practices-testing">To ensure effective testing and validation for an Inference Backend, consider the following best practices:</p>
-<ul class="simple">
+<ul class="simple" id="best-practices-testing">
 <li><p><strong>Use realistic sample data:</strong> When running validations, use sample data that closely resembles the expected input during actual inference.</p></li>
-<li><p><strong>Write unit tests:</strong> While Packflow provides validation of Inference Backend input/output, these validation checks are best used alongside a proper unit testing framework, such as <code class="docutils literal notranslate"><span class="pre">pytest</span></code> or <code class="docutils literal notranslate"><span class="pre">unittest</span></code>, rather than as a replacement. Packflow’s validation tools can be integrated with established unit tests to ensure the Inference Backend consistently meets the required standards.</p></li>
+<li><p><strong>Integrate with unit tests:</strong> Packflow’s validation checks are most effective when run alongside tests written for the backend’s expected behavior.</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Packflow’s validation checks run only when explicitly invoked via the <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> method. They do not run automatically during inference, i.e. in <code class="docutils literal notranslate"><span class="pre">.__call__()</span></code> or any other pipeline method. It is the developer’s responsibility to ensure that the Inference Backend is validated as needed and when changes are made. This is one reason why integrating validation checks into unit tests is recommended.</p>
+<p>Packflow’s validation checks run only when explicitly invoked via the <code class="docutils literal notranslate"><span class="pre">.validate()</span></code> method. They do not run automatically during inference, i.e. in <code class="docutils literal notranslate"><span class="pre">.__call__()</span></code> or any other pipeline method.</p>
 </div>
 </section>
 <section id="next-steps">

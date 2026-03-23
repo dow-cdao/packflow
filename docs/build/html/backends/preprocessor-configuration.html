@@ -253,6 +253,49 @@ different <a class="reference internal" href="#backend-configuration"><span clas
 </dl>
 </li>
 </ul>
+<p><strong>Nested Path Access:</strong></p>
+<p>When using delimiter notation in <code class="docutils literal notranslate"><span class="pre">rename_fields</span></code> or <code class="docutils literal notranslate"><span class="pre">feature_names</span></code> to access nested paths (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;foo.bar&quot;</span></code> to access <code class="docutils literal notranslate"><span class="pre">{&quot;foo&quot;:</span> <span class="pre">{&quot;bar&quot;:</span> <span class="pre">value}}</span></code>), the preprocessor will traverse the nested structure directly without flattening. If a key in the path does not exist, it will be silently skipped and not included in the output.</p>
+<p><strong>Important:</strong> When <code class="docutils literal notranslate"><span class="pre">flatten_nested_inputs=False</span></code>, the preprocessor <strong>never flattens</strong> the input data. Keys containing the delimiter character are preserved exactly as they appear. Nested path access is performed via direct traversal of the dictionary structure.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">BackendConfig</span><span class="p">(</span>
+    <span class="n">flatten_nested_inputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">nested_field_delimiter</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a.b&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Input with nested structure</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}]</span>
+
+<span class="c1"># Output preserves nested structure for accessed paths</span>
+<span class="c1"># Result: [{&quot;a&quot;: {&quot;b&quot;: 10}, &quot;x&quot;: 5}]</span>
+</pre></div>
+</div>
+<p><strong>Delimiter Collision Detection:</strong></p>
+<p>When using nested path access (delimiter notation in <code class="docutils literal notranslate"><span class="pre">rename_fields</span></code> or <code class="docutils literal notranslate"><span class="pre">feature_names</span></code>) with <code class="docutils literal notranslate"><span class="pre">flatten_nested_inputs=False</span></code>, the preprocessor will check for keys that contain the delimiter character. This prevents ambiguity between literal keys and nested paths.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">BackendConfig</span><span class="p">(</span>
+    <span class="n">flatten_nested_inputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">nested_field_delimiter</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a.b&quot;</span><span class="p">]</span>  <span class="c1"># Nested path access</span>
+<span class="p">)</span>
+
+<span class="c1"># Input has a key containing the delimiter - this will raise an error</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;field.name&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}]</span>
+<span class="c1"># PreprocessorRuntimeError: Keys containing the delimiter &#39;.&#39; were found: [&#39;field.name&#39;]</span>
+</pre></div>
+</div>
+<p>To bypass this check (not recommended), set <code class="docutils literal notranslate"><span class="pre">ignore_delimiter_collisions=True</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">BackendConfig</span><span class="p">(</span>
+    <span class="n">flatten_nested_inputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">nested_field_delimiter</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a.b&quot;</span><span class="p">],</span>
+    <span class="n">ignore_delimiter_collisions</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Bypass collision detection</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">ignore_delimiter_collisions=True</span></code> may result in undefined behavior if key collisions occur. Use with caution and ensure your data does not contain keys with the delimiter character when using nested path access.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The default <code class="docutils literal notranslate"><span class="pre">BackendConfig</span></code> values will not trigger any of the above conditions and will fall back to acting as a

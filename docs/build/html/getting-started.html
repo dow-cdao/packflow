@@ -130,7 +130,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 </pre></div>
 </div>
 <p><strong>Viewing Pre-built Documentation</strong></p>
-<p>The simplest way to view the Packflow documentation is to serve the pre-build HTML files included in the repository:</p>
+<p>The simplest way to view the Packflow documentation is to serve the pre-built HTML files included in the repository:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Navigate to the pre-built docs folder</span>
 <span class="nb">cd</span><span class="w"> </span>docs/built/html
 
@@ -183,7 +183,8 @@ make<span class="w"> </span>prod-serve
 ├── README.md
 ├── requirements.txt
 ├── inference.py
-└── validate.py
+├── validate.py
+└── test_inference.py
 </pre></div>
 </div>
 </section>
@@ -261,8 +262,8 @@ make<span class="w"> </span>prod-serve
 <span class="linenos"> 6</span><span class="c1">#   `from inference import Backend`</span>
 <span class="linenos"> 7</span><span class="n">backend</span> <span class="o">=</span> <span class="n">LocalLoader</span><span class="p">(</span><span class="s2">&quot;inference:Backend&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="c1"># Define sample inputs that represent realistic data for your backend.</span>
-<span class="linenos">10</span><span class="c1"># These should exercise the expected input format(s) your backend will receive.</span>
+<span class="linenos"> 9</span><span class="c1"># Define sample inputs that represent realistic data for the backend.</span>
+<span class="linenos">10</span><span class="c1"># These should exercise the expected input format(s) the backend will receive.</span>
 <span class="linenos">11</span><span class="n">SAMPLE_SINGLE_ROW</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
 <span class="linenos">12</span>
 <span class="linenos">13</span><span class="n">SAMPLE_BATCH</span> <span class="o">=</span> <span class="p">[</span>
@@ -277,8 +278,8 @@ make<span class="w"> </span>prod-serve
 <span class="linenos">22</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample single row: </span><span class="si">{</span><span class="n">SAMPLE_SINGLE_ROW</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="linenos">23</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample batch: </span><span class="si">{</span><span class="n">SAMPLE_BATCH</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="linenos">24</span>
-<span class="linenos">25</span>    <span class="c1"># backend.validate() runs your backend and checks the outputs</span>
-<span class="linenos">26</span>    <span class="c1"># meet Packflow&#39;s API requirements. Returns outputs if valid.</span>
+<span class="linenos">25</span>    <span class="c1"># backend.validate() checks that the outputs meet Packflow&#39;s format</span>
+<span class="linenos">26</span>    <span class="c1"># requirements. Returns outputs if valid.</span>
 <span class="linenos">27</span>    <span class="n">outputs_single_row</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">SAMPLE_SINGLE_ROW</span><span class="p">)</span>
 <span class="linenos">28</span>    <span class="n">outputs_batch</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">SAMPLE_BATCH</span><span class="p">)</span>
 <span class="linenos">29</span>
@@ -290,7 +291,7 @@ make<span class="w"> </span>prod-serve
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Validation can be run via the <code class="docutils literal notranslate"><span class="pre">validate.py</span></code> file, or directly from a Notebook. However the path will ned to be updated
+<p>Validation can be run via the <code class="docutils literal notranslate"><span class="pre">validate.py</span></code> file, or directly from a Notebook. However the path will need to be updated
 if it is not running in the same directory</p>
 <p>Passing <code class="docutils literal notranslate"><span class="pre">&quot;inference:Backend&quot;</span></code> to the Local Loader is roughly equal to <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">inference</span> <span class="pre">import</span> <span class="pre">Backend</span></code>. If the script
 is nested further, the path can be separated via dot notation, such as <code class="docutils literal notranslate"><span class="pre">src.mypackage.inference:Backend</span></code>.</p>

@@ -103,6 +103,58 @@ Records Preprocessor [Default]
         - The flattening will also include lists.
         - Example: ``{"foo": {"bar": [0, 1]}}`` will be flattened to ``{"foo.bar.0": 0, "foo.bar.1": 1}``
 
+**Nested Path Access:**
+
+When using delimiter notation in ``rename_fields`` or ``feature_names`` to access nested paths (e.g., ``"foo.bar"`` to access ``{"foo": {"bar": value}}``), the preprocessor will traverse the nested structure directly without flattening. If a key in the path does not exist, it will be silently skipped and not included in the output.
+
+**Important:** When ``flatten_nested_inputs=False``, the preprocessor **never flattens** the input data. Keys containing the delimiter character are preserved exactly as they appear. Nested path access is performed via direct traversal of the dictionary structure.
+
+**Example:**
+
+.. code-block:: python
+
+    config = BackendConfig(
+        flatten_nested_inputs=False,
+        nested_field_delimiter=".",
+        feature_names=["a.b", "x"]
+    )
+    
+    # Input with nested structure
+    input_data = [{"a": {"b": 10}, "x": 5}]
+    
+    # Output preserves nested structure for accessed paths
+    # Result: [{"a": {"b": 10}, "x": 5}]
+
+**Delimiter Collision Detection:**
+
+When using nested path access (delimiter notation in ``rename_fields`` or ``feature_names``) with ``flatten_nested_inputs=False``, the preprocessor will check for keys that contain the delimiter character. This prevents ambiguity between literal keys and nested paths.
+
+.. code-block:: python
+
+    config = BackendConfig(
+        flatten_nested_inputs=False,
+        nested_field_delimiter=".",
+        feature_names=["a.b"]  # Nested path access
+    )
+    
+    # Input has a key containing the delimiter - this will raise an error
+    input_data = [{"field.name": 42, "a": {"b": 1}}]
+    # PreprocessorRuntimeError: Keys containing the delimiter '.' were found: ['field.name']
+
+To bypass this check (not recommended), set ``ignore_delimiter_collisions=True``:
+
+.. code-block:: python
+
+    config = BackendConfig(
+        flatten_nested_inputs=False,
+        nested_field_delimiter=".",
+        feature_names=["a.b"],
+        ignore_delimiter_collisions=True  # Bypass collision detection
+    )
+
+.. warning::
+    Setting ``ignore_delimiter_collisions=True`` may result in undefined behavior if key collisions occur. Use with caution and ensure your data does not contain keys with the delimiter character when using nested path access.
+
 .. note::
     The default ``BackendConfig`` values will not trigger any of the above conditions and will fall back to acting as a
     Passthrough preprocessor for optimization purposes.

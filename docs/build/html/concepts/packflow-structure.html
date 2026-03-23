@@ -120,7 +120,7 @@ users can process and deploy Packflow projects in a reliable or automated fashio
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></p></td>
 <td><p>Yes</p></td>
 <td><p>requirements file specifying the list of Python dependencies</p></td>
-<td><p>Incomplete</p></td>
+<td><p>Contains only <code class="docutils literal notranslate"><span class="pre">packflow</span></code> dependency; user must add model-specific dependencies</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MODEL_CARD.md</span></code></p></td>
 <td><p>Recommended</p></td>
@@ -135,7 +135,7 @@ users can process and deploy Packflow projects in a reliable or automated fashio
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code></p></td>
 <td><p>Recommended</p></td>
 <td><p>readme file for use by developers and other contributors</p></td>
-<td><p>Blank</p></td>
+<td><p>Template</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">inference.py</span></code></p></td>
 <td><p>Yes</p></td>
@@ -145,6 +145,11 @@ users can process and deploy Packflow projects in a reliable or automated fashio
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">validate.py</span></code></p></td>
 <td><p>Recommended</p></td>
 <td><p>validation file which can be run to ensure the <code class="docutils literal notranslate"><span class="pre">Backend</span></code> adheres to <code class="docutils literal notranslate"><span class="pre">InferenceBackend</span></code> requirements</p></td>
+<td><p>Template</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_inference.py</span></code></p></td>
+<td><p>Recommended</p></td>
+<td><p>pytest test file providing a starting point for testing the <code class="docutils literal notranslate"><span class="pre">Backend</span></code></p></td>
 <td><p>Template</p></td>
 </tr>
 </tbody>

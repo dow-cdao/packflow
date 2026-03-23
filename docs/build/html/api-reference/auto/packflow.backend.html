@@ -232,6 +232,11 @@ to keep this method focused purely on inference/analysis.</p>
 <span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Nested Field Delimiter&quot;</span><span class="p">,</span>
 <span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;ignore_delimiter_collisions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ignore Delimiter Collisions&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">   </span><span class="p">},</span>
 <span class="w">   </span><span class="nt">&quot;$defs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -255,6 +260,7 @@ to keep this method focused purely on inference/analysis.</p>
 <li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.feature_names" title="packflow.backend.configuration.BackendConfig.feature_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_names</span> <span class="pre">(List[str])</span></code></a></p></li>
 <li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.flatten_lists" title="packflow.backend.configuration.BackendConfig.flatten_lists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten_lists</span> <span class="pre">(bool)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.flatten_nested_inputs" title="packflow.backend.configuration.BackendConfig.flatten_nested_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten_nested_inputs</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.ignore_delimiter_collisions" title="packflow.backend.configuration.BackendConfig.ignore_delimiter_collisions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ignore_delimiter_collisions</span> <span class="pre">(bool)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.input_format" title="packflow.backend.configuration.BackendConfig.input_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_format</span> <span class="pre">(packflow.backend.configuration.InputFormats)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.nested_field_delimiter" title="packflow.backend.configuration.BackendConfig.nested_field_delimiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nested_field_delimiter</span> <span class="pre">(str)</span></code></a></p></li>
 <li><p><a class="reference internal" href="#packflow.backend.configuration.BackendConfig.rename_fields" title="packflow.backend.configuration.BackendConfig.rename_fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rename_fields</span> <span class="pre">(dict)</span></code></a></p></li>
@@ -275,6 +281,11 @@ to keep this method focused purely on inference/analysis.</p>
 <dl class="py attribute pydantic_field">
 <dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.flatten_nested_inputs">
 <em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flatten_nested_inputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.flatten_nested_inputs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py" id="packflow.backend.configuration.BackendConfig.ignore_delimiter_collisions">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ignore_delimiter_collisions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#packflow.backend.configuration.BackendConfig.ignore_delimiter_collisions" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute pydantic_field">
@@ -679,6 +690,13 @@ be caught by the pydantic model.</p>
 <dd class="field-odd"><p>list[dict]</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>When accessing nested fields via delimiter notation (e.g., “a.b.c”) in
+feature_names or rename_fields, missing keys will be silently skipped
+and not included in the output.</p>
+<p>If flatten_nested_inputs=False, the preprocessor will never flatten the input,
+preserving all keys exactly as they appear (including keys containing delimiters).
+Nested path access will be done via direct traversal instead of flattening.</p>
 </dd></dl>
 
 <dl class="py method">

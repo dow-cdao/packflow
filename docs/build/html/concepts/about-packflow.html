@@ -106,10 +106,7 @@ inference code and standardizes packaging of AI/ML running on streaming data sou
 <p>Many existing packaging frameworks are catered towards inference APIs and often require custom preprocessing steps. This
 can be particularly challenging when dealing with data sources that typically generate data one row at a time in key-value
 pairs (e.g., firewall logs or message streams).</p>
-<p>Packflow, however, is optimized to run models on batches of such events, streamlining development and reducing the need
-for additional preprocessing. By leveraging Packflow, teams can focus on building and deploying models with custom
-out-of the-box workflows and utilities, significantly reducing the time and effort required to onboard new
-capabilities.</p>
+<p>Packflow, however, is optimized to run models on either individual events or batches of events, streamlining development and reducing the need for additional preprocessing. The framework automatically handles both single-record and batch processing with the same code, eliminating the need to write separate logic for streaming (one-at-a-time) versus batch scenarios. By leveraging Packflow, teams can focus on building and deploying models with custom out-of-the-box workflows and utilities, significantly reducing the time and effort required to onboard new capabilities.</p>
 <p>Packflow also ships with a lightweight command-line interface (CLI) that can scaffold new projects, template code, and archive or package
 project files in a consistent, reproducible format, enabling customizable and maintainable deployment pipelines for
 downstream users.</p>
@@ -126,7 +123,7 @@ requirements or lead to unnecessary latency.</p>
 <p>The following terms are essential to understanding the <code class="docutils literal notranslate"><span class="pre">packflow</span></code> framework:</p>
 <p><strong>Core Definitions</strong></p>
 <ul class="simple">
-<li><p><strong>Event</strong>: A single, discrete unit of data processed by the model. It is analogous to a row in a dataset.</p></li>
+<li><p><strong>Event</strong>: A single, discrete unit of data processed by the model. It is analogous to a row in a dataset - for example, a single firewall log entry or one message from a data stream.</p></li>
 <li><p><strong>Batch</strong>: A collection of events, represented as a list of length N, where each element is an individual event.</p></li>
 <li><p><strong>Records</strong>: The data structure containing a batch of events, typically a list of dictionaries. This term is inspired by <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and used extensively throughout the documentation.</p></li>
 </ul>

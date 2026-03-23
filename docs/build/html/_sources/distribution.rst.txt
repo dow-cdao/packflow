@@ -8,17 +8,13 @@ This documentation describes how to create a distributable version of the model 
 Before Distribution
 ===================
 
-Before distributing a Packflow project, it is important to ensure that the Inference Backend has been properly :ref:`validated <validation>` and :ref:`tested<best-practices-testing>`. This ensures that the backend functions as expected and meets the necessary requirements for deployment.
-
-It is also strongly recommended to complete the following files in the project structure to provide necessary context and information for downstream users:
+The Inference Backend should be :ref:`validated <validation>` and :ref:`tested<best-practices-testing>` before distribution. The following files should also be completed before packaging:
 
  - ``MODEL_CARD.md``: Document model details, limitations, and ownership.
  - ``README.md``: Provide usage instructions and relevant information for developers and contributors.
  - ``LICENSE.txt``: Specify the applicable licensing information for the project.
-
-Additional Requirements:
- - Complete ``packflow.yaml``: Ensure that the Packflow configuration file is fully populated with accurate metadata and configuration details.
- - Specify dependencies in ``requirements.txt``: List all necessary Python dependencies to ensure that the environment can be properly set up for the Inference Backend.
+ - ``packflow.yaml``: Complete all metadata and configuration fields.
+ - ``requirements.txt``: Specify all required Python dependencies.
 
 These files are created as part of the Packflow project structure when initializing a new project with the ``packflow create`` command.
 
@@ -51,7 +47,7 @@ The purpose of ``packflow.yaml`` is to track:
 Creating a Package
 ==================
 
-After ensuring that the Packflow project is properly validated, tested, and documented, create a distributable package of the project using the ``packflow export [PROJECT_PATH]`` command.
+Create a distributable package using the ``packflow export [PROJECT_PATH]`` command.
 
 .. code-block:: bash
 
@@ -62,4 +58,4 @@ The ``[PROJECT_PATH]`` argument is optional; if not provided, the current workin
 This will create a zipped archive of the Packflow project in the current working directory, which can then be shared and deployed across different environments.
 
 .. note::
-    Creating a new package should equate to a new 'release' of this project, and it is recommended to create packages based on Git branches or tags for versioning purposes.
+    Each package corresponds to a release. Creating packages from Git branches or tags is recommended for versioning.
