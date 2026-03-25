@@ -4,6 +4,8 @@
 __pycache__/
 
 docs/dev-build/
+docs/build/
+docs/gh-pages-staging/
 
 # Ignore Jupyter Notebook artifacts/things that are generated when running the notebooks
 .ipynb_checkpoints/
