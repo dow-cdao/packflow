@@ -29,7 +29,11 @@ extensions = [
     "nbsphinx",
     "sphinxcontrib.autodoc_pydantic",
     "sphinx_favicon",
+    "sphinx_sitemap",
 ]
+
+html_baseurl = "https://dow-cdao.github.io/packflow/"
+html_extra_path = ["robots.txt"]
 
 templates_path = ["_templates"]
 exclude_patterns = ["api-reference/auto/modules.rst"]

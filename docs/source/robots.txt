@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dow-cdao.github.io/packflow/sitemap.xml
