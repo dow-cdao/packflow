@@ -40,19 +40,9 @@ For development or to install from source:
    pip install -e .
 
 
-**Viewing Pre-built Documentation**
+**Documentation**
 
-The simplest way to view the Packflow documentation is to serve the pre-built HTML files included in the repository:
-
-.. code-block:: bash
-
-   # Navigate to the pre-built docs folder
-   cd docs/built/html
-
-   # Start a local web server
-   python -m http.server 8000
-
-   # Access the documentation in a web browser at http://127.0.0.1:8000/
+Packflow documentation is hosted at `https://dow-cdao.github.io/packflow/ <https://dow-cdao.github.io/packflow/>`_. For instructions on building documentation locally, see the `README <https://github.com/dow-cdao/packflow#documentation>`_.
 
 
 .. important::

@@ -48,50 +48,22 @@ pip install packflow
 > [!NOTE]
 > If contributing to Packflow, it is recommended to install `packflow` from source in editable mode: `pip install -e .`
 
-## Packflow Documentation
+## Documentation
 
-Packflow documentation is available pre-built in the repository and can be viewed immediately, or built from source for development work. Follow the instructions below to get started with serving the documentation.
+Packflow documentation is hosted at **[https://dow-cdao.github.io/packflow/](https://dow-cdao.github.io/packflow/)**. Pre-built HTML is also available on the [`gh-pages`](https://github.com/dow-cdao/packflow/tree/gh-pages) branch.
 
-### Viewing Pre-built Documentation
+To build and serve documentation locally:
 
-The simplest way to view the Packflow documentation is to serve the pre-built HTML files included in the repository:
-
-1. Navigate to the pre-built docs folder: `cd docs/build/html`
-2. Start a local web server: `python -m http.server 8000`
-3. Access the documentation in a web browser by navigating to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-
-> [!WARNING]
-> If a "Not Found" error page is received when first accessing the documentation, wait a moment for the server to fully start and refresh the page.
-
-### Building Documentation from Source
-
-#### Prerequisite Requirements
-
-The following are required to build documentation from source:
-
-- **Python** (version 3.10+)
-- **Pip**
-- **Packflow** (the version corresponding to the docs being served)
-- **Pandoc**[^1] (see Pandoc.org's [official installation instructions](https://pandoc.org/installing.html))
-- **`make` Command**[^2]
-
-#### Steps
-
-1. Navigate to the docs folder: `cd docs`
-2. Install Python dependencies for building and hosting the documentation: `pip install -r requirements.txt`
-3. Run `make dev` to serve the documentation from a working tree with live updates, or `make prod-serve` to serve static multi-version documentation (requires `.git` directory with branch/tag history)
-4. Access the built documentation in a web browser by navigating to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-
-> [!WARNING]
-> If a "Not Found" error page is received when first accessing the documentation, wait a moment for the server to fully start and refresh the page.
+1. Install system prerequisites: [**Pandoc**](https://pandoc.org/installing.html) (required in addition to the `pandoc` Python package) and **`make`**[^2]
+2. Navigate to the docs folder: `cd docs`
+3. Install Python dependencies: `pip install -r requirements.txt`
+4. Run `make dev` to serve with live reloading at [https://127.0.0.1:8000/](https://127.0.0.1:8000/)
 
 ## Usage
 
 Packflow provides a flexible base class called an `InferenceBackend` that allows users to build highly scalable platform- and tool-agnostic inference code, enabling simplified sharing across environments.
 
 Additionally, Packflow's CLI can assist with creating projects, gathering environmental information, and creating distributable code packages for sharing reproducible inference code between disconnected environments.
-
-For detailed information and usage patterns on Packflow, please see the `About Packflow` and `User Guide` sections of the official documentation site.
 
 ### Dummy Inference Backend
 
@@ -136,7 +108,6 @@ Packflow is developed and maintained by [Booz Allen Hamilton](https://www.boozal
 `packflow` is distributed under the terms of the [MIT license](https://spdx.org/licenses/MIT.html). Please refer to the [LICENSE](https://github.com/dow-cdao/packflow/blob/master/LICENSE) for more information of acceptable usage and distribution of Packflow.
 
 
-[^1]: *Pandoc* must be installed separately from the `pandoc` python package in `docs/requirements.txt`.
 [^2]: Installation of `make` varies by operating system. On MacOS, install `xcode-select`. On Windows, it is recommend to use Windows Subsystem for Linux (WSL). On Debian/Ubuntu, `make` can be installed via `apt` package manager: <pre>
   sudo apt update
   sudo apt install make build-essential
