@@ -81,5 +81,8 @@ pillow = "^11.3.0"
 
 [tool.poetry.scripts]
 packflow = "packflow.cli:cli"
+[tool.pytest.ini_options]
+addopts = "--ignore=src/packflow/data/templates"
+
 [tool.coverage.run]
 omit = ["tests/*"]
