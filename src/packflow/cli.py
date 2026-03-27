@@ -7,6 +7,9 @@ def _success_message(msg: str):
     base = click.style("Success:", fg="green")
     click.echo(f"{base} {msg}")
 
+def _warning_message(msg: str):
+    base = click.style("Warning:", fg="yellow")
+    click.echo(f"{base} {msg}")
 
 def _error_message(msg: str):
     base = click.style("Error:", fg="red")
@@ -43,6 +46,8 @@ def export(project_path):
     try:
         project = packflow.PackflowProject(project_path)
         output_file = project.export()
+        if project.version_warning:
+            _warning_message(project.version_warning)
         _success_message(f"Saved Package to {output_file}")
     except Exception as e:
         _error_message(str(e))

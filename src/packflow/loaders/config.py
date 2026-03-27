@@ -98,6 +98,32 @@ class PackflowConfig(BaseModel):
         return requirements_text
 
 
+def check_python_version(config: "PackflowConfig") -> Optional[str]:
+    """
+    Compare the config's python version against the running interpreter
+    at the minor version level (e.g. 3.10 vs 3.11). Returns a warning
+    message string on mismatch, None if versions agree.
+    """
+    runtime_minor = (sys.version_info.major, sys.version_info.minor)
+
+    try:
+        parts = [int(p) for p in config.python_version.split('.')]
+        config_minor = (parts[0], parts[1])
+    except (ValueError, IndexError):
+        return (
+            f"Could not parse python_versoin '{config.python_version}' in packflow.yaml. "
+            f"Expected a version string like '{get_python_version()}'."
+        )
+
+    if runtime_minor != config_minor:
+        return (
+            f"packflow.yaml specifies Python {config.python_version}, "
+            f"but the current environment is Python {get_python_version()}. "
+            f"Consider updating the python_version field or switching to a matching environment."
+        )
+    return None
+
+
 def _load_raw_packaging_config(base_dir: Union[str, Path]) -> dict:
     base_dir = Path(base_dir).resolve()
     packaging_config = base_dir / constants.PACKAGING_CONFIG_NAME

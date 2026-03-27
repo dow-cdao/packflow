@@ -1,12 +1,13 @@
 import importlib.resources
 import shutil
+import os
 import zipfile
 from pathlib import Path
 from typing import Union
 
 import packflow.constants as constants
 
-from .loaders.config import PackflowConfig
+from .loaders.config import PackflowConfig, check_python_version
 
 
 class PackflowProject:
@@ -30,6 +31,7 @@ class PackflowProject:
 
         base_path = Path(config.name).resolve()
 
+        created_new_dir = not base_path.exists()
         base_path.mkdir(parents=True, exist_ok=force)
 
         # HARD CODED SINCE THERE'S ONLY ONE TEMPLATE RIGHT NOW
@@ -41,9 +43,23 @@ class PackflowProject:
 
         shutil.copytree(str(templates_dir), str(base_path), dirs_exist_ok=True)
 
-        config.write_yaml(base_path)
 
-        config.write_requirements(base_path)
+        try:
+            # Ensure all created files/directories are writable regardless of
+            # source permissions or environment umask settings
+            for root, dirs, files in os.walk(base_path):
+                for d in dirs:
+                    os.chmod(os.path.join(root, d), 0o755)
+                for f in files:
+                    os.chmod(os.path.join(root, f), 0o644)
+                
+            config.write_yaml(base_path)
+
+            config.write_requirements(base_path)
+        except Exception:
+            if created_new_dir:
+                shutil.rmtree(base_path, ignore_errors=True)
+            raise
 
         return cls(base_path)
 
@@ -55,6 +71,9 @@ class PackflowProject:
         Save the loaded project as a package.zip with schema `{name}-{version}-pkg.zip`
         """
         config = PackflowConfig.from_project_path(self.base_dir)
+
+        self.version_warning = check_python_version(config)
+
         export_file_name = config.archive_file_name(output_directory)
 
         try:
