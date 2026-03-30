@@ -47,6 +47,7 @@ class PackflowProject:
         try:
             # Ensure all created files/directories are writable regardless of
             # source permissions or environment umask settings
+            os.chmod(base_path, 0o755)
             for root, dirs, files in os.walk(base_path):
                 for d in dirs:
                     os.chmod(os.path.join(root, d), 0o755)
