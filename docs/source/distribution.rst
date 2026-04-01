@@ -58,4 +58,8 @@ The ``[PROJECT_PATH]`` argument is optional; if not provided, the current workin
 This will create a zipped archive of the Packflow project in the current working directory, which can then be shared and deployed across different environments.
 
 .. note::
+    In the archive filename, hyphens in the project name are replaced with underscores (e.g., ``my-analytic`` produces ``my_analytic-1.0.0.zip``).
+    This follows `PEP 625 <https://peps.python.org/pep-0625/>`_ conventions, ensuring the hyphen in the filename unambiguously separates the project name from the version.
+
+.. note::
     Each package corresponds to a release. Creating packages from Git branches or tags is recommended for versioning.

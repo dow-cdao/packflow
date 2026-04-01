@@ -88,6 +88,10 @@ Step 1: Create the project structure
 ------------------------------------
 
 Initialize a new project by running ``packflow create hello-world``. This will create a new directory named ``hello-world`` that contains the following directory structure:
+
+.. note::
+   Project names must start with a letter and may contain letters, digits, hyphens, and underscores.
+
 ::
 
    hello-world/
