@@ -15,6 +15,16 @@ def test_archive_file_name():
     assert result == Path("/tmp/test/test_project-1.2.3.zip").resolve()
 
 
+def test_archive_file_name_normalizes_hyphens():
+    """Test that hyphens are replaced with underscores in archive filename (PEP 625)"""
+    config = PackflowConfig(name="test-project", version="1.0.0", description="Test")
+
+    result = config.archive_file_name("/tmp/test")
+
+    # Hyphens normalized to underscores so '-' unambiguously separates name from version
+    assert result == Path("/tmp/test/test_project-1.0.0.zip").resolve()
+
+
 def test_write_yaml(tmp_path):
     """Test writing packflow.yaml with proper structure"""
     config = PackflowConfig(
@@ -130,12 +140,29 @@ def test_load_packflow_config_not_found():
     assert "Could not identify packflow project" in str(exc_info.value)
 
 
-def test_packflow_config_name_normalization():
-    """Test that project names are normalized (hyphens to underscores)"""
+def test_packflow_config_name_allows_hyphens():
+    """Test that hyphenated names are accepted (distribution-style naming)"""
     config = PackflowConfig(name="my-test-project", version="0.1.0", description="Test")
 
-    # Hyphens should be converted to underscores
-    assert config.name == "my_test_project"
+    assert config.name == "my-test-project"
+
+
+def test_packflow_config_name_allows_digits():
+    """Test that names with digits are accepted"""
+    config = PackflowConfig(name="model_v2", version="0.1.0", description="Test")
+    assert config.name == "model_v2"
+
+
+def test_packflow_config_name_rejects_leading_digit():
+    """Test that leading digits are rejected"""
+    with pytest.raises(Exception):  # Pydantic ValidationError
+        PackflowConfig(name="2cool", version="0.1.0", description="Test")
+
+
+def test_packflow_config_name_rejects_leading_hyphen():
+    """Test that names starting with a hyphen are rejected"""
+    with pytest.raises(Exception):  # Pydantic ValidationError
+        PackflowConfig(name="-cool-model", version="0.1.0", description="Test")
 
 
 def test_packflow_config_inference_backend_validation():

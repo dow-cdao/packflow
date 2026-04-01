@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Annotated, Literal, Optional, Union
 
 import yaml
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, StringConstraints
+from pydantic import BaseModel, ConfigDict, StringConstraints
 
 import packflow.constants as constants
 
@@ -18,15 +18,20 @@ def get_python_version():
     return f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
 
 
-def normalize_name(value: str) -> str:
-    return value.replace("-", "_").strip("_")
+NAME_PATTERN = r"^[A-Za-z][A-Za-z0-9_-]*$"
 
+NameStr = Annotated[str, StringConstraints(pattern=NAME_PATTERN)]
 
-NameStr = Annotated[
-    Annotated[str, StringConstraints(pattern=r"^[A-Za-z_]+$")],
-    BeforeValidator(normalize_name),
-]
 InferenceBackendStr = Annotated[str, StringConstraints(pattern=r"^[^:]+:[^:]+$")]
+
+
+def normalize_archive_name(name: str) -> str:
+    """Normalize a project name for use in archive filenames (PEP 625).
+
+    Hyphens are replaced with underscores so that the hyphen in the
+    archive filename unambiguously separates the name from the version.
+    """
+    return name.replace("-", "_")
 
 
 class PackflowConfig(BaseModel):
@@ -48,7 +53,7 @@ class PackflowConfig(BaseModel):
 
     def archive_file_name(self, base_dir: Union[str, Path]):
         base_dir = Path(base_dir).resolve()
-        return base_dir / f"{self.name}-{self.version}.zip"
+        return base_dir / f"{normalize_archive_name(self.name)}-{self.version}.zip"
 
     def write_yaml(self, base_dir: Union[str, Path]):
         base_dir = Path(base_dir).resolve()
@@ -107,11 +112,11 @@ def check_python_version(config: "PackflowConfig") -> Optional[str]:
     runtime_minor = (sys.version_info.major, sys.version_info.minor)
 
     try:
-        parts = [int(p) for p in config.python_version.split('.')]
+        parts = [int(p) for p in config.python_version.split(".")]
         config_minor = (parts[0], parts[1])
     except (ValueError, IndexError):
         return (
-            f"Could not parse python_versoin '{config.python_version}' in packflow.yaml. "
+            f"Could not parse python_version '{config.python_version}' in packflow.yaml. "
             f"Expected a version string like '{get_python_version()}'."
         )
 

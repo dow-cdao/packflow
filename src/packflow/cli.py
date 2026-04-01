@@ -1,15 +1,20 @@
+import re
+
 import click
 
 import packflow
+from packflow.loaders.config import NAME_PATTERN
 
 
 def _success_message(msg: str):
     base = click.style("Success:", fg="green")
     click.echo(f"{base} {msg}")
 
+
 def _warning_message(msg: str):
     base = click.style("Warning:", fg="yellow")
     click.echo(f"{base} {msg}")
+
 
 def _error_message(msg: str):
     base = click.style("Error:", fg="red")
@@ -32,6 +37,13 @@ def cli():
 )
 def create(project_name, force):
     """Initialize a new project from a template in the current working directory"""
+    if not re.match(NAME_PATTERN, project_name):
+        _error_message(
+            f"Invalid project name '{project_name}'. "
+            f"Names must start with a letter and contain only letters, digits, hyphens, and underscores."
+        )
+        return
+
     try:
         project = packflow.PackflowProject.create(project_name, force=force)
         _success_message(project)

@@ -73,7 +73,7 @@ def test_from_project_with_local_loader(tmp_path: Path):
     packflow_yaml = tmp_path / "packflow.yaml"
     packflow_yaml.write_text(
         """
-name: test_project
+name: test-project
 version: 0.0.1
 description: Test project
 maintainers:
