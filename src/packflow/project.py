@@ -1,13 +1,38 @@
 import importlib.resources
-import shutil
 import os
+import shutil
 import zipfile
+from fnmatch import fnmatch
 from pathlib import Path
 from typing import Union
 
 import packflow.constants as constants
 
 from .loaders.config import PackflowConfig, check_python_version
+
+# Directories excluded from export by default
+EXCLUDED_DIRS = {
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    ".tox",
+    ".nox",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "node_modules",
+    ".idea",
+    ".vscode",
+    ".eggs",
+}
+
+# File patterns excluded from export by default
+EXPORT_EXCLUDE_PATTERNS = {
+    "*.pyc",
+    "*.pyo",
+    "*.egg-info",
+}
 
 
 class PackflowProject:
@@ -43,7 +68,6 @@ class PackflowProject:
 
         shutil.copytree(str(templates_dir), str(base_path), dirs_exist_ok=True)
 
-
         try:
             # Ensure all created files/directories are writable regardless of
             # source permissions or environment umask settings
@@ -53,7 +77,7 @@ class PackflowProject:
                     os.chmod(os.path.join(root, d), 0o755)
                 for f in files:
                     os.chmod(os.path.join(root, f), 0o644)
-                
+
             config.write_yaml(base_path)
 
             config.write_requirements(base_path)
@@ -69,7 +93,7 @@ class PackflowProject:
 
     def export(self, output_directory: str = ".") -> Path:
         """
-        Save the loaded project as a package.zip with schema `{name}-{version}-pkg.zip`
+        Save the loaded project as a package.zip with schema `{name}-{version}.zip`
         """
         config = PackflowConfig.from_project_path(self.base_dir)
 
@@ -80,12 +104,24 @@ class PackflowProject:
         try:
             with zipfile.ZipFile(export_file_name, "w") as zip_file:
                 for file_path in self.base_dir.rglob("*"):
-                    if (
-                        file_path.is_file()
-                        and file_path.resolve() != export_file_name.resolve()
+                    if not file_path.is_file():
+                        continue
+                    if file_path.resolve() == export_file_name.resolve():
+                        continue
+
+                    relative_path = file_path.relative_to(self.base_dir)
+
+                    # Skip files inside excluded directories
+                    if any(part in EXPORT_EXCLUDE_DIRS for part in relative_path.parts):
+                        continue
+
+                    # Skip files matching excluded patterns
+                    if any(
+                        fnmatch(file_path.name, pat) for pat in EXPORT_EXCLUDE_PATTERNS
                     ):
-                        relative_path = file_path.relative_to(self.base_dir)
-                        zip_file.write(str(file_path), str(relative_path))
+                        continue
+
+                    zip_file.write(str(file_path), str(relative_path))
             return export_file_name
         except Exception as e:
             # TODO: Create custom exception
