@@ -13,7 +13,7 @@ import packflow.constants as constants
 from .loaders.config import PackflowConfig, check_python_version
 
 # Directories excluded from export by default
-EXCLUDED_DIRS = {
+EXPORT_EXCLUDE_DIRS = {
     ".git",
     "__pycache__",
     ".venv",
@@ -101,7 +101,6 @@ class PackflowProject:
         return pathspec.PathSpec.from_lines(
             "gitwildmatch", gitignore.read_text().splitlines()
         )
-
 
     def export(self, output_directory: str = ".") -> Path:
         """

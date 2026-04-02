@@ -26,7 +26,7 @@ class NotABackend:
 
         loader = LocalLoader("not_backend:NotABackend")
 
-        with pytest.raises(exceptions.InferenceBackendLoadError) as exc_info:
+        with pytest.raises(exceptions.InferenceBackendLoadError):
             loader.load()
 
     finally:
