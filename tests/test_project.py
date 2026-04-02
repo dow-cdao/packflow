@@ -152,6 +152,16 @@ def test_export(tmp_path):
 
         # Create a project
         project = PackflowProject.create("export_test")
+        config_file = project.base_dir / "packflow.yaml"
+        config_file.write_text(
+            """
+name: export_test
+version: 1.0.0
+description: Test
+inference_backend: inference:Backend
+loader: local
+"""
+        )
 
         # Export it
         zip_path = project.export(output_directory=str(tmp_path))
@@ -190,6 +200,16 @@ def test_export_to_different_directory(tmp_path):
         os.chdir(project_dir)
 
         project = PackflowProject.create("my_project")
+        config_file = project.base_dir / "packflow.yaml"
+        config_file.write_text(
+            """
+name: my_project
+version: 1.0.0
+description: Test
+inference_backend: inference:Backend
+loader: local
+"""
+        )
 
         # Export to different directory
         export_dir = tmp_path / "exports"

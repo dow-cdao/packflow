@@ -58,8 +58,8 @@ def export(project_path):
     try:
         project = packflow.PackflowProject(project_path)
         output_file = project.export()
-        if project.version_warning:
-            _warning_message(project.version_warning)
+        for warning in project.export_warnings:
+            _warning_message(warning)
         _success_message(f"Saved Package to {output_file}")
     except Exception as e:
         _error_message(str(e))

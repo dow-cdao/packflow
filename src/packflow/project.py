@@ -10,7 +10,7 @@ import pathspec
 
 import packflow.constants as constants
 
-from .loaders.config import PackflowConfig, check_python_version
+from .loaders.config import PackflowConfig, check_python_version, validate_for_export
 
 # Directories excluded from export by default
 EXPORT_EXCLUDE_DIRS = {
@@ -108,7 +108,18 @@ class PackflowProject:
         """
         config = PackflowConfig.from_project_path(self.base_dir)
 
-        self.version_warning = check_python_version(config)
+        errors, warnings = validate_for_export(config)
+        if errors:
+            raise ValueError(
+                "Export blocked due to validation errors:\n"
+                + "\n".join(f"  - {e}" for e in errors)
+            )
+
+        self.export_warnings = warnings
+
+        version_warning = check_python_version(config)
+        if version_warning:
+            self.export_warnings.append(version_warning)
 
         export_file_name = config.archive_file_name(output_directory)
 

@@ -70,6 +70,10 @@ def test_export_command_success(runner: CliRunner, tmp_path: Path):
         runner.invoke(cli, ["create", "export_test"])
 
         project_dir = tmp_path / "export_test"
+        (project_dir / "packflow.yaml").write_text(
+            "name: export_test\nversion: 1.0.0\ndescription: Test\n"
+            "inference_backend: inference:Backend\nloader: local\n"
+        )
         os.chdir(project_dir)
 
         # Export it
@@ -98,6 +102,10 @@ def test_export_command_default_path(runner, tmp_path):
         runner.invoke(cli, ["create", "default_export"])
 
         project_dir = tmp_path / "default_export"
+        (project_dir / "packflow.yaml").write_text(
+            "name: default_export\nversion: 1.0.0\ndescription: Test\n"
+            "inference_backend: inference:Backend\nloader: local\n"
+        )
         os.chdir(project_dir)
 
         # Export without specifying path (should default to ".")
