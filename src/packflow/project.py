@@ -6,6 +6,8 @@ from fnmatch import fnmatch
 from pathlib import Path
 from typing import Union
 
+import pathspec
+
 import packflow.constants as constants
 
 from .loaders.config import PackflowConfig, check_python_version
@@ -90,6 +92,16 @@ class PackflowProject:
 
     def load_config(self):
         return PackflowConfig.from_project_path(self.base_dir)
+
+    def _load_gitignore_spec(self) -> pathspec.PathSpec:
+        """Load .gitignore patterns if the file exists."""
+        gitignore = self.base_dir / ".gitignore"
+        if not gitignore.exists():
+            return pathspec.PathSpec.from_lines("gitwildmatch", [])
+        return pathspec.PathSpec.from_lines(
+            "gitwildmatch", gitignore.read_text().splitlines()
+        )
+
 
     def export(self, output_directory: str = ".") -> Path:
         """
