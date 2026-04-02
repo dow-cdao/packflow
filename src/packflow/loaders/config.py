@@ -103,6 +103,38 @@ class PackflowConfig(BaseModel):
         return requirements_text
 
 
+def validate_for_export(config: "PackflowConfig") -> tuple[list[str], list[str]]:
+    """
+    Validate that a PackflowConfig is ready for export.
+
+    Returns a tuple of (errors, warnings). Errors are blocking;
+    warnings are informational.
+    """
+    errors = []
+    warnings = []
+
+    if not config.version:
+        errors.append("'version' is required for export but is empty.")
+
+    if config.inference_backend == "inference:Backend":
+        warnings.append(
+            "'inference_backend' is set to the default template value 'inference:Backend'. "
+            "Verify this is correct before distributing."
+        )
+
+    if not config.description:
+        warnings.append(
+            "'description' is empty. A description is recommended before distributing."
+        )
+
+    if not config.maintainers:
+        warnings.append(
+            "'maintainers' is empty. At least one maintainer is recommended before distributing."
+        )
+
+    return errors, warnings
+
+
 def check_python_version(config: "PackflowConfig") -> Optional[str]:
     """
     Compare the config's python version against the running interpreter

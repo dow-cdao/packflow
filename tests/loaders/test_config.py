@@ -2,7 +2,11 @@ from pathlib import Path
 
 import pytest
 import yaml
-from packflow.loaders.config import PackflowConfig, load_packflow_config
+from packflow.loaders.config import (
+    PackflowConfig,
+    load_packflow_config,
+    validate_for_export,
+)
 
 
 def test_archive_file_name():
@@ -174,3 +178,49 @@ def test_packflow_config_inference_backend_validation():
             description="Test",
             inference_backend="invalid_no_colon",
         )
+
+
+def test_validate_for_export_all_populated():
+    """Test that a fully populated config passes validation"""
+    config = PackflowConfig(
+        name="my-analytic",
+        version="1.0.0",
+        description="A real analytic",
+        maintainers=["alice@example.com"],
+        inference_backend="custom_module:MyBackend",
+    )
+    errors, warnings = validate_for_export(config)
+    assert errors == []
+    assert warnings == []
+
+
+def test_validate_for_export_empty_version():
+    """Test that empty version is an error"""
+    config = PackflowConfig(name="my-analytic")
+    errors, warnings = validate_for_export(config)
+    assert any("version" in e for e in errors)
+
+
+def test_validate_for_export_default_inference_backend():
+    """Test that default inference_backend triggers a warning"""
+    config = PackflowConfig(
+        name="my-analytic",
+        version="1.0.0",
+        inference_backend="inference:Backend",
+    )
+    errors, warnings = validate_for_export(config)
+    assert errors == []
+    assert any("inference_backend" in w for w in warnings)
+
+
+def test_validate_for_export_empty_description_and_maintainers():
+    """Test that empty description and maintainers trigger warnings"""
+    config = PackflowConfig(
+        name="my-analytic",
+        version="1.0.0",
+        inference_backend="custom:Backend",
+    )
+    errors, warnings = validate_for_export(config)
+    assert errors == []
+    assert any("description" in w for w in warnings)
+    assert any("maintainers" in w for w in warnings)
