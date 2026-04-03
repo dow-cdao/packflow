@@ -256,3 +256,50 @@ loader: local
 
     finally:
         os.chdir(original_dir)
+
+
+def test_validate_required_files_all_present(tmp_path):
+    """Test that a complete project passes file validation"""
+    import os
+
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+        project = PackflowProject.create("complete_project")
+        errors, warnings = project.validate_required_files()
+        assert errors == []
+    finally:
+        os.chdir(original_dir)
+
+
+def test_validate_required_files_missing_inference(tmp_path):
+    """Test that missing inference.py is an error"""
+    import os
+
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+        project = PackflowProject.create("missing_inference")
+        (project.base_dir / "inference.py").unlink()
+        errors, warnings = project.validate_required_files()
+        assert any("inference.py" in e for e in errors)
+    finally:
+        os.chdir(original_dir)
+
+
+def test_validate_required_files_missing_recommended(tmp_path):
+    """Test that missing recommended files produce warnings, not errors"""
+    import os
+
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+        project = PackflowProject.create("missing_recommended")
+        (project.base_dir / "LICENSE.txt").unlink()
+        (project.base_dir / "README.md").unlink()
+        errors, warnings = project.validate_required_files()
+        assert errors == []
+        assert any("LICENSE.txt" in w for w in warnings)
+        assert any("README.md" in w for w in warnings)
+    finally:
+        os.chdir(original_dir)

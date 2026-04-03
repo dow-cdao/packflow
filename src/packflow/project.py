@@ -93,6 +93,40 @@ class PackflowProject:
     def load_config(self):
         return PackflowConfig.from_project_path(self.base_dir)
 
+    # Files that must be present for a valid export
+    REQUIRED_FILES = [
+        constants.PACKAGING_CONFIG_NAME,  # packflow.yaml
+        constants.REQUIREMENTS_TEXT_NAME,  # requirements.txt
+        "inference.py",
+    ]
+
+    # Files that are recommended but not required
+    RECOMMENDED_FILES = [
+        "MODEL_CARD.md",
+        "LICENSE.txt",
+        "README.md",
+    ]
+
+    def validate_required_files(self) -> tuple[list[str], list[str]]:
+        """
+        Check that required and recommended project files are present.
+
+
+        Returns a tuple of (errors, warnings).
+        """
+        errors = []
+        warnings = []
+
+        for filename in self.REQUIRED_FILES:
+            if not (self.base_dir / filename).exists():
+                errors.append(f"Required file '{filename}' is missing.")
+
+        for filename in self.RECOMMENDED_FILES:
+            if not (self.base_dir / filename).exists():
+                warnings.append(f"Recommended file '{filename}' is missing.")
+
+        return errors, warnings
+
     def _load_gitignore_spec(self) -> pathspec.PathSpec:
         """Load .gitignore patterns if the file exists."""
         gitignore = self.base_dir / ".gitignore"
@@ -109,6 +143,11 @@ class PackflowProject:
         config = PackflowConfig.from_project_path(self.base_dir)
 
         errors, warnings = validate_for_export(config)
+
+        file_errors, file_warnings = self.validate_required_files()
+        errors.extend(file_errors)
+        warnings.extend(file_warnings)
+
         if errors:
             raise ValueError(
                 "Export blocked due to validation errors:\n"
