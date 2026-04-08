@@ -36,6 +36,27 @@ EXPORT_EXCLUDE_PATTERNS = {
     "*.egg-info",
 }
 
+FILE_PERMISSIONS = 0o644
+DIR_PERMISSIONS = 0o755
+
+
+def _copy_with_perms(src: str, dst: str, **kwargs) -> str:
+    """Copy file and immediately set correct permissions"""
+    shutil.copy2(src, dst)
+    os.chmod(dst, FILE_PERMISSIONS)
+    return dst
+
+
+def _copy_template_with_perms(template_src: str, dst: str):
+    """Copy reference files and structure using permissions"""
+    shutil.copytree(
+        template_src, dst, copy_function=_copy_with_perms, dirs_exist_ok=True
+    )
+
+    # Single pass - chmod root and subdirs
+    for dirpath, _dirs, _files in os.walk(dst):
+        os.chmod(dirpath, DIR_PERMISSIONS)
+
 
 class PackflowProject:
     def __init__(self, base_dir: Union[str, Path]):
@@ -49,12 +70,35 @@ class PackflowProject:
         return f"{self.__class__.__name__} @ {self.base_dir}"
 
     @classmethod
-    def create(cls, project_name: str, force: bool = False, template: str = "minimal"):
+    def create(
+        cls,
+        project_name: str,
+        force: bool = False,
+        template: str = "minimal",
+        config_data: dict = None,
+        optional_files: list = None,
+    ):
         """
         Create a new project and then return the PackflowProject controller
         for the new project
+
+        Parameters
+        ----------
+        project_name : str
+            Name of the project
+        force : bool
+            Force initialization in existing directory
+        template : str
+            Template name to use
+        config_data : dict, optional
+            Custom configuration data for packflow.yaml fields
+        optional_files : list, optional
+            List of optional template files to include. If None, all files are included.
         """
-        config = PackflowConfig(name=project_name)
+        config_params = {"name": project_name}
+        if config_data:
+            config_params.update(config_data)
+        config = PackflowConfig(**config_params)
 
         base_path = Path(config.name).resolve()
 
@@ -68,17 +112,23 @@ class PackflowProject:
             .joinpath(template)
         )
 
-        shutil.copytree(str(templates_dir), str(base_path), dirs_exist_ok=True)
-
         try:
-            # Ensure all created files/directories are writable regardless of
-            # source permissions or environment umask settings
-            os.chmod(base_path, 0o755)
-            for root, dirs, files in os.walk(base_path):
-                for d in dirs:
-                    os.chmod(os.path.join(root, d), 0o755)
-                for f in files:
-                    os.chmod(os.path.join(root, f), 0o644)
+            # Define mandatory files that must always be copied
+            mandatory_files = {"inference.py", "packflow.yaml", "requirements.txt"}
+
+            if optional_files is None:
+                # Copy all template files
+                _copy_template_with_perms(str(templates_dir), str(base_path))
+            else:
+                # Selectively copy files
+                files_to_copy = mandatory_files | set(optional_files)
+
+                for file_name in files_to_copy:
+                    src_file = templates_dir / file_name
+                    if src_file.exists():
+                        dst_file = base_path / file_name
+                        shutil.copy2(str(src_file), str(dst_file))
+                        os.chmod(dst_file, FILE_PERMISSIONS)
 
             config.write_yaml(base_path)
 
