@@ -1,9 +1,10 @@
 import re
+import sys
 
 import click
 
 import packflow
-from packflow.loaders.config import NAME_PATTERN
+from packflow.loaders.config import NAME_PATTERN, validate_for_export
 
 
 def _success_message(msg: str):
@@ -63,3 +64,32 @@ def export(project_path):
         _success_message(f"Saved Package to {output_file}")
     except Exception as e:
         _error_message(str(e))
+
+
+@cli.command()
+@click.argument("project_path", type=str, default=".")
+def validate(project_path):
+    """Run all project validation checks and report results"""
+    try:
+        project = packflow.PackflowProject(project_path)
+        config = project.load_config()
+
+        errors, warnings = validate_for_export(config)
+
+        file_errors, file_warnings = project.validate_required_files()
+        errors.extend(file_errors)
+        warnings.extend(file_warnings)
+
+        for warning in warnings:
+            _warning_message(warning)
+
+        if errors:
+            for error in errors:
+                _error_message(error)
+            sys.exit(1)
+
+        _success_message("All validation checks passed.")
+
+    except Exception as e:
+        _error_message(str(e))
+        sys.exit(1)

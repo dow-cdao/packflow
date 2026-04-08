@@ -158,3 +158,116 @@ def test_export_help(runner):
 
     assert result.exit_code == 0
     assert "Save the package" in result.output
+
+
+def test_validate_command_success(runner, tmp_path):
+    """Test packflow validate passes on a complete project"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        runner.invoke(cli, ["create", "valid_project"])
+
+        project_dir = tmp_path / "valid_project"
+        (project_dir / "packflow.yaml").write_text(
+            "name: valid_project\nversion: 1.0.0\ndescription: Test\n"
+            "inference_backend: custom:Backend\nloader: local\n"
+        )
+
+        result = runner.invoke(cli, ["validate", str(project_dir)])
+
+        assert result.exit_code == 0
+        assert "Success:" in result.output
+        assert "All validation checks passed" in result.output
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_validate_command_errors(runner, tmp_path):
+    """Test packflow validate reports errors and exits non-zero"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        runner.invoke(cli, ["create", "bad_project"])
+
+        project_dir = tmp_path / "bad_project"
+        # Empty version triggers an error
+        (project_dir / "packflow.yaml").write_text(
+            "name: bad_project\nversion: ''\ndescription: ''\n"
+            "inference_backend: inference:Backend\nloader: local\n"
+        )
+
+        result = runner.invoke(cli, ["validate", str(project_dir)])
+
+        assert result.exit_code == 1
+        assert "Error:" in result.output
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_validate_command_warnings(runner, tmp_path):
+    """Test packflow validate shows warnings for missing recommended files"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        runner.invoke(cli, ["create", "warn_project"])
+
+        project_dir = tmp_path / "warn_project"
+        (project_dir / "packflow.yaml").write_text(
+            "name: warn_project\nversion: 1.0.0\ndescription: Test\n"
+            "inference_backend: custom:Backend\nloader: local\n"
+        )
+        (project_dir / "LICENSE.txt").unlink()
+
+        result = runner.invoke(cli, ["validate", str(project_dir)])
+
+        assert result.exit_code == 0
+        assert "Warning:" in result.output
+        assert "LICENSE.txt" in result.output
+        assert "Success:" in result.output
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_validate_command_default_path(runner, tmp_path):
+    """Test packflow validate defaults to current directory"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        runner.invoke(cli, ["create", "default_validate"])
+
+        project_dir = tmp_path / "default_validate"
+        (project_dir / "packflow.yaml").write_text(
+            "name: default_validate\nversion: 1.0.0\ndescription: Test\n"
+            "inference_backend: custom:Backend\nloader: local\n"
+        )
+        os.chdir(project_dir)
+
+        result = runner.invoke(cli, ["validate"])
+
+        assert result.exit_code == 0
+        assert "Success:" in result.output
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_validate_help(runner):
+    """Test validate command help"""
+    result = runner.invoke(cli, ["validate", "--help"])
+
+    assert result.exit_code == 0
+    assert "validation checks" in result.output
+
+
+def test_cli_group_shows_validate(runner):
+    """Test that validate appears in CLI help"""
+    result = runner.invoke(cli, ["--help"])
+
+    assert "validate" in result.output
