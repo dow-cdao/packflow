@@ -23,6 +23,7 @@ def _error_message(msg: str):
 
 
 @click.group()
+@click.version_option(version=packflow.__version__, prog_name="packflow")
 def cli():
     """Command-line tools for creating, managing, and packaging Packflow inference projects."""
     pass
