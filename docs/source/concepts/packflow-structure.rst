@@ -37,9 +37,9 @@ The ``packflow`` CLI provides a lightweight templating command, ``packflow creat
      - Recommended
      - readme file for use by developers and other contributors
      - Template
-   * - ``inference.py``
-     - Yes
-     - inference file containing the ``Backend`` execution object
+   * - ``inference.py`` (or custom name)
+     - Required, but can be renamed by ``inference_backend`` configuration.
+     - inference file containing the ``Backend`` execution object. Required only for ``loader: local`` mode. The filename must match the module name in ``inference_backend`` (e.g., ``custom_module:Backend`` requires ``custom_module.py``)
      - Template
    * - ``validate.py``
      - Recommended

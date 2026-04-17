@@ -55,11 +55,17 @@ def create(project_name, force):
 
 @cli.command()
 @click.argument("project_path", type=str, default=".")
-def export(project_path):
+@click.option(
+    "-v",
+    "--verbose",
+    is_flag=True,
+    help="Show detailed validation checks during export.",
+)
+def export(project_path, verbose):
     """Save the package and export to .zip in the current working directory"""
     try:
         project = packflow.PackflowProject(project_path)
-        output_file = project.export()
+        output_file = project.export(verbose=verbose)
         for warning in project.export_warnings:
             _warning_message(warning)
         _success_message(f"Saved Package to {output_file}")
@@ -69,17 +75,28 @@ def export(project_path):
 
 @cli.command()
 @click.argument("project_path", type=str, default=".")
-def validate(project_path):
+@click.option(
+    "-v",
+    "--verbose",
+    is_flag=True,
+    help="Show detailed validation checks.",
+)
+def validate(project_path, verbose):
     """Run all project validation checks and report results"""
     try:
         project = packflow.PackflowProject(project_path)
         config = project.load_config()
 
-        errors, warnings = validate_for_export(config)
+        if verbose:
+            click.echo("\n=== Validation ===")
+            click.echo(f"Project: {project.base_dir}")
 
-        file_errors, file_warnings = project.validate_required_files()
-        errors.extend(file_errors)
-        warnings.extend(file_warnings)
+        # Validate files (packflow.yaml validation will be integrated)
+        file_errors, file_warnings = project.validate_required_files(
+            verbose=verbose, config=config
+        )
+        errors = file_errors
+        warnings = file_warnings
 
         for warning in warnings:
             _warning_message(warning)

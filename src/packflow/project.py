@@ -6,11 +6,12 @@ from fnmatch import fnmatch
 from pathlib import Path
 from typing import Union
 
+import click
 import pathspec
 
 import packflow.constants as constants
 
-from .loaders.config import PackflowConfig, check_python_version, validate_for_export
+from .loaders.config import PackflowConfig, validate_for_export
 
 # Directories excluded from export by default
 EXPORT_EXCLUDE_DIRS = {
@@ -143,11 +144,10 @@ class PackflowProject:
     def load_config(self):
         return PackflowConfig.from_project_path(self.base_dir)
 
-    # Files that must be present for a valid export
+    # Files that must always be present for a valid export
     REQUIRED_FILES = [
         constants.PACKAGING_CONFIG_NAME,  # packflow.yaml
         constants.REQUIREMENTS_TEXT_NAME,  # requirements.txt
-        "inference.py",
     ]
 
     # Files that are recommended but not required
@@ -157,25 +157,209 @@ class PackflowProject:
         "README.md",
     ]
 
-    def validate_required_files(self) -> tuple[list[str], list[str]]:
+    def validate_required_files(
+        self, verbose: bool = False, config: PackflowConfig = None
+    ) -> tuple[list[str], list[str]]:
         """
-        Check that required and recommended project files are present.
+        Check that required and recommended project files are present and valid.
 
+        For local loader mode, validates that the inference backend file exists
+        based on the inference_backend configuration (e.g., inference:Backend
+        requires inference.py, custom_module:Backend requires custom_module.py).
 
         Returns a tuple of (errors, warnings).
         """
         errors = []
         warnings = []
 
+        # Check required files
+        if verbose:
+            click.echo("\nRequired files:")
+
         for filename in self.REQUIRED_FILES:
-            if not (self.base_dir / filename).exists():
+            file_path = self.base_dir / filename
+            if not file_path.exists():
                 errors.append(f"Required file '{filename}' is missing.")
+                if verbose:
+                    click.echo(f"  {click.style('✗', fg='red')} {filename} (missing)")
+            else:
+                # Special validation for packflow.yaml - show fields as sub-items
+                if filename == constants.PACKAGING_CONFIG_NAME:
+                    if verbose:
+                        click.echo(f"  {click.style('✓', fg='green')} {filename}")
+                    # Validate config fields as sub-items
+                    if config:
+                        config_errors, config_warnings = validate_for_export(
+                            config, project_dir=self.base_dir, verbose=verbose
+                        )
+                        errors.extend(config_errors)
+                        warnings.extend(config_warnings)
+                # Special validation for requirements.txt
+                elif filename == constants.REQUIREMENTS_TEXT_NAME:
+                    if verbose:
+                        click.echo(f"  {click.style('✓', fg='green')} {filename}")
+
+                    req_content = file_path.read_text()
+                    if "packflow" not in req_content.lower():
+                        errors.append("'packflow' is not listed in requirements.txt.")
+                        if verbose:
+                            click.echo(
+                                f"    {click.style('✗', fg='red')} missing 'packflow' dependency"
+                            )
+                    else:
+                        # Check for version mismatches and missing packages (shows as sub-items)
+                        req_warnings = self._validate_requirements(file_path, verbose)
+                        warnings.extend(req_warnings)
+                else:
+                    if verbose:
+                        click.echo(f"  {click.style('✓', fg='green')} {filename}")
+
+        # Check recommended files
+        if verbose:
+            click.echo("\nRecommended files:")
 
         for filename in self.RECOMMENDED_FILES:
-            if not (self.base_dir / filename).exists():
+            file_path = self.base_dir / filename
+            if not file_path.exists():
                 warnings.append(f"Recommended file '{filename}' is missing.")
+                if verbose:
+                    click.echo(
+                        f"  {click.style('⚠', fg='yellow')} {filename} (missing)"
+                    )
+            else:
+                # Check if file is empty or still template content
+                content = file_path.read_text().strip()
+                status = None
+
+                if not content:
+                    status = "empty"
+                    warnings.append(f"'{filename}' is empty.")
+                elif filename == "MODEL_CARD.md":
+                    # Check for template placeholders
+                    if "{introduction}" in content:
+                        status = "template"
+                        warnings.append(
+                            f"'{filename}' appears to be unchanged from template."
+                        )
+                elif filename == "README.md":
+                    # Check for template content
+                    if (
+                        "# Project Name" in content
+                        or "Brief description of the analytic" in content
+                    ):
+                        status = "template"
+                        warnings.append(
+                            f"'{filename}' appears to be unchanged from template."
+                        )
+
+                if verbose:
+                    if status:
+                        click.echo(
+                            f"  {click.style('⚠', fg='yellow')} {filename} ({status})"
+                        )
+                    else:
+                        click.echo(f"  {click.style('✓', fg='green')} {filename}")
 
         return errors, warnings
+
+    def _validate_requirements(
+        self, requirements_file: Path, verbose: bool = False
+    ) -> list[str]:
+        """
+        Validate requirements.txt against the current environment.
+        Returns a list of warnings.
+        """
+        import re
+        from importlib.metadata import PackageNotFoundError, version
+
+        from packaging.requirements import Requirement
+        from packaging.specifiers import SpecifierSet
+
+        from packflow import __version__ as current_packflow_version
+
+        warnings = []
+        req_content = requirements_file.read_text()
+
+        # Parse requirements
+        for line in req_content.splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+
+            # Parse package name and version specifier
+            match = re.match(r"^([a-zA-Z0-9_-]+)([=<>!]+.*)?$", line)
+            if not match:
+                continue
+
+            package_name = match.group(1)
+            version_spec = match.group(2) or ""
+
+            # Special handling for packflow version check
+            if package_name.lower() == "packflow":
+                if version_spec:
+                    # Extract version from spec (e.g., "==1.0.0" -> "1.0.0")
+                    version_match = re.search(r"[\d.]+", version_spec)
+                    if version_match:
+                        req_version = version_match.group(0)
+                        if req_version != current_packflow_version:
+                            warning = (
+                                f"requirements.txt specifies packflow{version_spec}, "
+                                f"but installed version is {current_packflow_version}."
+                            )
+                            warnings.append(warning)
+                            if verbose:
+                                click.echo(
+                                    f"    {click.style('⚠', fg='yellow')} packflow version mismatch "
+                                    f"(installed: {current_packflow_version}, required: {req_version})"
+                                )
+                        elif verbose:
+                            click.echo(
+                                f"    {click.style('✓', fg='green')} {package_name}"
+                            )
+                    elif verbose:
+                        click.echo(f"    {click.style('✓', fg='green')} {package_name}")
+                continue
+
+            # Check if package is installed
+            try:
+                installed_version = version(package_name)
+
+                # Check version compatibility if specified
+                if version_spec:
+                    try:
+                        req = Requirement(line)
+                        if req.specifier and installed_version not in req.specifier:
+                            warning = (
+                                f"Package '{package_name}' version {installed_version} "
+                                f"does not match requirement '{line}'."
+                            )
+                            warnings.append(warning)
+                            if verbose:
+                                click.echo(
+                                    f"    {click.style('⚠', fg='yellow')} {package_name} version mismatch"
+                                )
+                        elif verbose:
+                            click.echo(
+                                f"    {click.style('✓', fg='green')} {package_name}"
+                            )
+                    except Exception:
+                        # If we can't parse the requirement, just show it's installed
+                        if verbose:
+                            click.echo(
+                                f"    {click.style('✓', fg='green')} {package_name}"
+                            )
+                elif verbose:
+                    # No version spec, just show it's installed
+                    click.echo(f"    {click.style('✓', fg='green')} {package_name}")
+            except PackageNotFoundError:
+                warning = f"Package '{package_name}' from requirements.txt is not installed in the current environment."
+                warnings.append(warning)
+                if verbose:
+                    click.echo(
+                        f"    {click.style('⚠', fg='yellow')} {package_name} not installed"
+                    )
+
+        return warnings
 
     def _load_gitignore_spec(self) -> pathspec.PathSpec:
         """Load .gitignore patterns if the file exists."""
@@ -186,17 +370,22 @@ class PackflowProject:
             "gitwildmatch", gitignore.read_text().splitlines()
         )
 
-    def export(self, output_directory: str = ".") -> Path:
+    def export(self, output_directory: str = ".", verbose: bool = False) -> Path:
         """
         Save the loaded project as a package.zip with schema `{name}-{version}.zip`
         """
+        if verbose:
+            click.echo("\n=== Export Validation ===")
+            click.echo(f"Project: {self.base_dir}")
+
         config = PackflowConfig.from_project_path(self.base_dir)
 
-        errors, warnings = validate_for_export(config)
-
-        file_errors, file_warnings = self.validate_required_files()
-        errors.extend(file_errors)
-        warnings.extend(file_warnings)
+        # Validate files (packflow.yaml validation will be integrated)
+        file_errors, file_warnings = self.validate_required_files(
+            verbose=verbose, config=config
+        )
+        errors = file_errors
+        warnings = file_warnings
 
         if errors:
             raise ValueError(
@@ -205,10 +394,6 @@ class PackflowProject:
             )
 
         self.export_warnings = warnings
-
-        version_warning = check_python_version(config)
-        if version_warning:
-            self.export_warnings.append(version_warning)
 
         export_file_name = config.archive_file_name(output_directory)
 

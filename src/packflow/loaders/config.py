@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 from typing import Annotated, Literal, Optional, Union
 
+import click
 import yaml
 from pydantic import BaseModel, ConfigDict, StringConstraints
 
@@ -103,7 +104,11 @@ class PackflowConfig(BaseModel):
         return requirements_text
 
 
-def validate_for_export(config: "PackflowConfig") -> tuple[list[str], list[str]]:
+def validate_for_export(
+    config: "PackflowConfig",
+    project_dir: Optional[Union[str, Path]] = None,
+    verbose: bool = False,
+) -> tuple[list[str], list[str]]:
     """
     Validate that a PackflowConfig is ready for export.
 
@@ -113,8 +118,77 @@ def validate_for_export(config: "PackflowConfig") -> tuple[list[str], list[str]]
     errors = []
     warnings = []
 
-    if not config.version:
+    # === METADATA FIELDS ===
+    if verbose:
+        click.echo("    Metadata:")
+
+    # Validate name
+    if not config.name or not config.name.strip():
+        errors.append("'name' is required but is empty.")
+    elif verbose:
+        click.echo(f"      {click.style('✓', fg='green')} name: {config.name}")
+
+    # Validate version
+    if not config.version or not config.version.strip():
         errors.append("'version' is required for export but is empty.")
+    elif verbose:
+        click.echo(f"      {click.style('✓', fg='green')} version: {config.version}")
+
+    # Validate description (warning for empty/whitespace)
+    if not config.description or not config.description.strip():
+        warnings.append(
+            "'description' is empty. A description is recommended before distributing."
+        )
+    elif verbose:
+        desc = (
+            config.description[:50] + "..."
+            if len(config.description) > 50
+            else config.description
+        )
+        click.echo(f"      {click.style('✓', fg='green')} description: {desc}")
+
+    # Validate maintainers (warning for empty)
+    if not config.maintainers or (
+        len(config.maintainers) == 1 and not config.maintainers[0].strip()
+    ):
+        warnings.append(
+            "'maintainers' is empty. At least one maintainer is recommended before distributing."
+        )
+    elif verbose:
+        click.echo(
+            f"      {click.style('✓', fg='green')} maintainers: {', '.join(config.maintainers)}"
+        )
+
+    # === RUNTIME CONFIG FIELDS ===
+    if verbose:
+        click.echo("\n    Runtime:")
+
+    # Validate inference_backend
+    if verbose:
+        click.echo(
+            f"      {click.style('✓', fg='green')} inference_backend: {config.inference_backend}"
+        )
+
+    # Check for inference backend file (only required for local loader)
+    if config.loader == "local" and project_dir:
+        from pathlib import Path
+
+        project_path = Path(project_dir).resolve()
+        module_name = config.inference_backend.split(":")[0]
+        backend_file = f"{module_name}.py"
+        backend_path = project_path / backend_file
+
+        if not backend_path.exists():
+            errors.append(
+                f"Inference backend file '{backend_file}' is missing. "
+                f"Required for local loader with inference_backend '{config.inference_backend}'."
+            )
+            if verbose:
+                click.echo(
+                    f"        {click.style('✗', fg='red')} {backend_file} (missing)"
+                )
+        elif verbose:
+            click.echo(f"        {click.style('✓', fg='green')} {backend_file}")
 
     if config.inference_backend == "inference:Backend":
         warnings.append(
@@ -122,20 +196,134 @@ def validate_for_export(config: "PackflowConfig") -> tuple[list[str], list[str]]
             "Verify this is correct before distributing."
         )
 
-    if not config.description:
-        warnings.append(
-            "'description' is empty. A description is recommended before distributing."
-        )
+    # Validate loader mode
+    if verbose:
+        click.echo(f"      {click.style('✓', fg='green')} loader: {config.loader}")
 
-    if not config.maintainers:
-        warnings.append(
-            "'maintainers' is empty. At least one maintainer is recommended before distributing."
+    # Validate Python version
+    python_warning = check_python_version(config, verbose=verbose)
+    if python_warning:
+        warnings.append(python_warning)
+
+    # Run loader smoke tests after all runtime fields are validated
+    if config.inference_backend != "inference:Backend":
+        backend_error = _validate_inference_backend(
+            config, project_dir, verbose=verbose
         )
+        if backend_error:
+            errors.append(backend_error)
 
     return errors, warnings
 
 
-def check_python_version(config: "PackflowConfig") -> Optional[str]:
+def _validate_inference_backend(
+    config: "PackflowConfig",
+    project_dir: Optional[Union[str, Path]] = None,
+    verbose: bool = False,
+) -> Optional[str]:
+    """
+    Validate that the inference_backend can be loaded using proper loaders.
+    Runs smoke tests for LocalLoader, ModuleLoader, and PackflowProject.from_config.
+    Returns an error message if validation fails, None otherwise.
+    """
+    if not project_dir:
+        return None
+
+    project_dir = Path(project_dir).resolve()
+    errors = []
+
+    import os
+
+    original_cwd = os.getcwd()
+
+    # Show smoke tests header
+    if verbose:
+        click.echo("\n      Smoke tests:")
+
+    # Test 1: Configured loader smoke test (only run the appropriate one)
+    if config.loader == "local":
+        if verbose:
+            click.echo("        → LocalLoader.load()")
+        try:
+            from packflow.loaders.local import LocalLoader
+
+            # Change to project directory for local imports
+            os.chdir(project_dir)
+            loader = LocalLoader(config.inference_backend)
+            backend_class = loader.load_backend_module()
+            if verbose:
+                click.echo(
+                    f"          {click.style('✓', fg='green')} LocalLoader succeeded"
+                )
+        except Exception as e:
+            error_msg = f"LocalLoader failed: {str(e)}"
+            errors.append(error_msg)
+            if verbose:
+                click.echo(f"          {click.style('✗', fg='red')} {error_msg}")
+        finally:
+            os.chdir(original_cwd)
+
+    elif config.loader == "module":
+        if verbose:
+            click.echo("        → ModuleLoader.load()")
+        try:
+            from packflow.loaders.module import ModuleLoader
+
+            loader = ModuleLoader(config.inference_backend)
+            backend_class = loader.load_backend_module()
+            if verbose:
+                click.echo(
+                    f"          {click.style('✓', fg='green')} ModuleLoader succeeded"
+                )
+        except Exception as e:
+            error_msg = f"ModuleLoader failed: {str(e)}"
+            errors.append(error_msg)
+            if verbose:
+                click.echo(f"          {click.style('✗', fg='red')} {error_msg}")
+
+    # Test 2: InferenceBackendLoader.from_project smoke test
+    if verbose:
+        click.echo("        → InferenceBackendLoader.from_project()")
+    try:
+        from packflow.loaders.base import InferenceBackendLoader
+
+        # Change to project directory for local imports
+        os.chdir(project_dir)
+        backend = InferenceBackendLoader.from_project(project_dir)
+        if verbose:
+            click.echo(
+                f"          {click.style('✓', fg='green')} InferenceBackendLoader.from_project succeeded"
+            )
+    except Exception as e:
+        error_msg = f"InferenceBackendLoader.from_project failed: {str(e)}"
+        errors.append(error_msg)
+        if verbose:
+            click.echo(f"          {click.style('✗', fg='red')} {error_msg}")
+    finally:
+        os.chdir(original_cwd)
+
+    # Return error if configured loader mode failed
+    if config.loader == "local" and any("LocalLoader" in e for e in errors):
+        return (
+            f"inference_backend '{config.inference_backend}' failed LocalLoader test (configured mode): "
+            + next(e for e in errors if "LocalLoader" in e)
+        )
+    elif config.loader == "module" and any("ModuleLoader" in e for e in errors):
+        return (
+            f"inference_backend '{config.inference_backend}' failed ModuleLoader test (configured mode): "
+            + next(e for e in errors if "ModuleLoader" in e)
+        )
+
+    # If both tests failed, return a general error
+    if len(errors) == 2:
+        return f"inference_backend '{config.inference_backend}' failed all loader tests"
+
+    return None
+
+
+def check_python_version(
+    config: "PackflowConfig", verbose: bool = False
+) -> Optional[str]:
     """
     Compare the config's python version against the running interpreter
     at the minor version level (e.g. 3.10 vs 3.11). Returns a warning
@@ -158,6 +346,12 @@ def check_python_version(config: "PackflowConfig") -> Optional[str]:
             f"but the current environment is Python {get_python_version()}. "
             f"Consider updating the python_version field or switching to a matching environment."
         )
+
+    if verbose:
+        click.echo(
+            f"      {click.style('✓', fg='green')} python_version: {config.python_version} (matches runtime)"
+        )
+
     return None
 
 
