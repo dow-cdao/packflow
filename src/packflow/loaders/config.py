@@ -232,9 +232,48 @@ def _validate_inference_backend(
     project_dir = Path(project_dir).resolve()
     errors = []
 
+    import contextlib
     import os
 
     original_cwd = os.getcwd()
+
+    # Context manager to suppress stdout/stderr and logging during smoke tests
+    @contextlib.contextmanager
+    def suppress_output():
+        import logging
+
+        with open(os.devnull, "w") as devnull:
+            old_stdout = sys.stdout
+            old_stderr = sys.stderr
+
+            # Disable standard logging
+            logging.disable(logging.CRITICAL)
+
+            try:
+                from loguru import logger
+
+                logger.disable("")
+            except ImportError:
+                pass
+
+            try:
+                sys.stdout = devnull
+                sys.stderr = devnull
+                yield
+            finally:
+                sys.stdout = old_stdout
+                sys.stderr = old_stderr
+
+                # Re-enable standard logging
+                logging.disable(logging.NOTSET)
+
+                # Re-enable loguru
+                try:
+                    from loguru import logger
+
+                    logger.enable("")
+                except ImportError:
+                    pass
 
     # Show smoke tests header
     if verbose:
@@ -249,8 +288,9 @@ def _validate_inference_backend(
 
             # Change to project directory for local imports
             os.chdir(project_dir)
-            loader = LocalLoader(config.inference_backend)
-            backend_class = loader.load_backend_module()
+            with suppress_output():
+                loader = LocalLoader(config.inference_backend)
+                backend_class = loader.load_backend_module()
             if verbose:
                 click.echo(
                     f"          {click.style('✓', fg='green')} LocalLoader succeeded"
@@ -269,8 +309,9 @@ def _validate_inference_backend(
         try:
             from packflow.loaders.module import ModuleLoader
 
-            loader = ModuleLoader(config.inference_backend)
-            backend_class = loader.load_backend_module()
+            with suppress_output():
+                loader = ModuleLoader(config.inference_backend)
+                backend_class = loader.load_backend_module()
             if verbose:
                 click.echo(
                     f"          {click.style('✓', fg='green')} ModuleLoader succeeded"
@@ -289,7 +330,8 @@ def _validate_inference_backend(
 
         # Change to project directory for local imports
         os.chdir(project_dir)
-        backend = InferenceBackendLoader.from_project(project_dir)
+        with suppress_output():
+            backend = InferenceBackendLoader.from_project(project_dir)
         if verbose:
             click.echo(
                 f"          {click.style('✓', fg='green')} InferenceBackendLoader.from_project succeeded"
