@@ -207,11 +207,11 @@ def validate_for_export(
 
     # Run loader smoke tests after all runtime fields are validated
     if config.inference_backend != "inference:Backend":
-        backend_error = _validate_inference_backend(
+        backend_errors = _validate_inference_backend(
             config, project_dir, verbose=verbose
         )
-        if backend_error:
-            errors.append(backend_error)
+        if backend_errors:
+            errors.extend(backend_errors)
 
     return errors, warnings
 
@@ -220,14 +220,14 @@ def _validate_inference_backend(
     config: "PackflowConfig",
     project_dir: Optional[Union[str, Path]] = None,
     verbose: bool = False,
-) -> Optional[str]:
+) -> list[str]:
     """
     Validate that the inference_backend can be loaded using proper loaders.
     Runs smoke tests for LocalLoader, ModuleLoader, and PackflowProject.from_config.
     Returns an error message if validation fails, None otherwise.
     """
     if not project_dir:
-        return None
+        return []
 
     project_dir = Path(project_dir).resolve()
     errors = []
@@ -344,23 +344,23 @@ def _validate_inference_backend(
     finally:
         os.chdir(original_cwd)
 
-    # Return error if configured loader mode failed
-    if config.loader == "local" and any("LocalLoader" in e for e in errors):
-        return (
-            f"inference_backend '{config.inference_backend}' failed LocalLoader test (configured mode): "
-            + next(e for e in errors if "LocalLoader" in e)
-        )
-    elif config.loader == "module" and any("ModuleLoader" in e for e in errors):
-        return (
-            f"inference_backend '{config.inference_backend}' failed ModuleLoader test (configured mode): "
-            + next(e for e in errors if "ModuleLoader" in e)
-        )
+    # Format errors with context about which test failed
+    formatted_errors = []
+    for error in errors:
+        if "LocalLoader" in error and config.loader == "local":
+            formatted_errors.append(
+                f"inference_backend '{config.inference_backend}' failed LocalLoader test (configured mode): {error}"
+            )
+        elif "ModuleLoader" in error and config.loader == "module":
+            formatted_errors.append(
+                f"inference_backend '{config.inference_backend}' failed ModuleLoader test (configured mode): {error}"
+            )
+        else:
+            formatted_errors.append(
+                f"inference_backend '{config.inference_backend}' failed smoke test: {error}"
+            )
 
-    # If both tests failed, return a general error
-    if len(errors) == 2:
-        return f"inference_backend '{config.inference_backend}' failed all loader tests"
-
-    return None
+    return formatted_errors
 
 
 def check_python_version(

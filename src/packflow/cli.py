@@ -81,7 +81,12 @@ def export(project_path, verbose):
     is_flag=True,
     help="Show detailed validation checks.",
 )
-def validate(project_path, verbose):
+@click.option(
+    "--no-warnings",
+    is_flag=True,
+    help="Suppress warning messages.",
+)
+def validate(project_path, verbose, no_warnings):
     """Run all project validation checks and report results"""
     try:
         project = packflow.PackflowProject(project_path)
@@ -98,15 +103,49 @@ def validate(project_path, verbose):
         errors = file_errors
         warnings = file_warnings
 
-        for warning in warnings:
-            _warning_message(warning)
-
+        # Display summary first
         if errors:
+            error_count = len(errors)
+            warning_count = len(warnings) if not no_warnings else 0
+
+            if no_warnings and warnings:
+                summary = f"\n{click.style(f'{error_count} error(s)', fg='red')} found ({click.style(f'{len(warnings)} warning(s)', fg='yellow')} suppressed)"
+                click.echo(summary)
+            elif warnings:
+                summary = f"\n{click.style(f'{error_count} error(s)', fg='red')}, {click.style(f'{warning_count} warning(s)', fg='yellow')} found"
+                click.echo(summary)
+            else:
+                click.echo(
+                    f"\n{click.style(f'{error_count} error(s)', fg='red')} found"
+                )
+
+            click.echo()  # Blank line before individual violations
+
             for error in errors:
                 _error_message(error)
+
+            if not no_warnings:
+                for warning in warnings:
+                    _warning_message(warning)
+
             sys.exit(1)
 
-        _success_message("All validation checks passed.")
+        # Summary for warnings only (no errors)
+        if warnings:
+            if no_warnings:
+                _success_message(
+                    f"All validation checks passed ({len(warnings)} warning(s) suppressed)."
+                )
+            else:
+                click.echo(
+                    f"\n{click.style(f'{len(warnings)} warning(s)', fg='yellow')} found"
+                )
+                click.echo()  # Blank line before individual violations
+                for warning in warnings:
+                    _warning_message(warning)
+                _success_message("All validation checks passed.")
+        else:
+            _success_message("All validation checks passed.")
 
     except Exception as e:
         _error_message(str(e))
