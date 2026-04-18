@@ -108,10 +108,7 @@ def validate(project_path, verbose, no_warnings):
             error_count = len(errors)
             warning_count = len(warnings) if not no_warnings else 0
 
-            if no_warnings and warnings:
-                summary = f"\n{click.style(f'{error_count} error(s)', fg='red')} found ({click.style(f'{len(warnings)} warning(s)', fg='yellow')} suppressed)"
-                click.echo(summary)
-            elif warnings:
+            if warnings and not no_warnings:
                 summary = f"\n{click.style(f'{error_count} error(s)', fg='red')}, {click.style(f'{warning_count} warning(s)', fg='yellow')} found"
                 click.echo(summary)
             else:
@@ -131,19 +128,14 @@ def validate(project_path, verbose, no_warnings):
             sys.exit(1)
 
         # Summary for warnings only (no errors)
-        if warnings:
-            if no_warnings:
-                _success_message(
-                    f"All validation checks passed ({len(warnings)} warning(s) suppressed)."
-                )
-            else:
-                click.echo(
-                    f"\n{click.style(f'{len(warnings)} warning(s)', fg='yellow')} found"
-                )
-                click.echo()  # Blank line before individual violations
-                for warning in warnings:
-                    _warning_message(warning)
-                _success_message("All validation checks passed.")
+        if warnings and not no_warnings:
+            click.echo(
+                f"\n{click.style(f'{len(warnings)} warning(s)', fg='yellow')} found"
+            )
+            click.echo()  # Blank line before individual violations
+            for warning in warnings:
+                _warning_message(warning)
+            _success_message("All validation checks passed.")
         else:
             _success_message("All validation checks passed.")
 
