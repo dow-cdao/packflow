@@ -37,9 +37,9 @@ Transform Inputs
 The ``transform_inputs()`` step is an optional method that ingests preprocessed data and returns its outputs to the
 ``execute()`` method. 
 
-**Input**: Specified by the ``input_format`` and could be any raw inputs, preprocessed records, or a numpy array.
+**Input**: A list of dicts (``passthrough`` or ``records``) or an ``ndarray`` (``numpy``), determined by ``input_format`` in the backend configuration. See :ref:`Preprocessors<preprocessors>`.
 
-**Output**: Fully transformed, model-ready features.
+**Output**: Fully transformed, model-ready features. May be any format - intermediate steps are not required to pass list-of-dict.
 
 Execute
 -------
@@ -50,8 +50,8 @@ to the ``transform_outputs()`` method. There should be minimal pre- or post-proc
 profiling is accurate.
 
 **Input**:
-1. The output of the ``preprocess`` step if ``transform_inputs()`` **is not defined**, or
-2. The output of the ``transform_inputs()`` method.
+1. The output of the ``preprocess`` step if ``transform_inputs()`` **is not defined**, - format determined by ``input_format`` (see :ref:`Preprocessors<preprocessors>`), or
+2. The output of the ``transform_inputs()``, which may be in any format.
 
 **Output**: Model outputs or results. 
 

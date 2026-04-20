@@ -14,17 +14,22 @@ Packflow's validators enforce a series of rules to ensure fully normalized input
 below:
 
 - **Correct Input Format:**
-    - Inputs must be provided as a dictionary or a list of dictionaries.
+    - When calling ``validate()`` or invoking a backend directly, inputs may be provided as a single dictionary or a list of dictionaries. Single-dictionary inputs are normalized to a list by the framework before reaching the backend.
+    - The pipeline entry-point (``transform_inputs`` if defined, otherwise ``execute``) receives a **list of dictionaries** for ``passthrough`` and ``records`` preprocessors, or an ``ndarray`` for ``numpy``. Preprocessing runs transparently, including during ``.validate()``.
 - **Inputs and Outputs are same length:**
-    - The number of inputs rows *must* match in length.
+    - The number of output dictionaries must equal the number of input dictionaries.
     - *Tip:* Build in exception handling and return an empty dictionary if a row fails, when possible
 - **Correct Output Format:**
-    - The output type must match the input type (e.g., dictionary in, dictionary out)
+    - The final pipeline step (``transform_outputs`` if defined, otherwise ``execute``) must return a **list of dictionaries** equal in length to the input list. Intermediate steps may pass data in any format.
 - **Outputs must be JSON Serializable:**
     - Output cannot contain non-native types (e.g., Numpy Arrays) that are not serializable with the ``json`` library.
 
 Packflow's built-in validation helpers check these rules and will warn if some conditions are not met -- however, it is
 recommended to keep these items in mind when developing.
+
+.. seealso::
+
+    :ref:`Packflow Framework <packflow-framework>` - for a full explanation of the pipeline I/O contract, including how single-dict inputs are handled at the framework level and where list-of-dict is required.
 
 Running Validations
 ===================
