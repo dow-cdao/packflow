@@ -142,3 +142,11 @@ def validate(project_path, verbose, no_warnings):
     except Exception as e:
         _error_message(str(e))
         sys.exit(1)
+
+
+@cli.command(hidden=True)
+def roll():
+    """Roll the box."""
+    from packflow._splash import roll_in
+
+    roll_in(force=True)
