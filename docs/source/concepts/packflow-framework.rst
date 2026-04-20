@@ -1,3 +1,5 @@
+.. _packflow-framework:
+
 Packflow Inference Backend
 ##########################
 
