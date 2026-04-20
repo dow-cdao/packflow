@@ -15,7 +15,7 @@ below:
 
 - **Correct Input Format:**
     - When calling ``validate()`` or invoking a backend directly, inputs may be provided as a single dictionary or a list of dictionaries. Single-dictionary inputs are normalized to a list by the framework before reaching the backend.
-    - The pipeline entry-point (``transform_inputs`` if defined, otherwise ``execute``) receives a **list of dictionaries** for ``passthrough`` and ``records`` preprocessors, or an ``ndarray`` for ``numpy``. Preprocessing runs transparently, including during ``.validate()``.
+    - The pipeline entry-point (``transform_inputs`` if defined, otherwise ``execute``) receives a **list of dictionaries** for ``passthrough`` and ``records`` preprocessors, or an ``ndarray`` for ``numpy``. Preprocessing still runs during ``.validate()`` - data reaches the entry-point in the format determined by ``input_format``.
 - **Inputs and Outputs are same length:**
     - The number of output dictionaries must equal the number of input dictionaries.
     - *Tip:* Build in exception handling and return an empty dictionary if a row fails, when possible
