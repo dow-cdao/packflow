@@ -29,7 +29,7 @@ recommended to keep these items in mind when developing.
 
 .. seealso::
 
-    :ref:`Packflow Framework <packflow-framework>` - for a full explanation of the pipeline I/O contract, including how single-dict inputs are handled at the framework level and where list-of-dict is required.
+    :ref:`Packflow Inference Backend <packflow-framework>` - for a full explanation of the pipeline I/O contract, including how single-dict inputs are handled at the framework level and where list-of-dict is required.
 
 Running Validations
 ===================
