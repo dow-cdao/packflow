@@ -13,7 +13,7 @@ Inference Backend.
 
 The following fields are used for default behaviors of the Base Config Model:
 
-- ``verbose``: A boolean indicating whether to output verbose logs. Defaults to True.
+- ``verbose``: A boolean indicating whether to output verbose logs (e.g. per-inference execution metrics). Defaults to False.
 - ``input_format``:  A string specifying the preprocessor; one of ``'passthrough'``, ``'records'``, or ``'numpy'``. For details, see :ref:`Preprocessors<preprocessors>`.
 - ``rename_fields``: A dictionary mapping of ``{"old_name": "new_name"}`` which will be renamed during ``'records'`` or ``'numpy'`` preprocessing.
 - ``feature_names``: A list of feature names. If non-empty, acts as a preprocessing filter. Behavior varies between ``'records'`` and ``'numpy'`` preprocessors. Defaults to an empty list.

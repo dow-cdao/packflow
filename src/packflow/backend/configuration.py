@@ -25,7 +25,7 @@ class BackendConfig(BaseModel):
     """See :ref:`Backend Configuration<backend-configuration>` for details."""
 
     # Base configurations - controls some runtime logging behaviors
-    verbose: bool = True
+    verbose: bool = False
 
     # Data Requirements - controls preprocessor behavior.
     input_format: InputFormats = InputFormats.RECORDS

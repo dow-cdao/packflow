@@ -150,4 +150,4 @@ To change the log level, set the ``PACKFLOW_LOG_LEVEL`` environment variable to 
 
 .. note::
 
-    The ``verbose`` field in the ``BackendConfig`` controls whether execution metrics are logged during inference. This is separate from the overall log level and defaults to ``True``. Set ``verbose=False`` to suppress metrics logging regardless of the log level.
+    The ``verbose`` field in the ``BackendConfig`` controls whether execution metrics are logged during inference. This is separate from the overall log level and defaults to ``True``. Set ``verbose=True`` to enable metrics logging regardless of the log level.

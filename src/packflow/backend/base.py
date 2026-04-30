@@ -83,7 +83,7 @@ class InferenceBackend(ABC):
             outputs = outputs[0]
 
         if self.config.verbose:
-            self.logger.info(f"{self.get_metrics().__repr__()}")
+            self.logger.debug(f"{self.get_metrics().__repr__()}")
 
         return outputs
 
@@ -99,10 +99,7 @@ class InferenceBackend(ABC):
 
         delta = time.perf_counter() - start
 
-        if self.config.verbose:
-            self.logger.info(
-                f"Initialized {self.__class__.__name__} in {delta:,.4f} ms"
-            )
+        self.logger.info(f"Initialized {self.__class__.__name__} in {delta:,.4f} ms")
 
     def _preprocess(self, raw_inputs: List[dict]) -> Union[List[dict], "np.array"]:
         """
