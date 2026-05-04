@@ -53,7 +53,7 @@ def test_create_command_failure(runner, tmp_path):
         # Should fail without --force
         result = runner.invoke(cli, ["create", "existing_project"])
 
-        assert result.exit_code == 0  # Click doesn't exit non-zero by default
+        assert result.exit_code == 1
         assert "Error:" in result.output
 
     finally:
@@ -127,7 +127,7 @@ def test_export_command_failure(runner, tmp_path):
         # Try to export non-existent project
         result = runner.invoke(cli, ["export", "nonexistent_project"])
 
-        assert result.exit_code == 0
+        assert result.exit_code == 1
         assert "Error:" in result.output
 
     finally:

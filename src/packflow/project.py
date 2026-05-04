@@ -397,6 +397,8 @@ class PackflowProject:
 
         export_file_name = config.archive_file_name(output_directory)
 
+        gitignore_spec = self._load_gitignore_spec()
+
         try:
             with zipfile.ZipFile(export_file_name, "w") as zip_file:
                 for file_path in self.base_dir.rglob("*"):
@@ -415,6 +417,10 @@ class PackflowProject:
                     if any(
                         fnmatch(file_path.name, pat) for pat in EXPORT_EXCLUDE_PATTERNS
                     ):
+                        continue
+
+                    # Skip files matched by .gitignore
+                    if gitignore_spec.match_file(str(relative_path)):
                         continue
 
                     zip_file.write(str(file_path), str(relative_path))

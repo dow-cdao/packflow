@@ -44,13 +44,14 @@ def create(project_name, force):
             f"Invalid project name '{project_name}'. "
             f"Names must start with a letter and contain only letters, digits, hyphens, and underscores."
         )
-        return
+        sys.exit(1)
 
     try:
         project = packflow.PackflowProject.create(project_name, force=force)
         _success_message(project)
     except Exception as e:
         _error_message(str(e))
+        sys.exit(1)
 
 
 @cli.command()
@@ -71,6 +72,7 @@ def export(project_path, verbose):
         _success_message(f"Saved Package to {output_file}")
     except Exception as e:
         _error_message(str(e))
+        sys.exit(1)
 
 
 @cli.command()
