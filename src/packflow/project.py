@@ -297,11 +297,12 @@ class PackflowProject:
             # Special handling for packflow version check
             if package_name.lower() == "packflow":
                 if version_spec:
-                    # Extract version from spec (e.g., "==1.0.0" -> "1.0.0")
-                    version_match = re.search(r"[\d.]+", version_spec)
-                    if version_match:
-                        req_version = version_match.group(0)
-                        if req_version != current_packflow_version:
+                    try:
+                        req = Requirement(line)
+                        if (
+                            req.specifier
+                            and current_packflow_version not in req.specifier
+                        ):
                             warning = (
                                 f"requirements.txt specifies packflow{version_spec}, "
                                 f"but installed version is {current_packflow_version}."
@@ -310,14 +311,19 @@ class PackflowProject:
                             if verbose:
                                 click.echo(
                                     f"    {click.style('⚠', fg='yellow')} packflow version mismatch "
-                                    f"(installed: {current_packflow_version}, required: {req_version})"
+                                    f"(installed: {current_packflow_version}, required: {req.specifier})"
                                 )
                         elif verbose:
                             click.echo(
                                 f"    {click.style('✓', fg='green')} {package_name}"
                             )
-                    elif verbose:
-                        click.echo(f"    {click.style('✓', fg='green')} {package_name}")
+                    except Exception:
+                        if verbose:
+                            click.echo(
+                                f"    {click.style('✓', fg='green')} {package_name}"
+                            )
+                elif verbose:
+                    click.echo(f"    {click.style('✓', fg='green')} {package_name}")
                 continue
 
             # Check if package is installed

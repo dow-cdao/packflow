@@ -190,12 +190,6 @@ def validate_for_export(
         elif verbose:
             click.echo(f"        {click.style('✓', fg='green')} {backend_file}")
 
-    if config.inference_backend == "inference:Backend":
-        warnings.append(
-            "'inference_backend' is set to the default template value 'inference:Backend'. "
-            "Verify this is correct before distributing."
-        )
-
     # Validate loader mode
     if verbose:
         click.echo(f"      {click.style('✓', fg='green')} loader: {config.loader}")
@@ -206,12 +200,9 @@ def validate_for_export(
         warnings.append(python_warning)
 
     # Run loader smoke tests after all runtime fields are validated
-    if config.inference_backend != "inference:Backend":
-        backend_errors = _validate_inference_backend(
-            config, project_dir, verbose=verbose
-        )
-        if backend_errors:
-            errors.extend(backend_errors)
+    backend_errors = _validate_inference_backend(config, project_dir, verbose=verbose)
+    if backend_errors:
+        errors.extend(backend_errors)
 
     return errors, warnings
 
