@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 from typing import Annotated, Literal, Optional, Union
@@ -47,6 +48,7 @@ class PackflowConfig(BaseModel):
     loader: Literal["local", "module"] = "local"
     python_version: str = get_python_version()
 
+    env: dict[str, str] = {}
     extra: dict = {}
 
     @classmethod
@@ -77,6 +79,9 @@ class PackflowConfig(BaseModel):
                 f,
                 sort_keys=False,
             )
+            if config_data.get("env"):
+                f.write("\n# === ENVIRONMENT ===\n")
+                yaml.safe_dump({"env": config_data["env"]}, f, sort_keys=False)
             if config_data.get("extra"):
                 f.write("\n# === CUSTOM ===\n")
                 yaml.safe_dump({"extra": config_data["extra"]}, f, sort_keys=False)
@@ -93,6 +98,26 @@ class PackflowConfig(BaseModel):
             f.write(f"packflow=={packflow_version}")
 
         return requirements_text
+
+
+def apply_env_vars(config: "PackflowConfig") -> None:
+    """
+    Apply environment variables from the packflow.yaml env section.
+
+    Warns when a key is already set in the environment with a different value.
+    """
+    from packflow.logger import get_logger
+
+    logger = get_logger()
+
+    for key, value in config.env.items():
+        existing = os.environ.get(key)
+        if existing is not None and existing != value:
+            logger.warning(
+                f"Overwriting existing environment variable '{key}' "
+                f"(current: '{existing}', packflow.yaml: '{value}')"
+            )
+        os.environ[key] = value
 
 
 def validate_for_export(

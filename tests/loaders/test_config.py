@@ -1,9 +1,12 @@
 from pathlib import Path
 
+import os
+
 import pytest
 import yaml
 from packflow.loaders.config import (
     PackflowConfig,
+    apply_env_vars,
     load_packflow_config,
     validate_for_export,
 )
@@ -84,6 +87,74 @@ def test_write_yaml_with_custom_fields(tmp_path):
     data = yaml.safe_load(content)
     assert data["extra"]["custom_field"] == "custom_value"
     assert data["extra"]["another_custom"] == "another_value"
+
+
+def test_write_yaml_with_env_section(tmp_path):
+    """Test that env vars are written under # === ENVIRONMENT === section"""
+    config = PackflowConfig(
+        name="test_project",
+        version="0.1.0",
+        description="Test",
+        env={"MY_VAR": "hello", "OTHER_VAR": "world"},
+    )
+
+    yaml_path = config.write_yaml(tmp_path)
+    content = yaml_path.read_text()
+
+    assert "# === ENVIRONMENT ===" in content
+
+    data = yaml.safe_load(content)
+    assert data["env"]["MY_VAR"] == "hello"
+    assert data["env"]["OTHER_VAR"] == "world"
+
+
+def test_write_yaml_no_env_section_when_empty(tmp_path):
+    """Test that no environment section is written when env is empty"""
+    config = PackflowConfig(name="test_project", version="0.1.0", description="Test")
+
+    yaml_path = config.write_yaml(tmp_path)
+    content = yaml_path.read_text()
+
+    assert "# === ENVIRONMENT ===" not in content
+
+
+def test_apply_env_vars_sets_values(tmp_path):
+    """Test that apply_env_vars sets environment variables"""
+    config = PackflowConfig(
+        name="test_project", env={"PACKFLOW_TEST_VAR": "test_value"}
+    )
+    os.environ.pop("PACKFLOW_TEST_VAR", None)
+
+    apply_env_vars(config)
+
+    assert os.environ["PACKFLOW_TEST_VAR"] == "test_value"
+    os.environ.pop("PACKFLOW_TEST_VAR", None)
+
+
+def test_apply_env_vars_no_warning_when_same_value(tmp_path, caplog):
+    """Test that no warning is issued when existing value matches"""
+    os.environ["PACKFLOW_TEST_VAR"] = "same"
+    config = PackflowConfig(name="test_project", env={"PACKFLOW_TEST_VAR": "same"})
+
+    apply_env_vars(config)
+
+    assert os.environ["PACKFLOW_TEST_VAR"] == "same"
+    assert "PACKFLOW_TEST_VAR" not in caplog.text
+    os.environ.pop("PACKFLOW_TEST_VAR", None)
+
+
+def test_apply_env_vars_warns_on_overwrite(caplog):
+    """Test that a warning is issued when overwriting a different existing value"""
+    os.environ["PACKFLOW_TEST_VAR"] = "original"
+    config = PackflowConfig(name="test_project", env={"PACKFLOW_TEST_VAR": "new_value"})
+
+    import logging
+
+    with caplog.at_level(logging.WARNING):
+        apply_env_vars(config)
+
+    assert os.environ["PACKFLOW_TEST_VAR"] == "new_value"
+    os.environ.pop("PACKFLOW_TEST_VAR", None)
 
 
 def test_write_yaml_no_custom_section_when_extra_empty(tmp_path):

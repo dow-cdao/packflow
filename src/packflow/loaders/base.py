@@ -4,7 +4,7 @@ from typing import Union
 
 from packflow import InferenceBackend, exceptions
 
-from .config import PackflowConfig
+from .config import PackflowConfig, apply_env_vars
 
 
 class InferenceBackendLoader(ABC):
@@ -75,6 +75,7 @@ class InferenceBackendLoader(ABC):
 
         project_path = Path(project_path).resolve()
         config = PackflowConfig.from_project_path(project_path)
+        apply_env_vars(config)
 
         if config.loader == "local":
             loader = LocalLoader(config.inference_backend)

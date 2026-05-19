@@ -11,7 +11,7 @@ import pathspec
 
 import packflow.constants as constants
 
-from .loaders.config import PackflowConfig, validate_for_export
+from .loaders.config import PackflowConfig, apply_env_vars, validate_for_export
 
 # Directories excluded from export by default
 EXPORT_EXCLUDE_DIRS = {
@@ -142,7 +142,9 @@ class PackflowProject:
         return cls(base_path)
 
     def load_config(self):
-        return PackflowConfig.from_project_path(self.base_dir)
+        config = PackflowConfig.from_project_path(self.base_dir)
+        apply_env_vars(config)
+        return config
 
     # Files that must always be present for a valid export
     REQUIRED_FILES = [
@@ -385,6 +387,7 @@ class PackflowProject:
             click.echo(f"Project: {self.base_dir}")
 
         config = PackflowConfig.from_project_path(self.base_dir)
+        apply_env_vars(config)
 
         # Validate files (packflow.yaml validation will be integrated)
         file_errors, file_warnings = self.validate_required_files(
