@@ -66,13 +66,12 @@ def test_write_yaml(tmp_path):
 
 
 def test_write_yaml_with_custom_fields(tmp_path):
-    """Test writing packflow.yaml with extra custom fields"""
+    """Test writing packflow.yaml with extra custom fields nested under 'extra:'"""
     config = PackflowConfig(
         name="test_project",
         version="0.1.0",
         description="Test",
-        custom_field="custom_value",
-        another_custom="another_value",
+        extra={"custom_field": "custom_value", "another_custom": "another_value"},
     )
 
     yaml_path = config.write_yaml(tmp_path)
@@ -80,12 +79,27 @@ def test_write_yaml_with_custom_fields(tmp_path):
     with yaml_path.open("r") as f:
         content = f.read()
 
-    # Custom section should be present
     assert "# === CUSTOM ===" in content
 
     data = yaml.safe_load(content)
-    assert data["custom_field"] == "custom_value"
-    assert data["another_custom"] == "another_value"
+    assert data["extra"]["custom_field"] == "custom_value"
+    assert data["extra"]["another_custom"] == "another_value"
+
+
+def test_write_yaml_no_custom_section_when_extra_empty(tmp_path):
+    """Test that no custom section is written when extra is empty"""
+    config = PackflowConfig(name="test_project", version="0.1.0", description="Test")
+
+    yaml_path = config.write_yaml(tmp_path)
+    content = yaml_path.read_text()
+
+    assert "# === CUSTOM ===" not in content
+
+
+def test_packflow_config_rejects_unknown_top_level_keys():
+    """Test that arbitrary top-level keys are rejected; use extra: instead"""
+    with pytest.raises(Exception):  # Pydantic ValidationError
+        PackflowConfig(name="test", version="0.1.0", unknown_key="value")
 
 
 def test_write_requirements(tmp_path):

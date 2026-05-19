@@ -36,7 +36,7 @@ def normalize_archive_name(name: str) -> str:
 
 
 class PackflowConfig(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid")
 
     name: NameStr
     version: str = ""
@@ -46,6 +46,8 @@ class PackflowConfig(BaseModel):
     inference_backend: InferenceBackendStr = "inference:Backend"
     loader: Literal["local", "module"] = "local"
     python_version: str = get_python_version()
+
+    extra: dict = {}
 
     @classmethod
     def from_project_path(cls, base_dir: Union[str, Path]):
@@ -75,20 +77,9 @@ class PackflowConfig(BaseModel):
                 f,
                 sort_keys=False,
             )
-            remaining_fields = list(
-                set(config_data.keys()) - set(METADATA_KEYS) - set(RUNTIME_CONFIG_KEYS)
-            )
-            if remaining_fields:
+            if config_data.get("extra"):
                 f.write("\n# === CUSTOM ===\n")
-                yaml.safe_dump(
-                    {
-                        k: config_data[k]
-                        for k in config_data
-                        if k not in METADATA_KEYS + RUNTIME_CONFIG_KEYS
-                    },
-                    f,
-                    sort_keys=False,
-                )
+                yaml.safe_dump({"extra": config_data["extra"]}, f, sort_keys=False)
 
         return packaging_config
 
