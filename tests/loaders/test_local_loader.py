@@ -7,14 +7,14 @@ from packflow.loaders import LocalLoader
 
 def test_dot_notation_to_pypath():
     """Test converting dot notation to file path"""
-    result = LocalLoader._dot_notation_to_pypath("inference")
-    assert result.endswith("inference.py")
+    result = Path(LocalLoader._dot_notation_to_pypath("inference"))
+    assert result.name == "inference.py"
 
-    result = LocalLoader._dot_notation_to_pypath("foo.bar")
-    assert result.endswith("foo/bar.py")
+    result = Path(LocalLoader._dot_notation_to_pypath("foo.bar"))
+    assert result.parts[-2:] == ("foo", "bar.py")
 
-    result = LocalLoader._dot_notation_to_pypath("foo.bar.baz")
-    assert result.endswith("foo/bar/baz.py")
+    result = Path(LocalLoader._dot_notation_to_pypath("foo.bar.baz"))
+    assert result.parts[-3:] == ("foo", "bar", "baz.py")
 
 
 def test_import_module_from_source():

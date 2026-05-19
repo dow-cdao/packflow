@@ -216,7 +216,7 @@ def test_validate_for_export_empty_version():
 
 
 def test_validate_for_export_default_inference_backend():
-    """Test that default inference_backend triggers a warning"""
+    """Test that the default inference_backend is accepted without warnings"""
     config = PackflowConfig(
         name="my-analytic",
         version="1.0.0",
@@ -224,7 +224,7 @@ def test_validate_for_export_default_inference_backend():
     )
     errors, warnings = validate_for_export(config)
     assert errors == []
-    assert any("inference_backend" in w for w in warnings)
+    assert not any("inference_backend" in w for w in warnings)
 
 
 def test_validate_for_export_empty_description_and_maintainers():
