@@ -36,6 +36,9 @@ class BackendConfig(BaseModel):
     nested_field_delimiter: str = "."
     ignore_delimiter_collisions: bool = False
 
+    # Output metadata - declarative only; checked by backend.validate()
+    output_keys: List[str] = []
+
 
 def load_backend_configuration(
     backend_config_model: BackendConfig | type[BackendConfig] = BackendConfig,

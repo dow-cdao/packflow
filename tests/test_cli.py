@@ -171,7 +171,7 @@ def test_validate_command_success(runner, tmp_path):
         project_dir = tmp_path / "valid_project"
         (project_dir / "packflow.yaml").write_text(
             "name: valid_project\nversion: 1.0.0\ndescription: Test\n"
-            "inference_backend: custom:Backend\nloader: local\n"
+            "inference_backend: inference:Backend\nloader: local\n"
         )
 
         result = runner.invoke(cli, ["validate", str(project_dir)])
@@ -219,7 +219,7 @@ def test_validate_command_warnings(runner, tmp_path):
         project_dir = tmp_path / "warn_project"
         (project_dir / "packflow.yaml").write_text(
             "name: warn_project\nversion: 1.0.0\ndescription: Test\n"
-            "inference_backend: custom:Backend\nloader: local\n"
+            "inference_backend: inference:Backend\nloader: local\n"
         )
         (project_dir / "LICENSE.txt").unlink()
 
@@ -245,7 +245,7 @@ def test_validate_command_default_path(runner, tmp_path):
         project_dir = tmp_path / "default_validate"
         (project_dir / "packflow.yaml").write_text(
             "name: default_validate\nversion: 1.0.0\ndescription: Test\n"
-            "inference_backend: custom:Backend\nloader: local\n"
+            "inference_backend: inference:Backend\nloader: local\n"
         )
         os.chdir(project_dir)
 

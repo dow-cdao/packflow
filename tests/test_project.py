@@ -281,7 +281,8 @@ def test_validate_required_files_missing_inference(tmp_path):
         os.chdir(tmp_path)
         project = PackflowProject.create("missing_inference")
         (project.base_dir / "inference.py").unlink()
-        errors, warnings = project.validate_required_files()
+        config = project.load_config()
+        errors, warnings = project.validate_required_files(config=config)
         assert any("inference.py" in e for e in errors)
     finally:
         os.chdir(original_dir)

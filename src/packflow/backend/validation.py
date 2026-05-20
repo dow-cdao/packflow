@@ -1,5 +1,5 @@
 import json
-from typing import List, Union, Any, Callable
+from typing import Any, Callable, List, Union
 
 import packflow.exceptions as exceptions
 
@@ -40,6 +40,10 @@ class InferenceBackendValidator:
         _output_is_list_of_dicts(outputs)
 
         _output_is_json_serializable(outputs)
+
+        _check_output_keys(
+            outputs, self.backend.config.output_keys, self.backend.logger
+        )
 
         if input_is_dict:
             outputs = outputs[0]
@@ -84,6 +88,20 @@ def _output_is_list_of_dicts(outputs: Any):
                 f"Outputs must be a list of dictionaries. Value at index {i} is not a dictionary. "
                 f"Type found was {type(v)}"
             )
+
+
+def _check_output_keys(outputs: List[dict], output_keys: List[str], logger) -> None:
+    """Warns when declared output_keys are missing from actual output."""
+    if not output_keys:
+        return
+
+    declared = set(output_keys)
+    actual = set().union(*(record.keys() for record in outputs))
+
+    for key in sorted(declared - actual):
+        logger.warning(
+            f"output_keys: declared key '{key}' was not found in any output record"
+        )
 
 
 def _output_is_json_serializable(outputs: Any):
