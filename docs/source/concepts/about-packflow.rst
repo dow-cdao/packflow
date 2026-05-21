@@ -35,7 +35,4 @@ The following terms are essential to understanding the ``packflow`` framework:
 * **Batch**: A collection of events, represented as a list of length N, where each element is an individual event.
 * **Records**: The data structure containing a batch of events, typically a list of dictionaries. This term is inspired by ``pandas`` and used extensively throughout the documentation.
 
-.. Config used to be listed here; it has been temporarily disabled while we rework the
-.. terminology between the Backend Configuration and the Packflow configuration.
-.. The previous definition was:
-.. * **Config**: Refers specifically to the configuration settings for a Model Backend. Configurations can be passed as keyword arguments in code or loaded from a ``config.json`` file.
+* **Config**: Refers to the configuration settings for an Inference Backend. Configurations may be passed as keyword arguments in code or defined in the ``backend_config:`` section of ``packflow.yaml``, where they are applied automatically when the project is loaded.

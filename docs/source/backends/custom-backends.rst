@@ -19,7 +19,7 @@ logic (e.g., loading model weights or one-time setup code).
     from packflow import InferenceBackend
 
     class Backend(InferenceBackend):
-        def initialize(self, *args, **kwargs):
+        def initialize(self):
             self.logger.info("Loading model weights")
             self.logger.info("Placing model on GPUs")
             # ... etc
@@ -56,7 +56,7 @@ profiling is accurate.
 **Output**: Model outputs or results. 
 
 .. warning::
-    If the ``transform_outputs()`` step is unused, it **must** return results that meet Packflow's
+    If ``transform_outputs()`` is not defined, ``execute()`` **must** return results that meet Packflow's
     :ref:`Validation<validation>` requirements.
 
 Transform Outputs

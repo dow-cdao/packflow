@@ -38,11 +38,14 @@ The purpose of ``packflow.yaml`` is to track:
 2. Loader configuration, including ``python_version``, ``inference_backend``, and ``loader``.
     - These configuration fields specify how an Inference Backend may be loaded from the Packflow project.
 
-3. Custom configuration/metadata fields
-    - If there are any other project-scope configurations or metadata that needs to be tracked, arbitrary configuration values are accepted here.
+3. Environment variable configuration (``env:`` section).
+    - Key/value pairs defined here are applied as environment variables whenever the project is loaded. A warning is emitted if an existing variable is overwritten with a different value.
 
-.. note:: 
-    Please also consider :ref:`Backend Configuration<backend-configuration>` for configurations specific to Packflow's preprocessors or Inference Backend, and for defining :ref:`custom configurations<custom-config-models>` and behaviors in the ``InferenceBackend`` controlled by the backend config.
+4. Backend configuration (``backend_config:`` section).
+    - Preprocessor and backend settings applied automatically when loading the project via ``InferenceBackendLoader.from_project()``. See :ref:`Backend Configuration<backend-configuration>` and :ref:`Configuration Sources<configuration-sources>` for details.
+
+5. Arbitrary custom metadata (``extra:`` section).
+    - Any project-scope configuration or metadata that does not fit the standard fields may be placed under the ``extra:`` mapping. Arbitrary top-level keys are not accepted; all custom values must be nested under ``extra:``.
 
 Creating a Package
 ==================

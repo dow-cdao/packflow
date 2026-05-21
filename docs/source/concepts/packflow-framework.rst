@@ -121,35 +121,90 @@ Inference Backends continuously.
 Packflow Loaders
 ----------------
 
-Packflow includes integrations for loading Inference Backends from standalone scripts (``LocalLoader``) or packages
-installed with tools such as ``poetry`` or ``uv`` (``ModuleLoader``). This flexibility enables developers to integrate
-``packflow`` into existing Python packages or use it in a more informal setting like Jupyter Notebooks or Conda
-environments to write, validate, and share inference code without any packaging frameworks.
+Packflow provides two distinct approaches to loading an Inference Backend. Each serves a different context and carries
+different responsibilities.
+
+Standalone Loading
+~~~~~~~~~~~~~~~~~~
+
+``LocalLoader`` and ``ModuleLoader`` are project-agnostic. They locate and instantiate an Inference Backend from a
+Python module path without reading ``packflow.yaml`` or applying any project-level configuration. The backend is
+configured entirely through its own defaults and any keyword arguments supplied at load time.
+
+``LocalLoader`` resolves the module path relative to the current working directory. It is well-suited for
+development workflows, Jupyter Notebooks, and scripts where a formal packflow project structure is not required:
 
 .. code-block:: python
-    :caption: ``LocalLoader`` Example
+    :caption: ``LocalLoader`` — standalone script or notebook
 
     from packflow.loaders import LocalLoader
 
     backend = LocalLoader('inference:Backend').load()
-
     backend({"sample": "data"})
-    # >> {"sample": "data"}
 
+``ModuleLoader`` loads from an installed Python package. It is the appropriate choice when the Inference Backend is
+distributed as a package (e.g., via a private PyPI repository) and the consumer has installed it with a tool such as
+``pip``, ``poetry``, or ``uv``:
 
 .. code-block:: python
-    :caption: ``ModuleLoader`` Example
+    :caption: ``ModuleLoader`` — installed package
 
     from packflow.loaders import ModuleLoader
 
-    # Load from an installed package
-    # Example: pip install myproject
     backend = ModuleLoader('myproject.backends:MyModelBackend').load()
-
     backend({"sample": "data"})
-    # >> {"sample": "data"}
 
-The ``ModuleLoader`` is useful when you've developed a package (e.g., ``myproject``) that exposes a valid Packflow
-backend (e.g., ``myproject.backends:MyModelBackend``). Once your package is available on a PyPI repository, users can
-simply ``pip install myproject`` and load the backend using the module path. See the **Scikit-Learn Classifier** notebook
-in the :ref:`Examples<examples>` section for a complete walkthrough of creating a pip-installable package with a Packflow backend.
+Because neither loader reads ``packflow.yaml``, project-level configuration — ``backend_config:``, ``env:``, and
+``output_keys`` — is not applied automatically. Backend configuration must be supplied explicitly as keyword arguments:
+
+.. code-block:: python
+
+    backend = LocalLoader('inference:Backend').load(
+        feature_names=["input_0", "input_1"],
+        verbose=True,
+    )
+
+Alternatively, if a ``packflow.yaml`` is available but a specific loader is needed, the config can be read explicitly
+and the ``backend_config`` section passed through:
+
+.. code-block:: python
+
+    from packflow.loaders import LocalLoader
+    from packflow.loaders.config import PackflowConfig
+
+    config = PackflowConfig.from_project_path(".")
+    backend = LocalLoader(config.inference_backend).load(**config.backend_config)
+
+Project-Aware Loading
+~~~~~~~~~~~~~~~~~~~~~
+
+``InferenceBackendLoader.from_project()`` reads ``packflow.yaml`` from a project directory and applies its
+configuration before loading the backend. Specifically, it:
+
+- Applies any ``env:`` variables to the process environment.
+- Selects the loader type (``local`` or ``module``) as specified by the ``loader:`` field.
+- Passes the ``backend_config:`` section as the base configuration for the backend.
+
+.. code-block:: python
+    :caption: ``InferenceBackendLoader.from_project()`` — project directory
+
+    from packflow.loaders import InferenceBackendLoader
+
+    backend = InferenceBackendLoader.from_project(".")
+    backend({"sample": "data"})
+
+Explicit keyword arguments passed to ``from_project()`` are merged on top of ``backend_config:`` values, so
+per-call overrides are still possible:
+
+.. code-block:: python
+
+    backend = InferenceBackendLoader.from_project(".", verbose=True)
+
+See the :ref:`Configuration Sources<configuration-sources>` section for full details on how configuration values are merged
+and validated.
+
+.. note::
+
+    ``ModuleLoader`` is the loader type used when ``loader: module`` is set in ``packflow.yaml``. See the
+    **Scikit-Learn Classifier** notebook in the :ref:`Examples<examples>` section for a complete walkthrough of
+    creating a pip-installable package with a Packflow backend.

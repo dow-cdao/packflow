@@ -1,15 +1,11 @@
-Configuring the Preprocessor
-############################
-
 .. _backend-configuration:
 
 Backend Configuration
-=====================
+#####################
 
-The base ``BackendConfig`` contains fields that are leveraged by internal functions for processing input data prior 
-to passing inputs to the ``transform_inputs()`` method. The base config arguments are initialized at the Backend's
-``base_config_model`` class attribute, and they can be accessed via the ``config`` instance attribute in the custom
-Inference Backend.
+The ``BackendConfig`` model controls preprocessing behavior, runtime logging, and output metadata for an Inference
+Backend. It is set as the ``backend_config_model`` class attribute on the backend and accessed via the ``config``
+instance attribute.
 
 The following fields are used for default behaviors of the Base Config Model:
 
@@ -20,18 +16,27 @@ The following fields are used for default behaviors of the Base Config Model:
 - ``flatten_nested_inputs``: A boolean indicating whether to flatten nested inputs. Defaults to False.
 - ``flatten_lists``: A boolean indicating whether to also flatten lists when flattening nested inputs. Defaults to False.
 - ``nested_field_delimiter``: A string indicating the delimiter for nested fields. Defaults to a period ('.').
+- ``output_keys``: A list of the keys expected in each output record. This is **declarative metadata only** — it does not affect inference execution. When ``backend.validate()`` is called, a warning is emitted for any declared key absent from the outputs. Defaults to an empty list (no validation performed).
 
 .. warning::
     When ``flatten_nested_inputs`` is ``False``, input keys containing ``nested_field_delimiter`` may result in incorrect nested structures or key collisions. For best results, ensure delimiters do not appear in record keys.
 
 **Example**
 
-Consider the following preprocessor configuration:
+Consider the following ``backend_config:`` section in ``packflow.yaml``:
 
-.. literalinclude:: ../code-examples/usage/example-config.json
-   :language: json
-   :linenos:
-   :caption: ``/path/to/a/config.json``
+.. code-block:: yaml
+
+    # === BACKEND CONFIG ===
+    backend_config:
+      flatten_nested_inputs: true
+      nested_field_delimiter: ":"
+      rename_fields:
+        "foo:bar": feature_1
+        "fizz:buzz": feature_2
+      feature_names:
+        - feature_1
+        - feature_2
 
 and this ``InferenceBackend`` implementation that simply prints the data at each stage:
 
@@ -41,7 +46,7 @@ and this ``InferenceBackend`` implementation that simply prints the data at each
    :emphasize-lines: 6-8, 12, 16, 24-25
    :caption: ``inference.py``
 
-When the above backend is executed without configuration, the input from the ``__main__`` block ``{"foo": {"bar": 0, "baz": [1]}, "fizz": {"buzz": 2}}`` will pass through unchanged:
+When the backend is loaded directly without a project configuration, the input from the ``__main__`` block ``{"foo": {"bar": 0, "baz": [1]}, "fizz": {"buzz": 2}}`` passes through unchanged:
 
 .. code-block:: console
 
@@ -51,19 +56,24 @@ When the above backend is executed without configuration, the input from the ``_
     Execute received: [{'foo': {'bar': 0, 'baz': [1]}, 'fizz': {'buzz': 2}}]
     Final Output: {'result': {'foo': {'bar': 0, 'baz': [1]}, 'fizz': {'buzz': 2}}}
 
-However, when the backend is executed with the above config, the input will be transformed according to the preprocessor configuration:
+When the backend is loaded from the project (with the above ``backend_config:`` in ``packflow.yaml``), the input is transformed according to the preprocessor configuration:
+
+.. code-block:: python
+
+    from packflow.loaders import InferenceBackendLoader
+
+    backend = InferenceBackendLoader.from_project(".")
+    print("Final Output:", backend({"foo": {"bar": 0, "baz": [1]}, "fizz": {"buzz": 2}}))
 
 .. code-block:: console
 
-    $ BACKEND_CONFIG_FILE_PATH=/path/to/a/config.json python inference.py
-    PrintBackend called with args: ({'foo': {'bar': 0, 'baz': [1]}, 'fizz': {'buzz': 2}},), kwargs: {}
     Transform Inputs received: [{'feature_1': 0, 'feature_2': 2}]
     Execute received: [{'feature_1': 0, 'feature_2': 2}]
     Final Output: {'result': {'feature_1': 0, 'feature_2': 2}}
 
-The input record has been flattened, filtered to only include the specified feature names, and renamed according to the config file. This demonstrates how the preprocessor configuration fields can be used to manipulate input data before it reaches the core logic of the InferenceBackend, allowing for an InferenceBackend to be reused across different data schemas with minimal code changes.
+The input record has been flattened, filtered to only include the specified feature names, and renamed according to the ``backend_config:`` section. This demonstrates how the preprocessor configuration fields can be used to manipulate input data before it reaches the core logic of the InferenceBackend, allowing an InferenceBackend to be reused across different data schemas with minimal code changes.
 
-Please see :ref:`Config Hierarchy<config-hierarchy>` for more details on how configurations are loaded and overridden.
+Please see :ref:`Configuration Sources<configuration-sources>` for more details on how configurations are loaded and overridden.
 
 .. _preprocessors:
 
