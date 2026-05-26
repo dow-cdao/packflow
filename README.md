@@ -95,6 +95,27 @@ backend({"sample": "data"})
 # >> {"sample": "data"}
 ```
 
+## Recent Changes
+
+### 0.4.0
+
+Recent updates include improvements to configuration structure and new CLI capabilities:
+
+- Custom configuration keys in `packflow.yaml` should now be placed under an `extra:` field for cleaner validation
+- Backend configuration can now be defined directly in `packflow.yaml` instead of separate JSON files
+- Name validation relaxed to allow numbers and hyphens (not as first character)
+- New `packflow validate` and `packflow --version` commands
+- Environment variables can be specified in `packflow.yaml` and are set automatically during packflow operations
+- `packflow export` now respects `.gitignore` patterns
+- `verbose` defaults to `false` to reduce log output
+- Backend configuration supports `output_keys` field to declare expected output fields
+
+For projects using custom top-level keys in `packflow.yaml`, nest them under `extra:` to maintain compatibility with current validation.
+
+### 0.3.0
+
+- Initial release
+
 ## Contributing
 
 Contributions to Packflow are welcomed and highly encouraged! Please refer to the [CONTRIBUTING.md](https://github.com/dow-cdao/packflow/blob/master/CONTRIBUTING.md) guide for more information and guidelines for contributing to Packflow.
