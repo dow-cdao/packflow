@@ -49,6 +49,7 @@ class PackflowConfig(BaseModel):
     python_version: str = get_python_version()
 
     env: dict[str, str] = {}
+    backend_config: dict = {}
     extra: dict = {}
 
     @classmethod
@@ -82,6 +83,13 @@ class PackflowConfig(BaseModel):
             if config_data.get("env"):
                 f.write("\n# === ENVIRONMENT ===\n")
                 yaml.safe_dump({"env": config_data["env"]}, f, sort_keys=False)
+            if config_data.get("backend_config"):
+                f.write("\n# === BACKEND CONFIG ===\n")
+                yaml.safe_dump(
+                    {"backend_config": config_data["backend_config"]},
+                    f,
+                    sort_keys=False,
+                )
             if config_data.get("extra"):
                 f.write("\n# === CUSTOM ===\n")
                 yaml.safe_dump({"extra": config_data["extra"]}, f, sort_keys=False)

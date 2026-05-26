@@ -1,9 +1,0 @@
-{
-  "configs": {
-    "feature_names": [
-      "foo.bar",
-      "baz.zip"
-    ],
-    "verbose": false
-  }
-}

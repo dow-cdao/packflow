@@ -84,4 +84,6 @@ class InferenceBackendLoader(ABC):
         else:
             raise ValueError(f"Unknown loader type: {config.loader}")
 
-        return loader.load(**backend_kwargs)
+        # packflow.yaml backend_config is the base; explicit kwargs take priority
+        merged_kwargs = {**config.backend_config, **backend_kwargs}
+        return loader.load(**merged_kwargs)

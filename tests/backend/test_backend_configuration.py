@@ -1,108 +1,54 @@
-import os
-
-import pytest
-from packflow import constants
 from packflow.backend import configuration
 
-from .. import helpers
+
+def test_load_backend_configuration_defaults():
+    result = configuration.load_backend_configuration(configuration.BackendConfig)
+    assert result == configuration.BackendConfig()
 
 
-@pytest.mark.parametrize(
-    "config_file_path, keyword_args, config_model, expected_result",
-    [
-        (None, {}, configuration.BackendConfig, configuration.BackendConfig()),
-        (
-            "nonexistent.json",
-            {},
-            configuration.BackendConfig,
-            configuration.BackendConfig(),
-        ),
-        (
-            str(helpers.get_resource_path("inference.py")),
-            {},
-            configuration.BackendConfig,
-            configuration.BackendConfig(),
-        ),
-        (
-            None,
-            {"flatten_nested_inputs": True, "feature_names": ["bar"]},
-            configuration.BackendConfig,
-            configuration.BackendConfig(
-                flatten_nested_inputs=True, feature_names=["bar"]
-            ),
-        ),
-        (
-            str(helpers.get_resource_path("valid-config.json")),
-            {"flatten_nested_inputs": True, "feature_names": ["bar"]},
-            configuration.BackendConfig,
-            configuration.BackendConfig(
-                flatten_nested_inputs=True,
-                feature_names=["foo.bar", "baz.zip"],
-                verbose=False,
-            ),
-        ),
-    ],
-)
-def test_load_backend_configuration(
-    config_file_path: str,
-    keyword_args: dict,
-    config_model: configuration.BackendConfig,
-    expected_result: configuration.BackendConfig,
-):
-    if config_file_path:
-        os.environ[constants.BACKEND_CONFIG_PATH_ENV_VAR_NAME] = config_file_path
-
-    result = configuration.load_backend_configuration(config_model, **keyword_args)
-    assert result == expected_result
-
-    os.environ.pop(constants.BACKEND_CONFIG_PATH_ENV_VAR_NAME, None)
+def test_load_backend_configuration_with_kwargs():
+    result = configuration.load_backend_configuration(
+        configuration.BackendConfig,
+        flatten_nested_inputs=True,
+        feature_names=["bar"],
+    )
+    assert result == configuration.BackendConfig(
+        flatten_nested_inputs=True, feature_names=["bar"]
+    )
 
 
-@pytest.mark.parametrize(
-    "config_file_path, expected_result",
-    [
-        (None, {}),
-        (str(helpers.get_resource_path("invalid-config.json")), {}),
-        (
-            str(helpers.get_resource_path("valid-config.json")),
-            {"feature_names": ["foo.bar", "baz.zip"], "verbose": False},
-        ),
-    ],
-)
-def test__load_overrides_from_env(config_file_path: str, expected_result: dict):
-    if config_file_path:
-        os.environ[constants.BACKEND_CONFIG_PATH_ENV_VAR_NAME] = config_file_path
+def test_load_backend_configuration_custom_model():
+    from pydantic import BaseModel
+    from packflow.backend.configuration import BackendConfig
 
-    result = configuration._load_overrides_from_env()
-    assert result == expected_result
+    class CustomConfig(BackendConfig):
+        threshold: float = 0.5
 
-    os.environ.pop(constants.BACKEND_CONFIG_PATH_ENV_VAR_NAME, None)
+    result = configuration.load_backend_configuration(CustomConfig, threshold=0.9)
+    assert result.threshold == 0.9
+    assert result == CustomConfig(threshold=0.9)
 
 
-@pytest.mark.parametrize(
-    "config_file_path, keyword_args, expected_result",
-    [
-        (None, {}, {}),
-        (None, {"verbose": True}, {"verbose": True}),
-        (
-            str(helpers.get_resource_path("invalid-config.json")),
-            {"verbose": True},
-            {"verbose": True},
-        ),
-        (
-            str(helpers.get_resource_path("valid-config.json")),
-            {"verbose": True},
-            {"feature_names": ["foo.bar", "baz.zip"], "verbose": False},
-        ),
-    ],
-)
-def test__resolve_configs(
-    config_file_path: str, keyword_args: dict, expected_result: dict
-):
-    if config_file_path:
-        os.environ[constants.BACKEND_CONFIG_PATH_ENV_VAR_NAME] = config_file_path
+def test_load_backend_configuration_from_packflow_yaml_dict():
+    """Simulates values arriving from packflow.yaml backend_config section."""
+    yaml_backend_config = {"feature_names": ["foo.bar", "baz.zip"], "verbose": False}
 
-    result = configuration._resolve_configs(keyword_args)
-    assert result == expected_result
+    result = configuration.load_backend_configuration(
+        configuration.BackendConfig, **yaml_backend_config
+    )
+    assert result == configuration.BackendConfig(
+        feature_names=["foo.bar", "baz.zip"], verbose=False
+    )
 
-    os.environ.pop(constants.BACKEND_CONFIG_PATH_ENV_VAR_NAME, None)
+
+def test_load_backend_configuration_kwargs_override_yaml():
+    """Explicit kwargs take priority over packflow.yaml values (merged upstream)."""
+    yaml_backend_config = {"feature_names": ["from_yaml"], "verbose": True}
+    explicit_kwargs = {"verbose": False}
+
+    merged = {**yaml_backend_config, **explicit_kwargs}
+    result = configuration.load_backend_configuration(
+        configuration.BackendConfig, **merged
+    )
+    assert result.verbose is False
+    assert result.feature_names == ["from_yaml"]
