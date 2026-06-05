@@ -48,7 +48,7 @@ dependencies = [
 [project.urls]
 homepage = "https://github.com/dow-cdao/packflow"
 repository = "https://github.com/dow-cdao/packflow"
-documentation = "https://github.com/dow-cdao/packflow"
+documentation = "https://dow-cdao.github.io/packflow/"
 
 
 [build-system]
@@ -73,6 +73,7 @@ python = '>=3.10,<4.0'
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.2.0"
 black = {version = "^25.1.0", extras = ["jupyter"]}
+codespell = "^2.3.0"
 pytest = "^8.4.1"
 pytest-cov = "^6.2.1"
 pandas = "^2.3.0"
