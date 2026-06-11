@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import sys
 from pathlib import Path
 from typing import Union
 
@@ -77,8 +78,15 @@ class InferenceBackendLoader(ABC):
         config = PackflowConfig.from_project_path(project_path)
         apply_env_vars(config)
 
+        # Make the project root importable so sibling imports inside the
+        # backend module (LocalLoader) and top-level module lookups
+        # (ModuleLoader) resolve regardless of the caller's CWD.
+        project_path_str = str(project_path)
+        if project_path_str not in sys.path:
+            sys.path.insert(0, project_path_str)
+
         if config.loader == "local":
-            loader = LocalLoader(config.inference_backend)
+            loader = LocalLoader(config.inference_backend, base_dir=project_path)
         elif config.loader == "module":
             loader = ModuleLoader(config.inference_backend)
         else:

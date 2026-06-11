@@ -250,8 +250,6 @@ def _validate_inference_backend(
     import contextlib
     import os
 
-    original_cwd = os.getcwd()
-
     # Context manager to suppress stdout/stderr and logging during smoke tests
     @contextlib.contextmanager
     def suppress_output():
@@ -301,10 +299,8 @@ def _validate_inference_backend(
         try:
             from packflow.loaders.local import LocalLoader
 
-            # Change to project directory for local imports
-            os.chdir(project_dir)
             with suppress_output():
-                loader = LocalLoader(config.inference_backend)
+                loader = LocalLoader(config.inference_backend, base_dir=project_dir)
                 backend_class = loader.load_backend_module()
             if verbose:
                 click.echo(
@@ -315,8 +311,6 @@ def _validate_inference_backend(
             errors.append(error_msg)
             if verbose:
                 click.echo(f"          {click.style('✗', fg='red')} {error_msg}")
-        finally:
-            os.chdir(original_cwd)
 
     elif config.loader == "module":
         if verbose:
@@ -343,8 +337,7 @@ def _validate_inference_backend(
     try:
         from packflow.loaders.base import InferenceBackendLoader
 
-        # Change to project directory for local imports
-        os.chdir(project_dir)
+        # from_project now resolves paths against project_dir; no chdir needed.
         with suppress_output():
             backend = InferenceBackendLoader.from_project(project_dir)
         if verbose:
@@ -356,8 +349,6 @@ def _validate_inference_backend(
         errors.append(error_msg)
         if verbose:
             click.echo(f"          {click.style('✗', fg='red')} {error_msg}")
-    finally:
-        os.chdir(original_cwd)
 
     # Format errors with context about which test failed
     formatted_errors = []

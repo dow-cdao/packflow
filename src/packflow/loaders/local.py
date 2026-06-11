@@ -3,6 +3,7 @@ import importlib.util
 from pathlib import Path
 import sys
 from types import ModuleType
+from typing import Union
 
 from .base import InferenceBackendLoader
 from .. import InferenceBackend
@@ -10,8 +11,12 @@ from .utils import inference_backend_parts
 
 
 class LocalLoader(InferenceBackendLoader):
+    def __init__(self, path: str, base_dir: Union[str, Path] = "."):
+        super().__init__(path)
+        self.base_dir = Path(base_dir).resolve()
+
     @staticmethod
-    def _dot_notation_to_pypath(path: str) -> str:
+    def _dot_notation_to_pypath(path: str, base_dir: Union[str, Path] = ".") -> str:
         """
         Convert a dotted-path like 'foo.bar' to a file path to a python module
 
@@ -19,11 +24,13 @@ class LocalLoader(InferenceBackendLoader):
         ----------
         path : str
             The path to the module in dot notation
+        base_dir : str or Path
+            Directory the module path is resolved against. Defaults to CWD.
 
         """
         module = path.replace(".", "/")
 
-        return str(Path(module).with_suffix(".py").resolve())
+        return str((Path(base_dir) / module).with_suffix(".py").resolve())
 
     @staticmethod
     def _import_module_from_source(path: str) -> ModuleType:
@@ -48,7 +55,7 @@ class LocalLoader(InferenceBackendLoader):
     def load_backend_module(self, **backend_kwargs) -> InferenceBackend:
         module_name, obj_name = inference_backend_parts(self.path)
 
-        module_path = self._dot_notation_to_pypath(module_name)
+        module_path = self._dot_notation_to_pypath(module_name, self.base_dir)
 
         module = self._import_module_from_source(module_path)
 
