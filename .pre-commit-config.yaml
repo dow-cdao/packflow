@@ -3,3 +3,8 @@ repos:
     rev: 25.1.0
     hooks:
       - id: black
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        exclude: 'poetry\.lock$'

@@ -36,8 +36,14 @@ For development or to install from source:
    # Install package
    pip install .
 
-   # For contributors: install in editable mode
-   pip install -e .
+   # For contributors: install in editable mode with dev dependencies
+   pip install -e .[dev]
+
+   # Alternative: use Poetry for dependency management
+   poetry install --with dev
+
+   # For contributors: install pre-commit hooks
+   pre-commit install
 
 
 **Documentation**

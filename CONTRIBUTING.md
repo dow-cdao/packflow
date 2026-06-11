@@ -71,6 +71,19 @@ Please follow the instructions in the [README.md](README.md) for installing Pack
 
 Now you are ready to [clone the repository](https://help.github.com/articles/cloning-a-repository/) locally and start making changes. Packflow's source code is in the `src` folder, which contains Packflow's CLI, `InferenceBackend` class, and scaffolding to create project files in a consistent, reproducible format.
 
+After cloning, install the package in editable mode with dev dependencies and set up pre-commit hooks:
+
+```sh
+# Using pip
+pip install -e .[dev]
+
+# Or using Poetry
+poetry install --with dev
+
+# Install pre-commit hooks
+pre-commit install
+```
+
 When contributing documentation changes, use `make dev` from the `docs/` directory to preview changes with live reloading. See the README for full documentation build instructions.
 
 ### Submitting an Issue
