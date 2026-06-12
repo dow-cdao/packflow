@@ -1,8 +1,10 @@
+import os
 from pathlib import Path
 
 import pytest
-from packflow import exceptions
+from packflow import exceptions, InferenceBackend
 from packflow.loaders import LocalLoader
+from packflow.loaders.base import InferenceBackendLoader
 
 
 def test_dot_notation_to_pypath():
@@ -129,3 +131,183 @@ def test_local_loader_file_not_found():
         loader.load()
 
     assert "Unable to load inference backend module" in str(exc_info.value)
+
+
+def test_local_loader_with_base_dir(tmp_path):
+    """LocalLoader resolves paths relative to base_dir, not CWD"""
+    project_dir = tmp_path / "project"
+    project_dir.mkdir()
+    (project_dir / "backend.py").write_text(
+        """
+from packflow import InferenceBackend
+
+class Backend(InferenceBackend):
+    def execute(self, inputs):
+        return inputs
+"""
+    )
+
+    cwd = tmp_path / "cwd"
+    cwd.mkdir()
+    original = os.getcwd()
+    os.chdir(cwd)
+
+    try:
+        loader = LocalLoader("backend:Backend", base_dir=project_dir)
+        backend = loader.load()
+
+        assert isinstance(backend, InferenceBackend)
+        assert backend([{"test": "data"}]) == [{"test": "data"}]
+    finally:
+        os.chdir(original)
+
+
+def test_local_loader_nested_with_base_dir(tmp_path):
+    """LocalLoader resolves nested module paths relative to base_dir"""
+    project_dir = tmp_path / "project"
+    project_dir.mkdir()
+
+    models_dir = project_dir / "models"
+    models_dir.mkdir()
+    (models_dir / "__init__.py").write_text("")
+    (models_dir / "backend.py").write_text(
+        """
+from packflow import InferenceBackend
+
+class Backend(InferenceBackend):
+    def execute(self, inputs):
+        return [{"nested": True}]
+"""
+    )
+
+    cwd = tmp_path / "cwd"
+    cwd.mkdir()
+    original = os.getcwd()
+    os.chdir(cwd)
+
+    try:
+        loader = LocalLoader("models.backend:Backend", base_dir=project_dir)
+        backend = loader.load()
+
+        assert isinstance(backend, InferenceBackend)
+        assert backend([{}]) == [{"nested": True}]
+    finally:
+        os.chdir(original)
+
+
+def test_dot_notation_to_pypath_with_base_dir(tmp_path):
+    """_dot_notation_to_pypath resolves relative to base_dir"""
+    project_dir = tmp_path / "project"
+    project_dir.mkdir()
+    (project_dir / "backend.py").write_text("")
+
+    cwd = tmp_path / "cwd"
+    cwd.mkdir()
+    original = os.getcwd()
+    os.chdir(cwd)
+
+    try:
+        result = Path(
+            LocalLoader._dot_notation_to_pypath("backend", base_dir=project_dir)
+        )
+
+        assert result.parent == project_dir
+        assert result.name == "backend.py"
+        assert result.exists()
+    finally:
+        os.chdir(original)
+
+
+def test_from_project_with_different_cwd(tmp_path):
+    """from_project passes project path to LocalLoader as base_dir"""
+    project_dir = tmp_path / "project"
+    project_dir.mkdir()
+
+    (project_dir / "packflow.yaml").write_text(
+        """
+name: test-project
+version: 0.1.0
+inference_backend: backend:Backend
+loader: local
+python_version: 3.11.0
+"""
+    )
+    (project_dir / "backend.py").write_text(
+        """
+from packflow import InferenceBackend
+
+class Backend(InferenceBackend):
+    def execute(self, inputs):
+        return inputs
+"""
+    )
+
+    cwd = tmp_path / "cwd"
+    cwd.mkdir()
+    original = os.getcwd()
+    os.chdir(cwd)
+
+    try:
+        backend = InferenceBackendLoader.from_project(project_dir)
+
+        assert isinstance(backend, InferenceBackend)
+        assert backend([{"test": "data"}]) == [{"test": "data"}]
+    finally:
+        os.chdir(original)
+
+
+def test_multiple_projects_same_session(tmp_path):
+    """Load backends from multiple projects without changing CWD"""
+    cwd = tmp_path / "cwd"
+    cwd.mkdir()
+    original = os.getcwd()
+    os.chdir(cwd)
+
+    try:
+        project1 = tmp_path / "p1"
+        project1.mkdir()
+        (project1 / "packflow.yaml").write_text(
+            """
+name: p1
+version: 0.1.0
+inference_backend: backend:Backend
+loader: local
+python_version: 3.11.0
+"""
+        )
+        (project1 / "backend.py").write_text(
+            """
+from packflow import InferenceBackend
+class Backend(InferenceBackend):
+    def execute(self, inputs):
+        return [{"project": 1}]
+"""
+        )
+
+        project2 = tmp_path / "p2"
+        project2.mkdir()
+        (project2 / "packflow.yaml").write_text(
+            """
+name: p2
+version: 0.1.0
+inference_backend: backend:Backend
+loader: local
+python_version: 3.11.0
+"""
+        )
+        (project2 / "backend.py").write_text(
+            """
+from packflow import InferenceBackend
+class Backend(InferenceBackend):
+    def execute(self, inputs):
+        return [{"project": 2}]
+"""
+        )
+
+        backend1 = InferenceBackendLoader.from_project(project1)
+        assert backend1([{}]) == [{"project": 1}]
+
+        backend2 = InferenceBackendLoader.from_project(project2)
+        assert backend2([{}]) == [{"project": 2}]
+    finally:
+        os.chdir(original)
