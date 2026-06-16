@@ -18,5 +18,5 @@ Install it separately:
 
 ```bash
 pip install pytest
-pytest test_inference.py
+pytest tests.py
 ```

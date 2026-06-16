@@ -51,7 +51,15 @@ class Backend(InferenceBackend):
         metrics, converting outputs back to Python types, and other postprocessing steps. Try
         to keep this method focused purely on inference/analysis.
         """
-        raise NotImplementedError
+
+        # Replace this with inference logic.
+        # `inputs` is a list of dicts; return a list of dicts the same length.
+
+        # For example, if a model takes single inputs at a time:
+        def model(x):
+            return x
+
+        return [model(item) for item in inputs]
 
     def transform_outputs(self, outputs):
         """Postprocessing steps or other transformation steps to be executed prior to

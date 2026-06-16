@@ -1,5 +1,5 @@
-# A starting point for testing the Inference Backend with pytest. The fixture below handles loading the backend
-# from packflow.yaml - add test cases to verify the backend behaves as expected for this analytic.
+# Run with: pytest tests.py
+# (pytest is not included in requirements.txt - install it separately)
 import pytest
 from packflow.loaders import LocalLoader
 
@@ -15,14 +15,16 @@ def test_backend_loads(backend):
     assert backend is not None
 
 
-# Uncomment and add input data to test backend behavior.
-# def test_backend_validate(backend):
-#     sample_inputs = [
-#         {"example_field": "example_value"},
-#     ]
-#     outputs = backend.validate(sample_inputs)
-#     assert outputs is not None
-#
+def test_validate(backend):
+    """Backend I/O passes Packflow's format checks."""
+    sample_inputs = [
+        {"example_field": "example_value"},
+    ]
+    outputs = backend.validate(sample_inputs)
+    assert outputs is not None
+
+
 # def test_backend_output_values(backend):
+#     """Verify specific output values for known inputs."""
 #     outputs = backend([{"example_field": "example_value"}])
 #     assert outputs[0]["expected_field"] == "expected_value"
