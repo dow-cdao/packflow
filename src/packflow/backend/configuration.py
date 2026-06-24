@@ -31,7 +31,7 @@ class BackendConfig(BaseModel):
     nested_field_delimiter: str = "."
     ignore_delimiter_collisions: bool = False
 
-    # Output metadata - declarative only; checked by backend.validate()
+    # Output metadata - declarative only; checked by backend.check_io()
     output_keys: List[str] = []
 
 

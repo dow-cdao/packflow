@@ -1,7 +1,6 @@
 from contextlib import nullcontext
 
 import pytest
-
 from packflow import exceptions
 from packflow.backend.metrics import ExecutionMetrics
 
@@ -72,9 +71,9 @@ def test_backend_call(backend, expectation, inputs, expected_outputs):
         ),
     ],
 )
-def test_backend_validate(backend, expectation, inputs, expected_outputs):
+def test_backend_check_io(backend, expectation, inputs, expected_outputs):
     with expectation:
-        assert backend.validate(inputs) == expected_outputs
+        assert backend.check_io(inputs) == expected_outputs
 
 
 @pytest.mark.parametrize(

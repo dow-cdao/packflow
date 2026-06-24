@@ -230,13 +230,17 @@ class InferenceBackend(ABC):
     #     """
     #     return outputs
 
-    def validate(self, inputs: Union[dict, List[dict]]) -> Union[dict, List[dict]]:
+    def check_io(self, inputs: Union[dict, List[dict]]) -> Union[dict, List[dict]]:
         """
-        Run validations against the inference backend to ensure it meets API restrictions
+        Run sample data through the backend and check that outputs meet Packflow's I/O format requirements.
         """
         validator = InferenceBackendValidator(self)
 
         return validator.run(inputs)
+
+    def validate(self, inputs: Union[dict, List[dict]]) -> Union[dict, List[dict]]:
+        """Deprecated: use check_io() instead."""
+        return self.check_io(inputs)
 
     def get_metrics(self) -> ExecutionMetrics:
         """
