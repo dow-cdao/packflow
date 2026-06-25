@@ -1559,7 +1559,6 @@ files = [
     {file = "prompt_toolkit-3.0.52-py3-none-any.whl", hash = "sha256:9aac639a3bbd33284347de5ad8d68ecc044b91a762dc39b7c21095fcd6a19955"},
     {file = "prompt_toolkit-3.0.52.tar.gz", hash = "sha256:28cde192929c8e7321de85de1ddbe736f1375148b02f2e17edd840042b1be855"},
 ]
-markers = {main = "extra == \"dev\""}
 
 [package.dependencies]
 wcwidth = "*"
@@ -2036,6 +2035,21 @@ files = [
 ]
 
 [[package]]
+name = "questionary"
+version = "2.1.1"
+description = "Python library to build pretty command line user prompts ⭐️"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "questionary-2.1.1-py3-none-any.whl", hash = "sha256:a51af13f345f1cdea62347589fbb6df3b290306ab8930713bfae4d475a7d4a59"},
+    {file = "questionary-2.1.1.tar.gz", hash = "sha256:3d7e980292bb0107abaa79c68dd3eee3c561b83a0f89ae482860b181c8bd412d"},
+]
+
+[package.dependencies]
+prompt_toolkit = ">=2.0,<4.0"
+
+[[package]]
 name = "setuptools"
 version = "81.0.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
@@ -2360,7 +2374,6 @@ files = [
     {file = "wcwidth-0.7.0-py3-none-any.whl", hash = "sha256:5d69154c429a82910e241c738cd0e2976fac8a2dd47a1a805f4afed1c0f136f2"},
     {file = "wcwidth-0.7.0.tar.gz", hash = "sha256:90e3a7ea092341c44b99562e75d09e4d5160fe7a3974c6fb842a101a95e7eed0"},
 ]
-markers = {main = "extra == \"dev\""}
 
 [[package]]
 name = "win32-setctime"
@@ -2384,4 +2397,4 @@ dev = ["black", "codespell", "pandas", "pillow", "pre-commit", "pytest", "pytest
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.15.0"
-content-hash = "691f2e741266cee71fb018ba8de68134f7ee266bbb5fcb7a6a866aeffc70b514"
+content-hash = "47ff716cf05eae017a0460a06b523b060316c36e0b8919518666dc662734645e"

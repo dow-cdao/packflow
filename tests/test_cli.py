@@ -30,7 +30,6 @@ def test_create_command_success(runner: CliRunner, tmp_path: Path):
             tmp_path / "test_project" / "README.md",
             tmp_path / "test_project" / "MODEL_CARD.md",
             tmp_path / "test_project" / "inference.py",
-            tmp_path / "test_project" / "validate.py",
         ]
         for path in to_verify:
             assert path.exists()
@@ -157,7 +156,7 @@ def test_export_help(runner):
     result = runner.invoke(cli, ["export", "--help"])
 
     assert result.exit_code == 0
-    assert "Save the package" in result.output
+    assert "Package the project" in result.output
 
 
 def test_validate_command_success(runner, tmp_path):
@@ -178,7 +177,7 @@ def test_validate_command_success(runner, tmp_path):
 
         assert result.exit_code == 0
         assert "Success:" in result.output
-        assert "All validation checks passed" in result.output
+        assert "Validation passed" in result.output
 
     finally:
         os.chdir(original_dir)
@@ -271,3 +270,84 @@ def test_cli_group_shows_validate(runner):
     result = runner.invoke(cli, ["--help"])
 
     assert "validate" in result.output
+
+
+def test_create_no_input_with_name(runner, tmp_path):
+    """Test --no-input creates project with default version"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        result = runner.invoke(cli, ["create", "noinput_project", "--no-input"])
+
+        assert result.exit_code == 0
+        assert "Success:" in result.output
+
+        import yaml
+
+        config = yaml.safe_load(
+            (tmp_path / "noinput_project" / "packflow.yaml").read_text()
+        )
+        assert config["version"] == "0.1.0"
+        assert config["name"] == "noinput_project"
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_create_no_input_without_name(runner, tmp_path):
+    """Test --no-input without a project name fails"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        result = runner.invoke(cli, ["create", "--no-input"])
+
+        assert result.exit_code == 1
+        assert "Project name is required" in result.output
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_create_prints_next_steps(runner, tmp_path):
+    """Test create prints next-steps guidance"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        result = runner.invoke(cli, ["create", "steps_project", "--no-input"])
+
+        assert result.exit_code == 0
+        assert "Next steps:" in result.output
+        assert "cd steps_project" in result.output
+        assert "packflow validate" in result.output
+        assert "packflow export" in result.output
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_create_then_validate_passes(runner, tmp_path):
+    """Test freshly created project passes validate without manual edits"""
+    original_dir = os.getcwd()
+    try:
+        os.chdir(tmp_path)
+
+        runner.invoke(cli, ["create", "fresh_project", "--no-input"])
+
+        result = runner.invoke(cli, ["validate", str(tmp_path / "fresh_project")])
+
+        assert result.exit_code == 0
+        assert "Validation passed" in result.output
+
+    finally:
+        os.chdir(original_dir)
+
+
+def test_create_help_shows_no_input(runner):
+    """Test create help mentions --no-input flag"""
+    result = runner.invoke(cli, ["create", "--help"])
+
+    assert result.exit_code == 0
+    assert "--no-input" in result.output
