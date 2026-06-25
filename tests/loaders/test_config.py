@@ -194,7 +194,7 @@ def test_from_project_path_file_not_found(tmp_path):
     with pytest.raises(FileNotFoundError) as exc_info:
         PackflowConfig.from_project_path(tmp_path)
 
-    assert "Not a valid packflow project" in str(exc_info.value)
+    assert "Not a packflow project" in str(exc_info.value)
 
 
 def test_load_packflow_config_success(tmp_path):
@@ -281,7 +281,7 @@ def test_validate_for_export_all_populated():
 
 def test_validate_for_export_empty_version():
     """Test that empty version is an error"""
-    config = PackflowConfig(name="my-analytic")
+    config = PackflowConfig(name="my-analytic", version="")
     errors, warnings = validate_for_export(config)
     assert any("version" in e for e in errors)
 

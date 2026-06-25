@@ -40,7 +40,7 @@ class PackflowConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     name: NameStr
-    version: str = ""
+    version: str = "0.1.0"
     description: str = ""
     maintainers: list[str] = []
 
@@ -411,7 +411,8 @@ def _load_raw_packaging_config(base_dir: Union[str, Path]) -> dict:
             return yaml.safe_load(f)
     except FileNotFoundError:
         raise FileNotFoundError(
-            f"Not a valid packflow project: {packaging_config} does not exist"
+            f"Not a packflow project (no packflow.yaml found in {base_dir}). "
+            f"Run 'packflow create <name>' to start one."
         )
 
 
