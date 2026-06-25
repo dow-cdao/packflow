@@ -97,13 +97,26 @@ def create(project_name, force, no_input):
         sys.exit(1)
 
     if interactive:
+        from packflow._splash import roll_in
+
+        roll_in(force=True)
         if not project_name:
+            click.echo(
+                click.style("=== Initializing ", fg="white", bold=True)
+                + click.style("New Packflow Project", fg="cyan", bold=True)
+                + click.style(" ===", fg="white", bold=True)
+            )
             project_name = questionary.text(
                 "Project name:", validate=_validate_name
             ).ask()
             if project_name is None:
                 sys.exit(1)
-
+        else:
+            click.echo(
+                click.style("=== Initializing ", fg="white", bold=True)
+                + click.style(project_name, fg="cyan", bold=True)
+                + click.style(" ===", fg="white", bold=True)
+            )
         description = questionary.text("Description:", default="").ask()
         if description is None:
             sys.exit(1)
