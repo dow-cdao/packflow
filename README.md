@@ -101,6 +101,13 @@ backend({"sample": "data"})
 
 Recent updates include improvements to configuration structure and new CLI capabilities:
 
+- **New:** Interactive `packflow create` command with guided prompts for project setup
+- Renamed `backend.validate()` to `backend.check_io()` for clarity
+- Project templates simplified for better first-run experience
+- Added `tests.py` to project templates with integrated validation and testing
+- Removed standalone `validate.py` from templates
+- Default `PackflowConfig` version now set to `0.1.0` when not specified
+- Added `questionary` dependency for interactive CLI prompts
 - Custom configuration keys in `packflow.yaml` should now be placed under an `extra:` field for cleaner validation
 - Backend configuration can now be defined directly in `packflow.yaml` instead of separate JSON files
 - Name validation relaxed to allow numbers and hyphens (not as first character)
