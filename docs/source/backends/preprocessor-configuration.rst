@@ -16,7 +16,7 @@ The following fields are used for default behaviors of the Base Config Model:
 - ``flatten_nested_inputs``: A boolean indicating whether to flatten nested inputs. Defaults to False.
 - ``flatten_lists``: A boolean indicating whether to also flatten lists when flattening nested inputs. Defaults to False.
 - ``nested_field_delimiter``: A string indicating the delimiter for nested fields. Defaults to a period ('.').
-- ``output_keys``: A list of the keys expected in each output record. This is **declarative metadata only** — it does not affect inference execution. When ``backend.validate()`` is called, a warning is emitted for any declared key absent from the outputs. Defaults to an empty list (no validation performed).
+- ``output_keys``: A list of the keys expected in each output record. This is **declarative metadata only** — it does not affect inference execution. When ``backend.check_io()`` is called, a warning is emitted for any declared key absent from the outputs. Defaults to an empty list (no validation performed).
 
 .. warning::
     When ``flatten_nested_inputs`` is ``False``, input keys containing ``nested_field_delimiter`` may result in incorrect nested structures or key collisions. For best results, ensure delimiters do not appear in record keys.

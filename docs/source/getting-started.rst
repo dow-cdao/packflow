@@ -93,10 +93,12 @@ This section covers the initial setup process for creating a Packflow project, d
 Step 1: Create the project structure
 ------------------------------------
 
-Initialize a new project by running ``packflow create hello-world``. This will create a new directory named ``hello-world`` that contains the following directory structure:
+Initialize a new project by running ``packflow create hello-world``. An interactive wizard will prompt for a project description, version, and maintainer email. Defaults can be accepted by pressing Enter.
 
 .. note::
-   Project names must start with a letter and may contain letters, digits, hyphens, and underscores.
+   Project names must start with a letter and may contain letters, digits, hyphens, and underscores. To skip interactive prompts (e.g. in CI), pass ``--no-input``.
+
+This creates a new directory named ``hello-world`` with the following structure:
 
 ::
 
@@ -107,45 +109,64 @@ Initialize a new project by running ``packflow create hello-world``. This will c
    ├── README.md
    ├── requirements.txt
    ├── inference.py
-   ├── validate.py
-   └── test_inference.py
+   └── tests.py
 
 
 Step 2: Write the Inference Backend
 -----------------------------------
 
-Open the ``inference.py`` with a code or text editor of your choice. Some templated code will be provided. Populate the ``execute()`` function with logic to double the value under the key ‘number’, and return the doubled number:
+Open ``inference.py``. The template contains a passthrough backend that returns inputs unchanged. Replace the ``execute()`` method with logic for the analytic. For this example, the backend doubles the value under the key ``number``:
 
 .. literalinclude:: code-examples/getting-started/inference.py
    :language: python
    :caption: inference.py
    :linenos:
 
-The Inference Backend is now ready to be loaded, validated, and shared.
 
+Step 3: Test the Backend (Optional)
+------------------------------------
 
-Step 3: Local Validation
-------------------------
+A ``tests.py`` file is included as a starting point for testing the backend with ``pytest``. This file is optional and not required for validation or export. To use it, update the sample inputs to match the backend’s expected format:
 
-Now that the Inference Backend is written, use the built-in validation to ensure it will run as expected in production.
-
-This can be done programmatically. Open the ``validate.py`` script and modify it to match the Inference Backend's inputs:
-
-.. literalinclude:: code-examples/getting-started/validate.py
+.. literalinclude:: code-examples/getting-started/tests.py
    :language: python
-   :caption: validate.py
+   :caption: tests.py
    :linenos:
 
+Run the tests from inside the project directory:
 
-.. note::
+.. code-block:: bash
 
-   Validation can be run via the ``validate.py`` file, or directly from a Notebook. However the path will need to be updated
-   if it is not running in the same directory
+   pip install pytest
+   pytest tests.py
 
-   Passing ``"inference:Backend"`` to the Local Loader is roughly equal to ``from inference import Backend``. If the script
-   is nested further, the path can be separated via dot notation, such as ``src.mypackage.inference:Backend``.
+The ``test_check_io`` test calls ``backend.check_io()``, which runs sample data through the backend and checks that outputs meet Packflow’s format requirements (correct types, matching row counts, JSON-serializable values). If any checks fail, an exception with details of the issue is raised.
 
-If any validations fail, an exception message containing details of the issue and what needs to be fixed will be returned.
+
+Step 4: Validate the project
+-----------------------------
+
+Use the ``packflow validate`` command to check that the project structure and configuration are complete:
+
+.. code-block:: bash
+
+   packflow validate
+
+This checks for required files (``packflow.yaml``, ``requirements.txt``), recommended files (``README.md``, ``MODEL_CARD.md``, ``LICENSE.txt``), metadata completeness, and runs a smoke test to verify the backend can be loaded.
+
+Pass ``-v`` for detailed output showing each check.
+
+
+Step 5: Package for distribution
+--------------------------------
+
+Once the backend is implemented, tested, and validated, create a distributable archive:
+
+.. code-block:: bash
+
+   packflow export
+
+This produces a zip file (e.g. ``hello_world-0.1.0.zip``) in the current directory. See :ref:`Preparing for Distribution<distribution>` for details on what is included in the archive and how to prepare a project for sharing.
 
 .. _getting_started_next_steps:
 

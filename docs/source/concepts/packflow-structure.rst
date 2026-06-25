@@ -41,13 +41,9 @@ The ``packflow`` CLI provides a lightweight templating command, ``packflow creat
      - Required, but can be renamed by ``inference_backend`` configuration.
      - inference file containing the ``Backend`` execution object. Required only for ``loader: local`` mode. The filename must match the module name in ``inference_backend`` (e.g., ``custom_module:Backend`` requires ``custom_module.py``)
      - Template
-   * - ``validate.py``
-     - Recommended
-     - validation file which can be run to ensure the ``Backend`` adheres to ``InferenceBackend`` requirements
-     - Template
-   * - ``test_inference.py``
-     - Recommended
-     - pytest test file providing a starting point for testing the ``Backend``
+   * - ``tests.py``
+     - Optional
+     - pytest test file providing a starting point for testing the ``Backend``, including a ``backend.check_io()`` format check. Not required for validation or export.
      - Template
 
 The ``packflow`` CLI also contains the ``packflow export ...`` command for bundling these components into a single zipped archive,
