@@ -222,6 +222,28 @@ def test_requirements_unparseable_packflow_specifier(project, capsys):
     assert "packflow" in out
 
 
+def test_requirements_unpinned_installed_package_verbose(project, capsys):
+    """An unpinned installed package gets a plain verbose checkmark"""
+    path = _write_requirements(project, "packflow\nclick\n")
+
+    warnings = project._validate_requirements(path, verbose=True)
+
+    out = capsys.readouterr().out
+    assert warnings == []
+    assert "click" in out
+
+
+def test_validate_recommended_file_with_real_content_verbose(project, capsys):
+    """A recommended file with genuine content gets a verbose checkmark"""
+    (project.base_dir / "README.md").write_text("Real docs for a real project.\n")
+
+    errors, warnings = project.validate_required_files(verbose=True)
+
+    out = capsys.readouterr().out
+    assert "README.md" in out
+    assert not any("README.md" in w for w in warnings)
+
+
 def test_validate_required_files_no_config_skips_config_checks(project):
     """Without a config object, packflow.yaml field validation is skipped"""
     errors, warnings = project.validate_required_files(config=None)
