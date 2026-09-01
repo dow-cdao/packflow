@@ -97,6 +97,11 @@ backend({"sample": "data"})
 
 ## Recent Changes
 
+### 0.4.1
+
+- Expanded NumPy compatibility to support releases providing Python 3.14 wheels.
+- Added Python 3.13 and 3.14 to the supported runtime metadata.
+
 ### 0.4.0
 
 Recent updates include improvements to configuration structure and new CLI capabilities:

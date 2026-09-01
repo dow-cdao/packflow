@@ -147,7 +147,7 @@ def test_export_skips_excluded_patterns(project, in_tmp_path):
 def test_export_skips_excluded_directories(project, in_tmp_path):
     """Files inside default-excluded directories are not exported"""
     cache_dir = project.base_dir / "__pycache__"
-    cache_dir.mkdir()
+    cache_dir.mkdir(exist_ok=True)
     (cache_dir / "module.cpython-312.pyc").write_text("bytecode")
 
     zip_path = project.export(output_directory=str(in_tmp_path))
