@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="_static/packflow-logo-16px.png" sizes="16x16" rel="icon" type="image/png">
+    <link href="_static/packflow-logo-32px.png" sizes="32x32" rel="icon" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; Packflow 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=606bf197" />
+
+  
+    <link rel="canonical" href="https://dow-cdao.github.io/packflow/getting-started.html" />
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e259d695"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inference Backends" href="backends/index.html" />
+    <link rel="prev" title="Structure of a Packflow Project" href="concepts/packflow-structure.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Packflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts/about-packflow.html">About Packflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-framework.html">Packflow Inference Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/packflow-structure.html">Structure of a Packflow Project</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-packflow">Installing Packflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-packflow-project">Creating a Packflow Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-create-the-project-structure">Step 1: Create the project structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-write-the-inference-backend">Step 2: Write the Inference Backend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-test-the-backend-optional">Step 3: Test the Backend (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-validate-the-project">Step 4: Validate the project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-package-for-distribution">Step 5: Package for distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="backends/index.html">Inference Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation-testing.html">I/O Format Checking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference/cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribution.html">Preparing for Distribution</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#maintainers">Maintainers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html#license">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Packflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting-started.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<p>This guide covers Packflow installation and basic usage of the CLI to create a simple Packflow project.</p>
+<section id="installing-packflow">
+<h2>Installing Packflow<a class="headerlink" href="#installing-packflow" title="Link to this heading"></a></h2>
+<p><strong>Prerequisites</strong></p>
+<ul class="simple">
+<li><p><strong>Python</strong> (version 3.10+)</p></li>
+</ul>
+<p><strong>Install from PyPI</strong></p>
+<p>Packflow can be installed directly from PyPI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>packflow
+</pre></div>
+</div>
+<p><strong>Install from Source</strong></p>
+<p>For development or to install from source:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone repository and navigate to the root directory</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/dow-cdao/packflow.git
+<span class="nb">cd</span><span class="w"> </span>packflow
+
+<span class="c1"># Install package</span>
+pip<span class="w"> </span>install<span class="w"> </span>.
+
+<span class="c1"># For contributors: install in editable mode with dev dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev<span class="o">]</span>
+
+<span class="c1"># Alternative: use Poetry for dependency management</span>
+poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>dev
+
+<span class="c1"># For contributors: install pre-commit hooks</span>
+pre-commit<span class="w"> </span>install
+</pre></div>
+</div>
+<p><strong>Documentation</strong></p>
+<p>Packflow documentation is hosted at <a class="reference external" href="https://dow-cdao.github.io/packflow/">https://dow-cdao.github.io/packflow/</a>. For instructions on building documentation locally, see the <a class="reference external" href="https://github.com/dow-cdao/packflow#documentation">README</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If a “Not Found” error page is received when first accessing the documentation, wait a moment for the server to fully start and refresh the page.</p>
+</div>
+<p><strong>Building Documentation from Source</strong></p>
+<p>The following are required to build documentation from source:</p>
+<ul class="simple">
+<li><p><strong>Python</strong> (version 3.10+)</p></li>
+<li><p><strong>Pip</strong></p></li>
+<li><p><strong>Packflow</strong> (the version corresponding to the docs being served)</p></li>
+<li><p><strong>Pandoc</strong> - Must be installed separately, from system package manager (see <a class="reference external" href="http://pandoc.org/installing.html">Pandoc installation instructions</a>)</p></li>
+<li><p><strong>make</strong> command (<code class="docutils literal notranslate"><span class="pre">xcode-select</span></code> on macOS and WSL on Windows, or <code class="docutils literal notranslate"><span class="pre">build-essential</span></code> on Linux)</p></li>
+</ul>
+<p>Steps to build and serve documentation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Navigate to docs folder</span>
+<span class="nb">cd</span><span class="w"> </span>docs
+
+<span class="c1"># Install Python dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="c1"># Serve documentation with live updates (development)</span>
+make<span class="w"> </span>dev
+
+<span class="c1"># OR serve static multi-version documentation (production)</span>
+make<span class="w"> </span>prod-serve
+
+<span class="c1"># Access the documentation in a web browser at http://127.0.0.1:8000/</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-a-packflow-project">
+<h2>Creating a Packflow Project<a class="headerlink" href="#creating-a-packflow-project" title="Link to this heading"></a></h2>
+<p>This section covers the initial setup process for creating a Packflow project, defining an Inference Backend, and running Packflow’s validation checks on the input/output requirements of the Inference Backend.</p>
+<section id="step-1-create-the-project-structure">
+<h3>Step 1: Create the project structure<a class="headerlink" href="#step-1-create-the-project-structure" title="Link to this heading"></a></h3>
+<p>Initialize a new project by running <code class="docutils literal notranslate"><span class="pre">packflow</span> <span class="pre">create</span> <span class="pre">hello-world</span></code>. An interactive wizard will prompt for a project description, version, and maintainer email. Defaults can be accepted by pressing Enter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Project names must start with a letter and may contain letters, digits, hyphens, and underscores. To skip interactive prompts (e.g. in CI), pass <code class="docutils literal notranslate"><span class="pre">--no-input</span></code>.</p>
+</div>
+<p>This creates a new directory named <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> with the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>hello-world/
+├── packflow.yaml
+├── LICENSE.txt
+├── MODEL_CARD.md
+├── README.md
+├── requirements.txt
+├── inference.py
+└── tests.py
+</pre></div>
+</div>
+</section>
+<section id="step-2-write-the-inference-backend">
+<h3>Step 2: Write the Inference Backend<a class="headerlink" href="#step-2-write-the-inference-backend" title="Link to this heading"></a></h3>
+<p>Open <code class="docutils literal notranslate"><span class="pre">inference.py</span></code>. The template contains a passthrough backend that returns inputs unchanged. Replace the <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method with logic for the analytic. For this example, the backend doubles the value under the key <code class="docutils literal notranslate"><span class="pre">number</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">inference.py</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceBackend</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="k">class</span><span class="w"> </span><span class="nc">Backend</span><span class="p">(</span><span class="n">InferenceBackend</span><span class="p">):</span>
+<span class="linenos">5</span>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="linenos">6</span>        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">7</span>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+<span class="linenos">8</span>            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;doubled&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">})</span>
+<span class="linenos">9</span>        <span class="k">return</span> <span class="n">outputs</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="step-3-test-the-backend-optional">
+<h3>Step 3: Test the Backend (Optional)<a class="headerlink" href="#step-3-test-the-backend-optional" title="Link to this heading"></a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">tests.py</span></code> file is included as a starting point for testing the backend with <code class="docutils literal notranslate"><span class="pre">pytest</span></code>. This file is optional and not required for validation or export. To use it, update the sample inputs to match the backend’s expected format:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">tests.py</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">packflow.loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalLoader</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="linenos"> 6</span><span class="k">def</span><span class="w"> </span><span class="nf">backend</span><span class="p">():</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the backend as configured in packflow.yaml&quot;&quot;&quot;</span>
+<span class="linenos"> 8</span>    <span class="k">return</span> <span class="n">LocalLoader</span><span class="o">.</span><span class="n">from_project</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="k">def</span><span class="w"> </span><span class="nf">test_backend_loads</span><span class="p">(</span><span class="n">backend</span><span class="p">):</span>
+<span class="linenos">12</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Backend initializes without error.&quot;&quot;&quot;</span>
+<span class="linenos">13</span>    <span class="k">assert</span> <span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="k">def</span><span class="w"> </span><span class="nf">test_check_io</span><span class="p">(</span><span class="n">backend</span><span class="p">):</span>
+<span class="linenos">17</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Backend I/O passes Packflow&#39;s format checks.&quot;&quot;&quot;</span>
+<span class="linenos">18</span>    <span class="n">sample_inputs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">19</span>        <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+<span class="linenos">20</span>        <span class="p">{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+<span class="linenos">21</span>    <span class="p">]</span>
+<span class="linenos">22</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">check_io</span><span class="p">(</span><span class="n">sample_inputs</span><span class="p">)</span>
+<span class="linenos">23</span>    <span class="k">assert</span> <span class="n">outputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="linenos">24</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="k">def</span><span class="w"> </span><span class="nf">test_backend_output_values</span><span class="p">(</span><span class="n">backend</span><span class="p">):</span>
+<span class="linenos">27</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify specific output values for known inputs.&quot;&quot;&quot;</span>
+<span class="linenos">28</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="n">backend</span><span class="p">([{</span><span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}])</span>
+<span class="linenos">29</span>    <span class="k">assert</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;doubled&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+<p>Run the tests from inside the project directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pytest
+pytest<span class="w"> </span>tests.py
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">test_check_io</span></code> test calls <code class="docutils literal notranslate"><span class="pre">backend.check_io()</span></code>, which runs sample data through the backend and checks that outputs meet Packflow’s format requirements (correct types, matching row counts, JSON-serializable values). If any checks fail, an exception with details of the issue is raised.</p>
+</section>
+<section id="step-4-validate-the-project">
+<h3>Step 4: Validate the project<a class="headerlink" href="#step-4-validate-the-project" title="Link to this heading"></a></h3>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">packflow</span> <span class="pre">validate</span></code> command to check that the project structure and configuration are complete:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>packflow<span class="w"> </span>validate
+</pre></div>
+</div>
+<p>This checks for required files (<code class="docutils literal notranslate"><span class="pre">packflow.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>), recommended files (<code class="docutils literal notranslate"><span class="pre">README.md</span></code>, <code class="docutils literal notranslate"><span class="pre">MODEL_CARD.md</span></code>, <code class="docutils literal notranslate"><span class="pre">LICENSE.txt</span></code>), metadata completeness, and runs a smoke test to verify the backend can be loaded.</p>
+<p>Pass <code class="docutils literal notranslate"><span class="pre">-v</span></code> for detailed output showing each check.</p>
+</section>
+<section id="step-5-package-for-distribution">
+<h3>Step 5: Package for distribution<a class="headerlink" href="#step-5-package-for-distribution" title="Link to this heading"></a></h3>
+<p>Once the backend is implemented, tested, and validated, create a distributable archive:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>packflow<span class="w"> </span><span class="nb">export</span>
+</pre></div>
+</div>
+<p>This produces a zip file (e.g. <code class="docutils literal notranslate"><span class="pre">hello_world-0.1.0.zip</span></code>) in the current directory. See <a class="reference internal" href="distribution.html#distribution"><span class="std std-ref">Preparing for Distribution</span></a> for details on what is included in the archive and how to prepare a project for sharing.</p>
+</section>
+</section>
+<section id="next-steps">
+<span id="getting-started-next-steps"></span><h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>Please see the <a class="reference internal" href="backends/custom-backends.html#custom-backends"><span class="std std-ref">Creating a Custom Backend</span></a> section of this site for more detailed information on building custom Inference Backends with Packflow.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="concepts/packflow-structure.html" class="btn btn-neutral float-left" title="Structure of a Packflow Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="backends/index.html" class="btn btn-neutral float-right" title="Inference Backends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026 U.S. Federal Government (in countries where recognized).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- https://sphinx-contrib.github.io/multiversion/main/context.html --><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
