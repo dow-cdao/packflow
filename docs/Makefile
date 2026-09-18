@@ -51,7 +51,7 @@ gh-pages-stage: build
 	@echo 'Review built documentation for issues, then run: make gh-pages-push to publish'
 
 gh-pages-push:
-	@if [ ! -d gh-pages-staging]; then \
+	@if [ ! -d gh-pages-staging ]; then \
 		echo 'ERROR: gh-pages-staging not found. Run make gh-pages-stage first.'; \
 		exit 1; \
 	fi
